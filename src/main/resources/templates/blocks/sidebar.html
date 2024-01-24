@@ -1,0 +1,239 @@
+<div th:fragment="sidebar"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+	<div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+		<ul class="nav flex-column">
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/admin/dashboard">
+					<svg class="bi">
+						<use xlink:href="#house-fill"/>
+					</svg>
+					Dashboard
+				</a>
+			</li>
+
+
+			<li class="nav-item d-flex">
+				<a class="nav-link d-flex align-items-center gap-2" href="/admin/restaurants">
+					<svg class="bi">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+							<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+						</svg>
+					</svg>
+					Restaurants
+				</a>
+			</li>
+
+
+			<li class="nav-item d-flex">
+				<a class="nav-link d-flex align-items-center gap-2" href="/admin/menu">
+					<svg class="bi">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal" viewBox="0 0 16 16">
+							<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"/>
+							<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"/>
+						</svg>
+					</svg>
+					Menu
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg class="bi">
+						<use xlink:href="#people"/>
+					</svg>
+					Customers
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="/admin/orders"
+					sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+						<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+					</svg>
+					Orders
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="/employee/orders"
+					sec:authorize="hasRole('ROLE_USER')">
+
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+						<path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+					</svg>
+					Orders
+				</a>
+			</li>
+
+
+			<li class="nav-item d-flex">
+				<a class="nav-link d-flex align-items-center gap-2" href="/admin/products">
+					<svg class="bi">
+						<use xlink:href="#cart"/>
+					</svg>
+					Products
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="/admin/employees"
+					sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')">
+
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+						<path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5M.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5"/>
+						<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+					</svg>
+					Employees
+				</a>
+			</li>
+
+
+<!--			<li class="nav-item">-->
+<!--				<a class="nav-link d-flex align-items-center gap-2" href="#">-->
+<!--					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">-->
+<!--						<path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>-->
+<!--						<path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>-->
+<!--					</svg>-->
+<!--					Categories-->
+<!--				</a>-->
+<!--			</li>-->
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="/admin/reviews">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-text" viewBox="0 0 16 16">
+						<path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+						<path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+					</svg>
+					Reviews
+				</a>
+			</li>
+
+
+<!--			<li class="nav-item">-->
+<!--				<a class="nav-link d-flex align-items-center gap-2" href="#">-->
+<!--					<svg class="bi">-->
+<!--						<use xlink:href="#graph-up"/>-->
+<!--					</svg>-->
+<!--					Reports-->
+<!--				</a>-->
+<!--			</li>-->
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"/>
+						<path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"/>
+						<path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"/>
+					</svg>
+					Tasks
+				</a>
+			</li>
+		</ul>
+
+		<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+			<span>Saved reports</span>
+			<a class="link-secondary" href="#" aria-label="Add a new report">
+				<svg class="bi">
+					<use xlink:href="#plus-circle" />
+				</svg>
+			</a>
+		</h6>
+
+		<ul class="nav flex-column mb-auto">
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg class="bi">
+						<use xlink:href="#file-earmark-text" />
+					</svg>
+					Current month
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg class="bi">
+						<use xlink:href="#file-earmark-text" />
+					</svg>
+					Last quarter
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg class="bi">
+						<use xlink:href="#file-earmark-text" />
+					</svg>
+					Social engagement
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg class="bi">
+						<use xlink:href="#file-earmark-text" />
+					</svg>
+					Year-end sale
+				</a>
+			</li>
+		</ul>
+
+		<hr class="my-3">
+
+		<ul class="nav flex-column mb-auto">
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="/">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-up" viewBox="0 0 16 16">
+						<path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.708L8 2.207l-5 5V13.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 2 13.5V8.207l-.646.647a.5.5 0 1 1-.708-.708z"/>
+						<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 1 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.707l1.5-1.5a.5.5 0 0 1 .708 0Z"/>
+					</svg>
+					Home
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" href="#">
+					<svg class="bi">
+						<use xlink:href="#gear-wide-connected" />
+					</svg>
+					Settings
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" th:href="@{/login}">
+					<svg class="bi">
+						<use xlink:href="#door-closed"/>
+					</svg>
+					Login
+				</a>
+			</li>
+
+
+			<li class="nav-item">
+				<a class="nav-link d-flex align-items-center gap-2" th:href="@{/logout}">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+						<path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+						<path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
+					</svg>
+					Logout
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

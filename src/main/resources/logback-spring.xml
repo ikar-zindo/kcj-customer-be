@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/${HOSTNAME}.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} | %-25thread | %-5level | %-70logger{70} %X{REQUEST_ID} -
+				%X{DAO_STEP}%X{DAO_METHOD}%X{DAO_TIME}%X{SERVICE_STEP}%X{SERVICE_METHOD}%X{SERVICE_TIME} %msg%n
+			</Pattern>
+
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/${HOSTNAME}.log.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+
+			<maxHistory>3</maxHistory>
+
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>200MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} | %-25thread | %-5level | %-70logger{70} %X{REQUEST_ID} - %X{DAO_STEP}
+				%X{DAO_METHOD} %X{DAO_TIME} %X{SERVICE_STEP} %X{SERVICE_METHOD} %X{SERVICE_TIME} %msg%n
+			</Pattern>
+
+		</layout>
+	</appender>
+
+	<logger name="com.kcurryjib" additivity="false" level="INFO">
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT"/>
+	</root>
+</configuration>
