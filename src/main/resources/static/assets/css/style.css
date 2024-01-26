@@ -107,3 +107,30 @@
     background-size: cover;
     background-position: center;
 }
+
+/*font "Shojumaru"*/
+.text-shojumaru-regular {
+    font-family: "Shojumaru", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.text-shojumaru-regular-700 {
+    font-family: "Shojumaru", system-ui;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.text-my-light {
+    color: rgb(208, 92, 92);
+}
+
+.text-my-dark {
+    color: rgb(30, 45, 60);
+}
+
+.text-my-red {
+    color: rgb(118, 18, 18);
+}
+
+

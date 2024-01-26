@@ -74,7 +74,18 @@
           setStoredTheme(theme)
           setTheme(theme)
           showActiveTheme(theme, true)
+          toggleLogoImage(theme);
         })
       })
   })
 })()
+
+// change logo mode
+const toggleLogoImage = theme => {
+    const logoImage = document.getElementById('logoImage');
+    if (theme === 'light') {
+        logoImage.src = '../../images/logo/logo-label-light.png';
+    } else {
+        logoImage.src = '../../images/logo/logo-label-dark.png';
+    }
+};

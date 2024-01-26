@@ -38,31 +38,27 @@
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" th:href="@{/assets/dist/css/dashboard.css}"/>
 	<link rel="stylesheet" th:href="@{/assets/css/sign-in.css}"/>
+
+	<!--Google font "Shojumaru"-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Alkatra:wght@400..700&family=Shojumaru&display=swap" rel="stylesheet">
 </head>
 
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<body>
 
 <!--Themes-2-->
-<div th:insert="~{/blocks/themes :: themes-2}"></div>
+<div th:insert="~{/fragments/themes :: themes}"></div>
+
+
+<!--Header-->
+<div th:insert="~{/fragments/header :: header-guest}"></div>
 
 <!--Main-->
 <main class="form-signin w-100 m-auto">
 
-	<h1 class="login-title text-success" th:inline="text">Hello,
-		<span th:remove="tag" sec:authentication="name"></span>!
-	</h1>
-
-	<div class="container" th:inline="text">
-		<p class="text-info">user, manager, admin</p>
-	</div>
-
-	<div class="container">
-		<p class="text-info">password = qwerty123</p>
-	</div>
-
-
 	<form th:action="@{login}" method="post">
-		<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+		<h1 class="h3 mb-3 fw-normal">Please login</h1>
 
 		<div class="form-floating">
 			<input type="name"
@@ -91,11 +87,9 @@
 
 		<input class="btn btn-primary w-100 py-2" type="submit" value="Login"/>
 
-		<input th:formaction="@{/logout}"
-				 formmethod="post"
-				 class="btn btn-primary w-100 py-2 mt-2" type="submit" value="Sign out"/>
-
 	</form>
+
+	<a th:href="@{/create-user}" type="button" class="btn btn-success mt-2 w-100">Create new user</a>
 
 	<div class="container mt-2">
 		<div class="text-danger" th:if="${param.error}">

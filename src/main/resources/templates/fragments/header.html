@@ -1,0 +1,26 @@
+<!--header-dashboard-->
+<div th:fragment="header-guest">
+	<div class="container">
+		<header class="text-shojumaru-regular d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+			<div class="col-md-3 mb-2 mb-md-0">
+				<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+					<img id="logoImage" width="40px" height="40px" src="../../images/logo/logo-label-dark.png">
+
+					<span class="fs-6 mx-2 text-my-light text-shojumaru-regular">K-Curry<br><span class="text-my-red">Jib</span></span>
+				</a>
+			</div>
+
+			<ul class="nav nav-pills col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+				<li><a href="/menu" class="nav-link px-2 active">Menu</a></li>
+				<li><a href="/restaurant/all" class="nav-link px-2">Restaurants</a></li>
+<!--				<li><a href="#" class="nav-link px-2">About</a></li>-->
+			</ul>
+
+			<div class="col-md-3 text-end">
+				<a th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Login</a>
+				<a th:href="@{/create-user}" type="button" class="btn btn-primary">Sign-up</a>
+			</div>
+		</header>
+	</div>
+</div>

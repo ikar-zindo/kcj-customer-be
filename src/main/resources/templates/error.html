@@ -38,22 +38,25 @@
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" th:href="@{/assets/dist/css/dashboard.css}"/>
 	<link rel="stylesheet" th:href="@{/assets/css/sign-in.css}"/>
+
+	<!--Google font "Shojumaru"-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Alkatra:wght@400..700&family=Shojumaru&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <!--Themes-2-->
-<div th:insert="~{/blocks/themes :: themes-2}"></div>
+<div th:insert="~{/fragments/themes :: themes}"></div>
 
 <!--Header-dashboard-->
-<div th:insert="~{/blocks/header :: header-customer-guest}"></div>
+<div th:insert="~{/fragments/header :: header-guest}"></div>
 
 <!--Main-->
 <main class="m-auto" style="width: 70%;">
 
-	<h1>Error Occurred</h1>
-	<p>Sorry, an error occurred while processing your request. Please try again later.</p>
-	<p>Error details:</p>
+	<h1 class="text-danger">OOOOOPS!!!!</h1>
 
 	<h2 class="text-danger" th:text="${error}"></h2>
 
