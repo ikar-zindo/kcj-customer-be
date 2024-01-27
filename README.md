@@ -1,1 +1,1 @@
-Client part web application for food delivery K-Curry Jib
+# Customer part web application for food delivery K-Curry Jib
