@@ -1,13 +1,13 @@
 package com.kcurryjibcustomer.service;
 
-import com.kcurryjibcustomer.dto.CartProductDto;
-import com.kcurryjibcustomer.dto.CustomerDto;
-import com.kcurryjibcustomer.dto.ProductDto;
+import com.kcurryjibcustomer.dto.*;
+import com.kcurryjibcustomer.entity.Cart;
 import com.kcurryjibcustomer.entity.CartProduct;
 import com.kcurryjibcustomer.entity.Customer;
 import com.kcurryjibcustomer.entity.Product;
 import com.kcurryjibcustomer.exception.list.CartException;
 import com.kcurryjibcustomer.exception.list.CustomerException;
+import com.kcurryjibcustomer.exception.list.RestaurantException;
 import com.kcurryjibcustomer.mapper.CartMapper;
 import com.kcurryjibcustomer.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +34,16 @@ public class CartService {
 
    private final MenuService menuService;
 
+   private final CustomerService customerService;
+
    @Autowired
    public CartService(CartMapper cartMapper,
                       CustomerRepository customerRepository,
                       CartRepository cartRepository,
                       CartProductRepository cartProductRepository,
                       ProductRepository productRepository,
-                      MenuService menuService) {
+                      MenuService menuService,
+                      CustomerService customerService) {
 
       this.cartMapper = cartMapper;
       this.customerRepository = customerRepository;
@@ -48,6 +51,7 @@ public class CartService {
       this.cartProductRepository = cartProductRepository;
       this.productRepository = productRepository;
       this.menuService = menuService;
+      this.customerService = customerService;
    }
 
    // READ - CUSTOMER
@@ -77,47 +81,62 @@ public class CartService {
    public CartProductDto addProductToCustomerCart(Long cartId, Long productId) {
 
       if (cartId != null && productId != null) {
-         CustomerDto customerDto = getCustomerById(cartId);
+         CustomerDto customerDto = customerService.getCustomerByCartId(cartId);
          ProductDto productDto = menuService.getProductById(productId);
 
-         if (productDto != null && productDto.getId() != null) {
-            Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
-            Product product = productRepository.findById(productDto.getId()).orElse(null);
+         RestaurantDto restaurantDto = productDto.getRestaurantDto();
 
-            if (customer != null && product != null) {
-               Optional<CartProduct> existingCartProductOptional = cartProductRepository
-                       .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
+         if (restaurantDto != null) {
+            if (restaurantDto.isOpen()) { // check is open restaurant
+               if (productDto != null && productDto.getId() != null) {
 
-               if (existingCartProductOptional.isPresent()) {
-                  CartProduct existingCartProduct = existingCartProductOptional.get();
-                  existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
-                  cartProductRepository.save(existingCartProduct);
+                  Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
+                  Product product = productRepository.findById(productDto.getId()).orElse(null);
 
-                  return cartMapper.convertToCartProductDto(existingCartProduct);
+                  if (customer != null && product != null) {
+                     Optional<CartProduct> existingCartProductOptional = cartProductRepository
+                             .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
 
-               } else {
-                  CartProduct cartProduct = new CartProduct();
+                     if (existingCartProductOptional.isPresent()) {
+                        CartProduct existingCartProduct = existingCartProductOptional.get();
+                        existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
+                        cartProductRepository.save(existingCartProduct);
 
-                  cartProduct.setCart(customer.getCart());
-                  cartProduct.setProduct(product);
-                  cartProduct.setCratedAt(LocalDateTime.now());
-                  cartProduct.setQuantity(1);
+                        return cartMapper.convertToCartProductDto(existingCartProduct);
 
-                  CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
-                  Long idResponse = cartProductResponse.getId();
+                     } else {
+                        CartProduct cartProduct = new CartProduct();
 
-                  if (idResponse != null && idResponse > 0) {
-                     return cartMapper.convertToCartProductDto(cartProductResponse);
+                        cartProduct.setCart(customer.getCart());
+                        cartProduct.setProduct(product);
+                        cartProduct.setCratedAt(LocalDateTime.now());
+                        cartProduct.setQuantity(1);
 
+                        CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
+                        Long idResponse = cartProductResponse.getId();
+
+                        if (idResponse != null && idResponse > 0) {
+                           return cartMapper.convertToCartProductDto(cartProductResponse);
+
+                        } else {
+                           throw new CartException("Unable to add item to cart");
+                        }
+                     }
                   } else {
-                     throw new CartException("Unable to add item to cart");
+                     throw new CartException("Customer or product not found");
                   }
+               } else {
+                  throw new CartException("Product not found");
                }
             } else {
-               throw new CartException("Customer or product not found");
+               throw new RestaurantException( // check is open restaurant
+                       String.format("Sorry, We are closed, try during opening hours.%n«%s» - %s",
+                               restaurantDto.getName(), restaurantDto.getOpeningHours()));
             }
          } else {
-            throw new CartException("Product not found");
+            throw new RestaurantException(
+                    String.format("Restaurant not found in the database with Id=%d!", +
+                            productDto.getRestaurantDto().getId()));
          }
       } else {
          throw new CartException("Cart ID or Product ID not provided");

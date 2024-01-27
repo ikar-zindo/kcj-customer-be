@@ -38,16 +38,16 @@ public class Restaurant {
    @Column(name = "is_open")
    private Boolean isOpen;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Product> products;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Review> reviews;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Order> orders;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Employee> employees;
 
    public Restaurant() {
