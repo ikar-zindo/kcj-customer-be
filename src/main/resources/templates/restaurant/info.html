@@ -55,14 +55,16 @@
 
 <!--Main-->
 <main>
+
 	<div class="album py-5">
 		<div class="container">
+			<h2 class="mx-5 text-shojumaru-regular text-my-light" th:text="'Menu: «' + |${restaurant.name}| + '»'"></h2>
 
-			<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3">
+			<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-4">
 
 				<!--Item-->
 				<div th:each="product : ${products}" class="col">
-					<div class="card shadow-sm bg-body-secondary">
+					<div class="p-3 card shadow-sm bg-body-secondary">
 						<div class="card-body">
 							<div class="d-flex gap-2">
 								<div class="fixed-size-div">
@@ -80,7 +82,7 @@
 
 								<div class="btn-group">
 
-									<form th:action="'/cart/' + |${product.restaurantDto.id}| + '/' + |${product.id}| + '/add'" th:method="PUT">
+									<form th:action="'/cart/' + |${restaurant.id}| + '/' + |${product.id}| + '/add'" th:method="PUT">
 
 										<button type="submit"
 												  class="mt-2 btn btn-success text-shojumaru-regular">
@@ -96,12 +98,6 @@
 								<div class="text-end">
 									<p th:text="'Price: ' + |${product.price}| + ' €'"
 										class="m-0 text-my-light text-shojumaru-regular"/>
-
-									<p th:text="'«' + |${product.restaurantDto.name}| + '»'"
-										class="text-shojumaru-regular m-0 text-success"/>
-
-									<p th:text="${product.restaurantDto.address}"
-										class="m-0 text-secondary"/>
 								</div>
 							</div>
 						</div>

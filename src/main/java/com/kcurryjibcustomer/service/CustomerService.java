@@ -91,6 +91,27 @@ public class CustomerService implements UserDetailsService {
       return customerDto;
    }
 
+   public CustomerDto getCustomerByCartId(Long cartId) throws CustomerException {
+      CustomerDto customerDto = null;
+
+      if (cartId != null) {
+         Optional<Customer> customerOptional = customerRepository.findCustomerByCartId(cartId);
+
+         if (customerOptional.isPresent()) {
+            customerDto = mapper.convertToCustomerDto(customerOptional.get());
+
+         } else {
+            throw new CustomerException(
+                    String.format("Customer not found in database with id=%d",
+                            cartId));
+         }
+      } else {
+         throw new CustomerException("There is no customer ID to search for!");
+      }
+
+      return customerDto;
+   }
+
    public CartProductDto addProductToCustomerCart(Long customerId, Long productId) {
 
       if (customerId != null && productId != null) {

@@ -22,32 +22,34 @@ public class SecurityConfig {
 
    @Bean
    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      return http
-              .csrf(AbstractHttpConfigurer::disable)
-              .logout(
-                      logout -> logout.logoutUrl("/logout")
+      http
+              .logout(logout ->
+                      logout
+                              .logoutUrl("/logout")
                               .permitAll()
+                              .logoutSuccessUrl("/menu")
               )
-              .authorizeHttpRequests(
-                      requests -> requests
+              .authorizeHttpRequests((requests) -> requests
                               .requestMatchers(
+//                              "/**",
                                       "/",
-                                      "/style.css",
-                                      "/img/**",
                                       "/error",
-                                      "/pizzas",
-                                      "/cafes",
+                                      "/assets/**",
+                                      "/images/**",
                                       "/swagger-ui/**",
-                                      "/menu")
+                                      "/menu/**",
+                                      "/restaurant/**"
+                              )
                               .permitAll()
                               .anyRequest()
                               .authenticated()
               )
-              .formLogin(
-                      form -> form
+              .formLogin(form ->
+                      form
                               .loginPage("/login")
                               .permitAll()
-              )
-              .build();
+              );
+
+      return http.build();
    }
 }

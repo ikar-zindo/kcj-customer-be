@@ -6,12 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface CartProductRepository extends JpaRepository<CartProduct, Long> {
 
-   @Query(value = "SELECT * " +
-           "FROM cart_product " +
-           "WHERE cart_id = :cartId;", nativeQuery = true)
-   List<CartProduct> findByCart(@Param("cartId") Long cartId);
+   Optional<CartProduct> findByCartIdAndProductId(Long cartId, Long productId);
 }
