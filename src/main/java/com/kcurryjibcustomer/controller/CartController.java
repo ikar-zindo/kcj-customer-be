@@ -51,7 +51,7 @@ public class CartController {
       CustomerDto customerDto = cartService.getCustomerById(customer.getId());
 //      Long restaurantId = menuService.getProductById(productId).getRestaurantDto().getId();
 
-      cartService.addProductToCustomerCart(customerDto.getId(), productId);
+      cartService.addProductToCustomerCart(customerDto.getCartDto().getId(), productId);
       return "redirect:/restaurant/" + restaurantId;
    }
 }

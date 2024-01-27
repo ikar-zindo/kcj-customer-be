@@ -80,41 +80,47 @@ public class CartService {
          CustomerDto customerDto = getCustomerById(cartId);
          ProductDto productDto = menuService.getProductById(productId);
 
-         CartProductDto cartProductDto = new CartProductDto();
-
-         cartProductDto.setCartDto(customerDto.getCartDto());
-         cartProductDto.setProductDto(productDto);
-
          if (productDto != null && productDto.getId() != null) {
             Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
             Product product = productRepository.findById(productDto.getId()).orElse(null);
 
             if (customer != null && product != null) {
-               CartProduct cartProduct = cartMapper.convertToCartProduct(cartProductDto);
+               Optional<CartProduct> existingCartProductOptional = cartProductRepository
+                       .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
 
-               cartProduct.setCart(customer.getCart());
-               cartProduct.setProduct(product);
-               cartProduct.setCratedAt(LocalDateTime.now());
-               cartProduct.setQuantity(1);
+               if (existingCartProductOptional.isPresent()) {
+                  CartProduct existingCartProduct = existingCartProductOptional.get();
+                  existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
+                  cartProductRepository.save(existingCartProduct);
 
-               CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
-               Long idResponse = cartProductResponse.getId();
-
-               if (idResponse != null && idResponse > 0) {
-                  return cartMapper.convertToCartProductDto(cartProductResponse);
+                  return cartMapper.convertToCartProductDto(existingCartProduct);
 
                } else {
-                  throw new CartException("");
+                  CartProduct cartProduct = new CartProduct();
+
+                  cartProduct.setCart(customer.getCart());
+                  cartProduct.setProduct(product);
+                  cartProduct.setCratedAt(LocalDateTime.now());
+                  cartProduct.setQuantity(1);
+
+                  CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
+                  Long idResponse = cartProductResponse.getId();
+
+                  if (idResponse != null && idResponse > 0) {
+                     return cartMapper.convertToCartProductDto(cartProductResponse);
+
+                  } else {
+                     throw new CartException("Unable to add item to cart");
+                  }
                }
             } else {
-               throw new CartException("");
+               throw new CartException("Customer or product not found");
             }
          } else {
-            throw new CartException("");
+            throw new CartException("Product not found");
          }
-
       } else {
-         throw new CartException("");
+         throw new CartException("Cart ID or Product ID not provided");
       }
    }
 }
