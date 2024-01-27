@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class CustomerMapper {
+public class CartMapper {
 
    @Autowired
    private ModelMapper mapper;

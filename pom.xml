@@ -12,11 +12,12 @@
 	<artifactId>k-curry-jib-customer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>k-curry-jib-customer</name>
-	<description>Client part web application for food delivery K-Curry Jib</description>
+	<description>Customer part web application for food delivery K-Curry Jib</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

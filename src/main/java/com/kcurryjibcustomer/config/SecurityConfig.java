@@ -22,32 +22,29 @@ public class SecurityConfig {
 
    @Bean
    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      return http
-              .csrf(AbstractHttpConfigurer::disable)
-              .logout(
-                      logout -> logout.logoutUrl("/logout")
-                              .permitAll()
+      http
+              .logout((logout) -> logout.logoutUrl("/logout").permitAll()
+                      .logoutSuccessUrl("/"))
+              .authorizeHttpRequests((requests) -> requests
+                      .requestMatchers(
+                              "/**",
+                              "/",
+                              "/error",
+                              "/assets/**",
+                              "/images/**",
+                              "/swagger-ui/**",
+                              "/menu/**",
+                              "/restaurant/**"
+                      )
+                      .permitAll()
+                      .anyRequest()
+                      .authenticated()
               )
-              .authorizeHttpRequests(
-                      requests -> requests
-                              .requestMatchers(
-                                      "/",
-                                      "/style.css",
-                                      "/img/**",
-                                      "/error",
-                                      "/pizzas",
-                                      "/cafes",
-                                      "/swagger-ui/**",
-                                      "/menu")
-                              .permitAll()
-                              .anyRequest()
-                              .authenticated()
-              )
-              .formLogin(
-                      form -> form
-                              .loginPage("/login")
-                              .permitAll()
-              )
-              .build();
+              .formLogin((form) -> form
+                      .loginPage("/login")
+                      .permitAll()
+              );
+
+      return http.build();
    }
 }
