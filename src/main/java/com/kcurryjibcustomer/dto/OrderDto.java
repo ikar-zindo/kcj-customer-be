@@ -38,6 +38,9 @@ public class OrderDto {
    private String deliveryAddress;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
+   private String postalCode;
+
+   @JsonInclude(JsonInclude.Include.NON_NULL)
    private BigDecimal totalAmount;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -53,6 +56,14 @@ public class OrderDto {
    // Getters & Setters
    public Long getId() {
       return id;
+   }
+
+   public String getPostalCode() {
+      return postalCode;
+   }
+
+   public void setPostalCode(String postalCode) {
+      this.postalCode = postalCode;
    }
 
    public void setId(Long id) {
@@ -168,6 +179,11 @@ public class OrderDto {
 
       public Builder deliveryAddress(String deliveryAddress) {
          orderDto.deliveryAddress = deliveryAddress;
+         return this;
+      }
+
+      public Builder postalCode(String postalCode) {
+         orderDto.postalCode = postalCode;
          return this;
       }
 
