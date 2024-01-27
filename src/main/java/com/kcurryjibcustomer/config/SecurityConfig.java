@@ -23,26 +23,31 @@ public class SecurityConfig {
    @Bean
    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
       http
-              .logout((logout) -> logout.logoutUrl("/logout").permitAll()
-                      .logoutSuccessUrl("/"))
-              .authorizeHttpRequests((requests) -> requests
-                      .requestMatchers(
-                              "/**",
-                              "/",
-                              "/error",
-                              "/assets/**",
-                              "/images/**",
-                              "/swagger-ui/**",
-                              "/menu/**",
-                              "/restaurant/**"
-                      )
-                      .permitAll()
-                      .anyRequest()
-                      .authenticated()
+              .logout(logout ->
+                      logout
+                              .logoutUrl("/logout")
+                              .permitAll()
+                              .logoutSuccessUrl("/menu")
               )
-              .formLogin((form) -> form
-                      .loginPage("/login")
-                      .permitAll()
+              .authorizeHttpRequests((requests) -> requests
+                              .requestMatchers(
+//                              "/**",
+                                      "/",
+                                      "/error",
+                                      "/assets/**",
+                                      "/images/**",
+                                      "/swagger-ui/**",
+                                      "/menu/**",
+                                      "/restaurant/**"
+                              )
+                              .permitAll()
+                              .anyRequest()
+                              .authenticated()
+              )
+              .formLogin(form ->
+                      form
+                              .loginPage("/login")
+                              .permitAll()
               );
 
       return http.build();

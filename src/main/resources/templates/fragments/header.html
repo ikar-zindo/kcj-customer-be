@@ -1,5 +1,7 @@
 <!--header-->
-<div th:fragment="header">
+<div th:fragment="header"
+	  xmlns:sec="http://www.w3.org/1999/xhtml">
+
 	<div class="container">
 		<header class="text-shojumaru-regular d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 			<div class="col-md-3 mb-2 mb-md-0">
@@ -11,7 +13,7 @@
 			</div>
 
 			<ul class="nav nav-pills col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-				<li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+				<li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
 				<li><a href="/menu" class="nav-link px-2 active">Menu</a></li>
 				<li><a href="/restaurant/all" class="nav-link px-2">Restaurants</a></li>
 				<!--				<li><a href="#" class="nav-link px-2">About</a></li>-->
@@ -24,11 +26,13 @@
 			<div th:if="${#authorization.expression('isAuthenticated()')}">
 				<div th:insert="~{/fragments/header :: header-authenticated}"></div>
 			</div>
-
 		</header>
+
 	</div>
 </div>
 
+
+<!--fragment-header-guest-->
 <div th:fragment="header-guest">
 	<div class="text-end">
 		<a th:href="@{/login}" type="button" class="btn btn-outline-primary me-2">Login</a>
@@ -36,6 +40,8 @@
 	</div>
 </div>
 
+
+<!--fragment-header-authenticated-->
 <div th:fragment="header-authenticated"
 	  xmlns:sec="http://www.w3.org/1999/xhtml">
 
@@ -53,11 +59,17 @@
 				</svg>
 			</a>
 			<ul class="dropdown-menu text-small">
-				<li><a class="dropdown-item" href="#">Cart</a></li>
+				<li><a class="dropdown-item" href="/cart">Cart</a></li>
 				<li><a class="dropdown-item" href="#">Settings</a></li>
 				<li><a class="dropdown-item" href="#">Profile</a></li>
 				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="#">Sign out</a></li>
+				<li>
+					<form th:action="@{/logout}" method="POST">
+						<input class="dropdown-item" type="submit" value="Sign out">
+					</form>
+
+<!--					<a class="dropdown-item" th:href="@{/logout}">Sign out</a>-->
+				</li>
 			</ul>
 		</div>
 	</div>

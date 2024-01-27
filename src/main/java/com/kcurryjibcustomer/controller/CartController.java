@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/cart")
@@ -37,6 +34,13 @@ public class CartController {
       this.customerService = customerService;
       this.cartService = cartService;
       this.menuService = menuService;
+   }
+
+   @GetMapping
+   public String getCart() {
+
+
+      return "/cart/cart";
    }
 
    @PutMapping("{restaurantId}/{productId}/add")
