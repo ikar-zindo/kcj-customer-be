@@ -16,9 +16,6 @@ public class OrderProductDto {
    private int quantity;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private BigDecimal total;
-
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("order")
    private OrderDto orderDto;
 
@@ -43,14 +40,6 @@ public class OrderProductDto {
 
    public void setQuantity(int quantity) {
       this.quantity = quantity;
-   }
-
-   public BigDecimal getTotal() {
-      return total;
-   }
-
-   public void setTotal(BigDecimal total) {
-      this.total = total;
    }
 
    public OrderDto getOrderDto() {
@@ -84,11 +73,6 @@ public class OrderProductDto {
          return this;
       }
 
-      public Builder total(BigDecimal total) {
-         orderProductDto.total = total;
-         return this;
-      }
-
       public Builder orderDto(OrderDto orderDto) {
          orderProductDto.orderDto = orderDto;
          return this;
@@ -114,7 +98,6 @@ public class OrderProductDto {
       return "OrderProductDto{" +
               "id=" + id +
               ", quantity=" + quantity +
-              ", total=" + total +
               ", orderDto=" + orderDto +
               ", productDto=" + productDto +
               '}';
@@ -126,13 +109,13 @@ public class OrderProductDto {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       OrderProductDto that = (OrderProductDto) o;
-      return quantity == that.quantity && Objects.equals(id, that.id) && Objects.equals(total, that.total) &&
+      return quantity == that.quantity && Objects.equals(id, that.id) &&
               Objects.equals(orderDto, that.orderDto) && Objects.equals(productDto, that.productDto);
    }
 
    @Override
    public int hashCode() {
-      return Objects.hash(id, quantity, total, orderDto, productDto);
+      return Objects.hash(id, quantity, orderDto, productDto);
    }
 }
 

@@ -31,7 +31,7 @@ public class SecurityConfig {
               )
               .authorizeHttpRequests((requests) -> requests
                               .requestMatchers(
-//                              "/**",
+//                                      "/**",
                                       "/",
                                       "/error",
                                       "/assets/**",

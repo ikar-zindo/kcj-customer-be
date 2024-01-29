@@ -42,7 +42,8 @@ public class MenuService {
               .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
               .collect(Collectors.toList());
 
-      return MapperUtil.convertlist(products, productMapper::showProductDetails);
+
+      return productMapper.convertToProductsDto(products);
    }
 
    // READ

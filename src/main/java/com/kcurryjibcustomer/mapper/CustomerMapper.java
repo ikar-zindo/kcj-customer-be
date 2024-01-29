@@ -61,6 +61,7 @@ public class CustomerMapper {
               .addMappings(m -> m.skip(CustomerDto::setPostalCode))
               .addMappings(m -> m.skip(CustomerDto::setCreatedAt))
               .addMappings(m -> m.skip(CustomerDto::setBlocked))
+//              .addMappings(m -> m.skip(CustomerDto::setRole))
               .addMappings(m -> m.skip(CustomerDto::setCartDto))
               .addMappings(m -> m.skip(CustomerDto::setOrdersDto))
               .addMappings(m -> m.skip(CustomerDto::setReviewsDto));
@@ -78,15 +79,17 @@ public class CustomerMapper {
 //      "phoneNumber"
 //      "address"
 //      "postalCode"
+//      "cart"
       mapper.typeMap(Customer.class, CustomerDto.class)
               .addMappings(m -> m.skip(CustomerDto::setPassword))
               .addMappings(m -> m.skip(CustomerDto::setCreatedAt))
+              .addMappings(m -> m.skip(CustomerDto::setRole))
               .addMappings(m -> m.skip(CustomerDto::setBlocked))
-              .addMappings(m -> m.skip(CustomerDto::setCartDto))
               .addMappings(m -> m.skip(CustomerDto::setOrdersDto))
               .addMappings(m -> m.skip(CustomerDto::setReviewsDto));
 
       CustomerDto customerDto = mapper.map(customer, CustomerDto.class);
+      customerDto.setCartDto(convertToCartDto(customer.getCart()));
 
       return customerDto;
    }
@@ -122,6 +125,10 @@ public class CustomerMapper {
       cart.setCartProducts(convertToCartProducts(cartDto.getCartProductsDto()));
 
       return mapper.map(cartDto, Cart.class);
+   }
+
+   public Customer convertToCustomer(CustomerDto customerDto) {
+      return mapper.map(customerDto, Customer.class);
    }
 
    public List<Cart> convertToCart(List<CartDto> cartsDto) {
