@@ -28,6 +28,7 @@ public class RestaurantController {
       this.service = service;
    }
 
+   // READ - LIST OF ALL RESTAURANTS
    @GetMapping("/all")
    public String getAllRestaurants(Model model) throws RestaurantException {
       List<RestaurantDto> restaurantsDto = service.getAll();
@@ -38,6 +39,7 @@ public class RestaurantController {
    }
 
 
+   // READ - RESTAURANT
    @GetMapping("/{id}")
    public String getRestaurantByIdWithProducts(@PathVariable Long id,
                                    Model model) throws RestaurantException {
