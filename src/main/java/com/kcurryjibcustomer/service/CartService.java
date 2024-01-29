@@ -3,10 +3,7 @@ package com.kcurryjibcustomer.service;
 import com.kcurryjibcustomer.dto.*;
 import com.kcurryjibcustomer.entity.*;
 import com.kcurryjibcustomer.entity.enums.OrderStatus;
-import com.kcurryjibcustomer.exception.list.CartException;
-import com.kcurryjibcustomer.exception.list.CustomerException;
-import com.kcurryjibcustomer.exception.list.OrderException;
-import com.kcurryjibcustomer.exception.list.RestaurantException;
+import com.kcurryjibcustomer.exception.list.*;
 import com.kcurryjibcustomer.mapper.CartMapper;
 import com.kcurryjibcustomer.mapper.CustomerMapper;
 import com.kcurryjibcustomer.mapper.OrderMapper;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -265,6 +263,7 @@ public class CartService {
                      if (restaurant.getOpen()) {
                         Order order = new Order();
 
+
                         order.setCustomer(customerOptional.get());
                         order.setRestaurant(restaurant);
                         order.setCreatedAt(LocalDateTime.now());
@@ -277,7 +276,26 @@ public class CartService {
                         Long orderResponseId = orderResponse.getId();
 
                         if (orderResponse != null && orderResponseId > 0) {
+                           // CREATE LIST ORDER PRODUCTS
+                           List<OrderProduct> orderProducts = new ArrayList<>();
+
+                           for (CartProduct cartProduct : cartProducts) {
+                              OrderProduct orderProduct = new OrderProduct();
+
+                              orderProduct.setOrder(order);
+                              orderProduct.setQuantity(cartProduct.getQuantity());
+
+                              if (cartProduct.getProduct() != null) {
+                                 orderProduct.setProduct(cartProduct.getProduct());
+                              } else {
+                                 throw new ProductException("Product not found to add to cart");
+                              }
+
+                              orderProducts.add(orderProduct);
+                           }
+
                            clearCart(cart.getId());
+                           orderProductRepository.saveAll(orderProducts);
                            return orderMapper.cnovertToOrderDto(orderResponse);
 
                         } else {
@@ -307,5 +325,10 @@ public class CartService {
       } else {
          throw new CustomerException("Customer not passed to method");
       }
+   }
+
+   // PAY VALIDATION
+   public Boolean isPay(Long customerId, Long cartId) {
+      return true;
    }
 }
