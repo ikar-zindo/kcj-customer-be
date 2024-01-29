@@ -227,23 +227,4 @@ public class Restaurant {
       return Objects.hash(id, name, address, phoneNumber, openingHours, cuisineType,
               description, socialMediaLinks, isOpen, products, reviews, orders, employees);
    }
-
-   @Override
-   public String toString() {
-      return "Restaurant{" +
-              "id=" + id +
-              ", name='" + name + '\'' +
-              ", address='" + address + '\'' +
-              ", phoneNumber='" + phoneNumber + '\'' +
-              ", openingHours='" + openingHours + '\'' +
-              ", cuisineType='" + cuisineType + '\'' +
-              ", description='" + description + '\'' +
-              ", socialMediaLinks='" + socialMediaLinks + '\'' +
-              ", isOpen=" + isOpen +
-              ", products=" + products +
-              ", reviews=" + reviews +
-              ", orders=" + orders +
-              ", employees=" + employees +
-              '}';
-   }
 }

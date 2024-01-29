@@ -190,7 +190,7 @@ public class Customer implements UserDetails {
 
    @Override
    public String getUsername() {
-      return username;
+      return email; // authorization by email
    }
 
    @Override

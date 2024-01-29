@@ -2,6 +2,7 @@ package com.kcurryjibcustomer.controller;
 
 import com.kcurryjibcustomer.dto.ProductDto;
 import com.kcurryjibcustomer.service.MenuService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/menu")
 @SessionAttributes("editMenu")
+@PermitAll
 public class MenuController {
 
    private final MenuService service;
