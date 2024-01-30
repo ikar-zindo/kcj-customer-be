@@ -17,9 +17,9 @@ public class SwaggerConfig {
    public OpenAPI openAPI() {
       return new OpenAPI()
               .addSecurityItem(new SecurityRequirement()
-                      .addList("Bearer Authentication"))
+                      .addList("Basic Authentication"))
               .components(new Components()
-                      .addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
+                      .addSecuritySchemes("Basic Authentication", createAPIKeyScheme()))
               .info(new Info()
                       .title("REST API K-CURRY-JIB")
                       .description("RESTful API for managing awesome features.")
@@ -33,7 +33,6 @@ public class SwaggerConfig {
    private SecurityScheme createAPIKeyScheme() {
       return new SecurityScheme()
               .type(SecurityScheme.Type.HTTP)
-              .bearerFormat("JWT")
-              .scheme("bearer");
+              .scheme("basic");
    }
 }
