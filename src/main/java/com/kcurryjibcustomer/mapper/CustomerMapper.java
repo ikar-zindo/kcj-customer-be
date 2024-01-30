@@ -61,7 +61,7 @@ public class CustomerMapper {
               .addMappings(m -> m.skip(CustomerDto::setPostalCode))
               .addMappings(m -> m.skip(CustomerDto::setCreatedAt))
               .addMappings(m -> m.skip(CustomerDto::setBlocked))
-//              .addMappings(m -> m.skip(CustomerDto::setRole))
+              .addMappings(m -> m.skip(CustomerDto::setRole))
               .addMappings(m -> m.skip(CustomerDto::setCartDto))
               .addMappings(m -> m.skip(CustomerDto::setOrdersDto))
               .addMappings(m -> m.skip(CustomerDto::setReviewsDto));

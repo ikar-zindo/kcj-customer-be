@@ -276,7 +276,7 @@ public class CartService {
                            if (isPay(customer.getId(), cart.getId())) {
                               Order order = new Order();
 
-                              order.setCustomer(customerOptional.get());
+                              order.setCustomer(customer);
                               order.setRestaurant(restaurant);
                               order.setCreatedAt(LocalDateTime.now());
                               order.setDeliveryAddress(customerMapper.convertToCustomer(customerDto).getAddress());
@@ -300,7 +300,7 @@ public class CartService {
                                     if (cartProduct.getProduct() != null) {
                                        orderProduct.setProduct(cartProduct.getProduct());
                                     } else {
-                                       throw new ProductException("Product not found to add to cart");
+                                       throw new ProductException("Product not found to add to order");
                                     }
 
                                     orderProducts.add(orderProduct);
