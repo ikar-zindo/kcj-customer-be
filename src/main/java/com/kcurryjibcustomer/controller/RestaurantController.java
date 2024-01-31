@@ -28,6 +28,7 @@ public class RestaurantController {
       this.service = service;
    }
 
+   // READ - LIST OF ALL RESTAURANTS
    @GetMapping("/all")
    public String getAllRestaurants(Model model) throws RestaurantException {
       List<RestaurantDto> restaurantsDto = service.getAll();
@@ -38,6 +39,7 @@ public class RestaurantController {
    }
 
 
+   // READ - RESTAURANT
    @GetMapping("/{id}")
    public String getRestaurantByIdWithProducts(@PathVariable Long id,
                                    Model model) throws RestaurantException {
@@ -49,11 +51,6 @@ public class RestaurantController {
       RestaurantDto restaurantDto = service.getById(id);
 
       List<ProductDto> productsDto = restaurantDto.getProductsDto();
-
-      productsDto.stream()
-              .filter(ProductDto::isAvailable)
-              .sorted(Comparator.comparing(ProductDto::getCreatedAt).reversed())
-              .collect(Collectors.toList());
 
       model.addAttribute("restaurant", restaurantDto);
 //      model.addAttribute("countComments", countComments);

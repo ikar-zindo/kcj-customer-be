@@ -8,6 +8,7 @@ import com.kcurryjibcustomer.mapper.CartMapper;
 import com.kcurryjibcustomer.mapper.CustomerMapper;
 import com.kcurryjibcustomer.mapper.OrderMapper;
 import com.kcurryjibcustomer.repo.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -142,10 +143,10 @@ public class CartService {
          CustomerDto customerDto = customerService.getCustomerByCartId(cartId);
          ProductDto productDto = menuService.getProductById(productId);
 
+         if (productDto != null && productDto.getId() != null) {
          RestaurantDto restaurantDto = productDto.getRestaurantDto();
 
-         if (restaurantDto != null) {
-               if (productDto != null && productDto.getId() != null) {
+               if (restaurantDto != null) {
 
                   Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
                   Product product = productRepository.findById(productDto.getId()).orElse(null);
@@ -184,12 +185,12 @@ public class CartService {
                      throw new CartException("Customer or product not found");
                   }
                } else {
-                  throw new CartException("Product not found");
+                  throw new RestaurantException(
+                          String.format("Restaurant not found in the database with Id=%d!", +
+                                  productDto.getRestaurantDto().getId()));
                }
          } else {
-            throw new RestaurantException(
-                    String.format("Restaurant not found in the database with Id=%d!", +
-                            productDto.getRestaurantDto().getId()));
+               throw new CartException("Product not found");
          }
       } else {
          throw new CartException("Cart ID or Product ID not provided");
@@ -205,11 +206,16 @@ public class CartService {
 
    // CUSTOMER CART SIZE
    public int getCartProductsSize(Long cartId) {
-      List<CartProductDto> cartProductsDto = getCartProductsByCartId(cartId);
 
-      return cartProductsDto.stream()
-              .mapToInt(CartProductDto::getQuantity)
-              .sum();
+      if (cartId != null) {
+         List<CartProductDto> cartProductsDto = getCartProductsByCartId(cartId);
+
+         return cartProductsDto.stream()
+                 .mapToInt(CartProductDto::getQuantity)
+                 .sum();
+      } else {
+         throw new CartException("Cart not found!");
+      }
    }
 
    // TOTAL CART PRICE
@@ -231,6 +237,7 @@ public class CartService {
    }
 
    // CREATE NEW ORDER
+   @Transactional
    public OrderDto createOrder(CustomerDto customerDto) {
 
       if (customerDto.getId() != null) {
@@ -244,75 +251,86 @@ public class CartService {
                Cart cart = cartOptional.get();
                List<CartProduct> cartProducts = cart.getCartProducts();
 
-               Long restaurantId = null; // check products in from 1 restaurant
-               for (CartProduct cartProduct : cartProducts) {
-                  if (restaurantId == null) {
-                     restaurantId = cartProduct.getProduct().getRestaurant().getId();
+               if (!cartProducts.isEmpty()) {
 
-                  } else if (!restaurantId.equals(cartProduct.getProduct().getRestaurant().getId())) {
-                     throw new CartException("Cart contains products from different restaurants. Place an order from 1 restaurant");
+                  Long restaurantId = null; // check products in from 1 restaurant
+                  for (CartProduct cartProduct : cartProducts) {
+                     if (restaurantId == null) {
+                        restaurantId = cartProduct.getProduct().getRestaurant().getId();
+
+                     } else if (!restaurantId.equals(cartProduct.getProduct().getRestaurant().getId())) {
+
+                        throw new CartException("Cart contains products from different restaurants. " +
+                                "Place an order from 1 restaurant");
+                     }
                   }
-               }
 
-               if (restaurantId != null) {
-                  Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+                  if (restaurantId != null) {
+                     Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
 
-                  if (restaurantOptional.isPresent()) {
-                     Restaurant restaurant = restaurantOptional.get();
+                     if (restaurantOptional.isPresent()) {
+                        Restaurant restaurant = restaurantOptional.get();
 
-                     if (restaurant.getOpen()) {
-                        Order order = new Order();
+                        if (restaurant.getOpen()) { // check is open restaurant
 
+                           if (isPay(customer.getId(), cart.getId())) {
+                              Order order = new Order();
 
-                        order.setCustomer(customerOptional.get());
-                        order.setRestaurant(restaurant);
-                        order.setCreatedAt(LocalDateTime.now());
-                        order.setDeliveryAddress(customerMapper.convertToCustomer(customerDto).getAddress());
-                        order.setPostalCode(customerMapper.convertToCustomer(customerDto).getPostalCode());
-                        order.setTotalAmount(getTotalCartById(cart.getId()));
-                        order.setOrderStatus(OrderStatus.CREATED);
+                              order.setCustomer(customer);
+                              order.setRestaurant(restaurant);
+                              order.setCreatedAt(LocalDateTime.now());
+                              order.setDeliveryAddress(customerMapper.convertToCustomer(customerDto).getAddress());
+                              order.setPostalCode(customerMapper.convertToCustomer(customerDto).getPostalCode());
+                              order.setTotalAmount(getTotalCartById(cart.getId()));
+                              order.setOrderStatus(OrderStatus.CREATED);
 
-                        Order orderResponse = orderRepository.save(order);
-                        Long orderResponseId = orderResponse.getId();
+                              Order orderResponse = orderRepository.save(order); // ====================================
+                              Long orderResponseId = orderResponse.getId();
 
-                        if (orderResponse != null && orderResponseId > 0) {
-                           // CREATE LIST ORDER PRODUCTS
-                           List<OrderProduct> orderProducts = new ArrayList<>();
+                              if (orderResponse != null && orderResponseId > 0) {
+                                 // CREATE LIST ORDER PRODUCTS
+                                 List<OrderProduct> orderProducts = new ArrayList<>();
 
-                           for (CartProduct cartProduct : cartProducts) {
-                              OrderProduct orderProduct = new OrderProduct();
+                                 for (CartProduct cartProduct : cartProducts) {
+                                    OrderProduct orderProduct = new OrderProduct();
 
-                              orderProduct.setOrder(order);
-                              orderProduct.setQuantity(cartProduct.getQuantity());
+                                    orderProduct.setOrder(orderResponse);
+                                    orderProduct.setQuantity(cartProduct.getQuantity());
 
-                              if (cartProduct.getProduct() != null) {
-                                 orderProduct.setProduct(cartProduct.getProduct());
+                                    if (cartProduct.getProduct() != null) {
+                                       orderProduct.setProduct(cartProduct.getProduct());
+                                    } else {
+                                       throw new ProductException("Product not found to add to order");
+                                    }
+
+                                    orderProducts.add(orderProduct);
+                                 }
+
+                                 clearCart(cart.getId());
+                                 orderProductRepository.saveAll(orderProducts); // =====================================
+                                 return orderMapper.cnovertToOrderDto(orderResponse);
+
                               } else {
-                                 throw new ProductException("Product not found to add to cart");
+                                 throw new OrderException("The order was not saved to the database");
                               }
-
-                              orderProducts.add(orderProduct);
+                           } else {
+                              throw new OrderException("Payment for the order did not go through");
                            }
-
-                           clearCart(cart.getId());
-                           orderProductRepository.saveAll(orderProducts);
-                           return orderMapper.cnovertToOrderDto(orderResponse);
-
                         } else {
-                           throw new OrderException("The order was not saved to the database");
+                           throw new RestaurantException( // check is open restaurant
+                                   String.format("Sorry, We are closed, try during opening hours.%n«%s» - %s",
+                                           restaurant.getName(), restaurant.getOpeningHours()));
                         }
                      } else {
-                        throw new RestaurantException( // check is open restaurant
-                                String.format("Sorry, We are closed, try during opening hours.%n«%s» - %s",
-                                        restaurant.getName(), restaurant.getOpeningHours()));
+                        throw new RestaurantException(
+                                String.format("Restaurant not found with ID=%d",
+                                        restaurantId));
                      }
                   } else {
-                     throw new RestaurantException(
-                             String.format("Restaurant not found with ID=%d",
-                                     restaurantId));
+                     throw new RestaurantException("Restaurant not FOUND!");
                   }
                } else {
-                  throw new RestaurantException("Cart is empty");
+                  throw new CartException("Cart is EMPTY! First add products to cart");
                }
             } else {
                throw new CartException(

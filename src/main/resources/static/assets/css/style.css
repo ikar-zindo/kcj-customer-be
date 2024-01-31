@@ -133,4 +133,13 @@
     color: rgb(118, 18, 18);
 }
 
+.btn-add-to-cart {
+    opacity: 0; /* Начальная прозрачность кнопки */
+    transition: opacity 0.3s ease; /* Плавное изменение прозрачности при наведении */
+}
+
+.card-body:hover .btn-add-to-cart {
+    opacity: 1; /* Кнопка становится видимой при наведении на блок card-body */
+}
+
 

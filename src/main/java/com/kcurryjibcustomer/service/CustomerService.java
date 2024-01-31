@@ -63,14 +63,14 @@ public class CustomerService implements UserDetailsService {
    // READ
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//      UserDetails employee = customerRepository.findByUsername(username);
-      UserDetails employee = customerRepository.findByEmail(username);
+//      UserDetails customer = customerRepository.findByUsername(username);
+      UserDetails customer = customerRepository.findByEmail(username);
 
-      if (employee == null) {
+      if (customer == null) {
          throw new UsernameNotFoundException("Customer not found!");
       }
 
-      return employee;
+      return customer;
    }
 
    public CustomerDto getCustomerById(Long customerId) throws CustomerException {

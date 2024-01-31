@@ -22,10 +22,10 @@ public class MenuController {
 
    @Autowired
    public MenuController(MenuService service) {
-
       this.service = service;
    }
 
+   // READ - LIST OF ALL PRODUCTS
    @GetMapping
    public String getAll(Model model) {
       List<ProductDto> productsDto = service.getAvailableProducts();

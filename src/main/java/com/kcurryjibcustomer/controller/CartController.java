@@ -37,24 +37,16 @@ public class CartController {
 
    private final CartService cartService;
 
-   private final MenuService menuService;
-
-   private final CustomerRepository customerRepository;
 
    @Autowired
    public CartController(CustomerService customerService,
-                         CartService cartService,
-                         MenuService menuService,
-                         CustomerRepository customerRepository) {
+                         CartService cartService) {
 
       this.customerService = customerService;
       this.cartService = cartService;
-      this.menuService = menuService;
-      this.customerRepository = customerRepository;
    }
 
-   // GET AUTHORIZED USERNAME
-
+   // READ - CUSTOMER
    @GetMapping
    public String getCustomerCart(Model model) {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -78,6 +70,7 @@ public class CartController {
       return "/cart/cart";
    }
 
+   // CREATE - ADD PRODUCT TO CART
    @PutMapping("/{restaurantId}/{productId}/add")
    public String addProductToCart(@PathVariable Long productId,
                                   @PathVariable Long restaurantId) throws CartException {
@@ -93,6 +86,7 @@ public class CartController {
       return "redirect:/restaurant/" + restaurantId;
    }
 
+   // CREATE NEW ORDER
    @PostMapping("/payCart")
    public String payCart(@ModelAttribute("customer") CustomerDto customerDtoForDelivery,
                          BindingResult result,
@@ -122,6 +116,7 @@ public class CartController {
       return "redirect:/cart";
    }
 
+   // DELETE - CLEAR CART
    @DeleteMapping("/{cartId}/clear")
    public String clearCart(@PathVariable Long cartId) {
       cartService.clearCart(cartId);
