@@ -52,11 +52,6 @@ public class RestaurantController {
 
       List<ProductDto> productsDto = restaurantDto.getProductsDto();
 
-      productsDto.stream()
-              .filter(ProductDto::isAvailable)
-              .sorted(Comparator.comparing(ProductDto::getCreatedAt).reversed())
-              .collect(Collectors.toList());
-
       model.addAttribute("restaurant", restaurantDto);
 //      model.addAttribute("countComments", countComments);
 //      model.addAttribute("avgRating", avgRating);
