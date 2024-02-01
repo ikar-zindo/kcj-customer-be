@@ -54,7 +54,7 @@ public class CustomerDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @NotEmpty(message = "{validation.length.empty}")
-   @Length(max = 5, message = "{validation.length.max.5}")
+   @Length(max = 5, min = 5, message = "{validation.length.max.5}")
    private String postalCode;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
