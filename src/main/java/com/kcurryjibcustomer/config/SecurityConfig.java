@@ -2,17 +2,25 @@ package com.kcurryjibcustomer.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+//@EnableJdbcHttpSession
 public class SecurityConfig {
 
    @Bean
@@ -29,7 +37,7 @@ public class SecurityConfig {
                               .permitAll()
                               .logoutSuccessUrl("/menu")
               )
-              .authorizeHttpRequests((requests) -> requests
+              .authorizeHttpRequests(auth -> auth
                               .requestMatchers(
 //                                      "/**",
                                       "/",
@@ -37,10 +45,14 @@ public class SecurityConfig {
                                       "/assets/**",
                                       "/images/**",
                                       "/swagger-ui/**",
+                                      "/h2-console/**",
                                       "/menu/**",
                                       "/restaurant/**"
                               )
                               .permitAll()
+//                              .requestMatchers(
+//                                      "/h2-console/**")
+//                              .permitAll()
                               .anyRequest()
                               .authenticated()
               )
@@ -52,4 +64,19 @@ public class SecurityConfig {
 
       return http.build();
    }
+
+
+
+
+//   @Bean
+//   public EmbeddedDatabase dataSource() {
+//      return new EmbeddedDatabaseBuilder()
+//              .setType(EmbeddedDatabaseType.H2)
+//              .addScript("org/springframework/session/jdbc/schema-h2.sql").build();
+//   }
+//
+//   @Bean
+//   public PlatformTransactionManager transactionManager(DataSource dataSource) {
+//      return new DataSourceTransactionManager(dataSource);
+//   }
 }

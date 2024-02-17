@@ -35,7 +35,7 @@ public class RestaurantController {
 
       model.addAttribute("restaurants", restaurantsDto);
 
-      return "/restaurant/all";
+      return "restaurant/all";
    }
 
 
@@ -58,6 +58,6 @@ public class RestaurantController {
       model.addAttribute("products", productsDto);
 //      model.addAttribute("reviews", reviewsDto);
 
-      return "/restaurant/info";
+      return "restaurant/info";
    }
 }
