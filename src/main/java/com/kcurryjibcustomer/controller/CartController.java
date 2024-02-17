@@ -67,7 +67,7 @@ public class CartController {
       model.addAttribute("customer", customerDto);
       model.addAttribute("cartProducts", cartProductsDto);
 
-      return "/cart/cart";
+      return "cart/cart";
    }
 
    // CREATE - ADD PRODUCT TO CART
@@ -108,7 +108,7 @@ public class CartController {
          model.addAttribute("cartSize", cartSize);
          model.addAttribute("total", total);
 
-         return "/cart/cart";
+         return "cart/cart";
       }
 
       cartService.createOrder(customerDto);
