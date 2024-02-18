@@ -1,5 +1,6 @@
 package com.kcurryjibcustomer.service;
 
+import com.kcurryjibcustomer.dto.CartDto;
 import com.kcurryjibcustomer.dto.CartProductDto;
 import com.kcurryjibcustomer.dto.CustomerDto;
 import com.kcurryjibcustomer.dto.ProductDto;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -61,13 +63,14 @@ public class CustomerService implements UserDetailsService {
    // READ
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      UserDetails employee = customerRepository.findByUsername(username);
+//      UserDetails customer = customerRepository.findByUsername(username);
+      UserDetails customer = customerRepository.findByEmail(username);
 
-      if (employee == null) {
+      if (customer == null) {
          throw new UsernameNotFoundException("Customer not found!");
       }
 
-      return employee;
+      return customer;
    }
 
    public CustomerDto getCustomerById(Long customerId) throws CustomerException {
@@ -77,7 +80,7 @@ public class CustomerService implements UserDetailsService {
          Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
          if (customerOptional.isPresent()) {
-            customerDto = mapper.convertToCustomerDto(customerOptional.get());
+            customerDto = mapper.customerInfoDelivery(customerOptional.get());
 
          } else {
             throw new CustomerException(
@@ -91,46 +94,24 @@ public class CustomerService implements UserDetailsService {
       return customerDto;
    }
 
-   public CartProductDto addProductToCustomerCart(Long customerId, Long productId) {
+   public CustomerDto getCustomerByCartId(Long cartId) throws CustomerException {
+      CustomerDto customerDto = null;
 
-      if (customerId != null && productId != null) {
-         CustomerDto customerDto = getCustomerById(customerId);
-         ProductDto productDto = menuService.getProductById(productId);
+      if (cartId != null) {
+         Optional<Customer> customerOptional = customerRepository.findCustomerByCartId(cartId);
 
-         CartProductDto cartProductDto = new CartProductDto();
+         if (customerOptional.isPresent()) {
+            customerDto = mapper.customerInfoDelivery(customerOptional.get());
 
-         cartProductDto.setCartDto(customerDto.getCartDto());
-         cartProductDto.setProductDto(productDto);
-
-         if (productDto != null && productDto.getId() != null) {
-            Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
-            Product product = productRepository.findById(productDto.getId()).orElse(null);
-
-            if (customer != null && product != null) {
-               CartProduct cartProduct = mapper.convertToCartProduct(cartProductDto);
-
-               cartProduct.setCart(customer.getCart());
-               cartProduct.setProduct(product);
-               cartProduct.setCratedAt(LocalDateTime.now());
-               cartProduct.setQuantity(1);
-
-               CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
-               Long idResponse = cartProductResponse.getId();
-
-               if (idResponse != null && idResponse > 0) {
-                  return mapper.convertToCartProductDto(cartProductResponse);
-
-               } else {
-                  throw new CartException("");
-               }
-            } else {
-               throw new CartException("");
-            }
          } else {
-            throw new CartException("");
+            throw new CustomerException(
+                    String.format("Customer not found in database with id=%d",
+                            cartId));
          }
       } else {
-         throw new CartException("");
+         throw new CustomerException("There is no customer ID to search for!");
       }
+
+      return customerDto;
    }
 }

@@ -28,20 +28,20 @@ public class RestaurantController {
       this.service = service;
    }
 
+   // READ - LIST OF ALL RESTAURANTS
    @GetMapping("/all")
    public String getAllRestaurants(Model model) throws RestaurantException {
       List<RestaurantDto> restaurantsDto = service.getAll();
-//      Double avgRating = service.getAverageRatingByRestaurantId(id);
 
       model.addAttribute("restaurants", restaurantsDto);
-//      model.addAttribute("avgRating", avgRating);
 
-      return "/restaurant/all";
+      return "restaurant/all";
    }
 
 
+   // READ - RESTAURANT
    @GetMapping("/{id}")
-   public String getRestaurantById(@PathVariable Long id,
+   public String getRestaurantByIdWithProducts(@PathVariable Long id,
                                    Model model) throws RestaurantException {
 
       if (service.getById(id) == null) {
@@ -51,15 +51,6 @@ public class RestaurantController {
       RestaurantDto restaurantDto = service.getById(id);
 
       List<ProductDto> productsDto = restaurantDto.getProductsDto();
-//      List<ReviewDto> reviewsDto = restaurantDto.getReviewsDto();
-
-//      int countComments = service.getNumberOfReviewsByRestaurantId(id);
-//      BigDecimal avgRating = service.getAverageRatingByRestaurantId(id);
-
-      productsDto.stream()
-              .filter(ProductDto::isAvailable)
-              .sorted(Comparator.comparing(ProductDto::getCreatedAt).reversed())
-              .collect(Collectors.toList());
 
       model.addAttribute("restaurant", restaurantDto);
 //      model.addAttribute("countComments", countComments);
@@ -67,6 +58,6 @@ public class RestaurantController {
       model.addAttribute("products", productsDto);
 //      model.addAttribute("reviews", reviewsDto);
 
-      return "/restaurant/info";
+      return "restaurant/info";
    }
 }

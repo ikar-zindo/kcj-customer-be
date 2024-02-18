@@ -16,9 +16,6 @@ public class OrderProduct {
    @Column(name = "quantity")
    private int quantity;
 
-   @Column(name = "total", precision = 8, scale = 2)
-   private BigDecimal total;
-
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "order_id")
    private Order order;
@@ -45,14 +42,6 @@ public class OrderProduct {
 
    public void setQuantity(int quantity) {
       this.quantity = quantity;
-   }
-
-   public BigDecimal getTotal() {
-      return total;
-   }
-
-   public void setTotal(BigDecimal total) {
-      this.total = total;
    }
 
    public Order getOrder() {
@@ -86,11 +75,6 @@ public class OrderProduct {
          return this;
       }
 
-      public Builder total(BigDecimal total) {
-         orderProduct.total = total;
-         return this;
-      }
-
       public Builder order(Order order) {
          orderProduct.order = order;
          return this;
@@ -116,7 +100,6 @@ public class OrderProduct {
       return "OrderProduct{" +
               "id=" + id +
               ", quantity=" + quantity +
-              ", total=" + total +
               ", order=" + order +
               ", product=" + product +
               '}';

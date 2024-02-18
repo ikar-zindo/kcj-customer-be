@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0.33
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345  # Укажите пароль для root пользователя
+      MYSQL_DATABASE: k-curry-jib  # Укажите название вашей базы данных
+    #      MYSQL_USER: ваш_пользователь - Укажите имя пользователя
+    #      MYSQL_PASSWORD: ваш_пароль_пользователя - Укажите пароль пользователя
+    volumes:
+      - ./k-curry-jib.sql:/docker-entrypoint-initdb.d/k-curry-jib.sql # Путь для инициализации базы данных
+    ports:
+      - "3307:3306"
+
+  app:
+    build:
+      context: ./
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/k-curry-jib
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - SPRING_DATASOURCE_USERNAME=root
+    restart: always
+    ports:
+      - "8889:8889"

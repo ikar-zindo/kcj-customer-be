@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" class="h-100" data-bs-theme="auto">
+<head>
+	<script type="text/javascript" th:src="@{/assets/js/color-modes.js}"></script>
+	<title>Cart</title>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+	<meta name="generator" content="Hugo 0.118.2">
+
+	<!--	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>-->
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+			  integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+			  crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			  crossorigin="anonymous"></script>
+
+	<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sticky-footer-navbar/">
+	<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/checkout/">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+	<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/headers/">
+
+	<link th:href="@{/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" th:href="@{/assets/css/style.css}"/>
+
+	<!-- Custom styles for this template -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" th:href="@{/assets/css/headers.css}"/>
+
+	<!--Google font "Shojumaru"-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Alkatra:wght@400..700&family=Shojumaru&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!--Themes-->
+<div th:insert="~{fragments/themes :: themes}"></div>
+
+<!--Header-->
+<div th:insert="~{fragments/header :: header}"></div>
+
+<!--Main-->
+<div class="container">
+	<main>
+
+		<div class="row g-5">
+			<div class="col-md-5 col-lg-4 order-md-last">
+				<h4 class="text-shojumaru-regular d-flex justify-content-between align-items-center mb-3">
+					<span class="text-primary">Your cart</span>
+					<span th:text="${cartSize}" class="badge bg-primary rounded-pill"/>
+				</h4>
+
+				<ul class="list-group mb-3">
+
+					<div th:each="cartProduct : ${cartProducts}">
+						<li class="list-group-item d-flex justify-content-between lh-sm">
+							<div>
+								<h6 th:text="${cartProduct.productDto.name}"
+									 class="text-shojumaru-regular text-success my-0"/>
+								<small th:text="|${cartProduct.productDto.price}| + '€'"
+										 class="text-shojumaru-regular text-my-light"/>
+							</div>
+							<span th:text="'x' + |${cartProduct.quantity}|"
+									class="text-shojumaru-regular text-my-red"/>
+						</li>
+					</div>
+
+					<li class="list-group-item d-flex justify-content-between">
+						<span class="text-shojumaru-regular text-my-light" th:text="|${total}| + '€'"/>
+
+						<!--CLEAR CART-->
+						<form th:action="'/cart/' + |${customer.cartDto.id}| + '/clear'"
+								th:method="DELETE">
+							<button type="submit"
+									  class="btn btn-sm btn-outline-danger">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+									<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+								</svg>
+							</button>
+						</form>
+
+						<span class="text-shojumaru-regular text-my-red" th:text="${cartSize}"/>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-md-7 col-lg-8">
+
+				<h4 class="mb-3">Delivery information</h4>
+
+				<form class="needs-validation"
+						th:method="POST"
+						th:action="@{/cart/payCart}"
+						th:object="${customer}"
+						novalidate>
+
+					<div class="row g-3">
+
+						<input type="hidden" th:field="*{id}" id="id"/><br/>
+
+						<div class="col-sm-6">
+							<label for="firstName" class="form-label">First name*</label>
+							<input type="text" class="form-control"
+									 placeholder="First name"
+									 th:field="${customer.firstName}"
+									 id="firstName"/>
+							<div class="text-danger"
+								  th:if="${#fields.hasErrors('firstName')}"
+								  th:errors="${customer.firstName}"></div>
+						</div>
+
+						<div class="col-sm-6">
+							<label for="lastName" class="form-label">Last name*</label>
+							<input type="text" class="form-control"
+									 placeholder="Last name"
+									 th:field="${customer.lastName}"
+									 id="lastName"/>
+							<div class="text-danger"
+								  th:if="${#fields.hasErrors('lastName')}"
+								  th:errors="${customer.lastName}"></div>
+						</div>
+
+						<div class="col-12">
+							<label for="email" class="form-label">Email*<span class="text-body-secondary"></span></label>
+							<input type="email" class="form-control"
+									 th:field="${customer.email}"
+									 placeholder="you@example.com"
+									 id="email">
+							<div class="text-danger"
+								th:if="${#fields.hasErrors('email')}"
+								th:errors="${customer.email}"></div>
+						</div>
+
+						<div class="col-8">
+							<label for="address" class="form-label">Address*</label>
+							<input type="text" class="form-control"
+									 th:field="${customer.address}"
+									 placeholder="Main St. 1"
+									 id="address">
+							<div class="text-danger"
+								th:if="${#fields.hasErrors('address')}"
+								th:errors="${customer.address}"></div>
+						</div>
+
+						<div class="col-4">
+							<label for="zip" class="form-label">Zip*</label>
+							<input type="text" class="form-control"
+									 th:field="${customer.postalCode}"
+									 placeholder="12345"
+									 id="zip">
+							<div class="text-danger"
+								  th:if="${#fields.hasErrors('postalCode')}"
+								  th:errors="${customer.postalCode}">
+							</div>
+						</div>
+					</div>
+
+					<!--SOON-->
+					<!--SAVE INFORMATION ABOUT CUSTOMER -->
+<!--					<hr class="my-4">-->
+
+<!--					<div class="form-check">-->
+<!--						<input type="checkbox" class="form-check-input" id="same-address">-->
+<!--						<label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>-->
+<!--					</div>-->
+
+<!--					<div class="form-check">-->
+<!--						<input type="checkbox" class="form-check-input" id="save-info">-->
+<!--						<label class="form-check-label" for="save-info">Save this information for next time</label>-->
+<!--					</div>-->
+
+					<hr class="my-4">
+
+					<!--CHOOSING A PAYMENT METHOD-->
+					<h4 class="mb-3">Payment</h4>
+<!--					<div class="my-3">-->
+<!--						<div class="form-check">-->
+<!--							<input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked>-->
+<!--							<label class="form-check-label" for="credit">Credit card</label>-->
+<!--						</div>-->
+<!--						<div class="form-check">-->
+<!--							<input id="debit" name="paymentMethod" type="radio" class="form-check-input">-->
+<!--							<label class="form-check-label" for="debit">Debit card</label>-->
+<!--						</div>-->
+<!--						<div class="form-check">-->
+<!--							<input id="paypal" name="paymentMethod" type="radio" class="form-check-input">-->
+<!--							<label class="form-check-label" for="paypal">PayPal</label>-->
+<!--						</div>-->
+<!--					</div>-->
+
+					<div class="row gy-3">
+						<div class="col-md-6">
+							<label for="cc-name" class="form-label">Name on card</label>
+							<input type="text" class="form-control" id="cc-name" placeholder="">
+							<small class="text-body-secondary">Full name as displayed on card</small>
+<!--							<div class="invalid-feedback">-->
+<!--								Name on card is required-->
+<!--							</div>-->
+						</div>
+
+						<div class="col-md-6">
+							<label for="cc-number" class="form-label">Credit card number</label>
+							<input type="text" class="form-control" id="cc-number" placeholder="">
+<!--							<div class="invalid-feedback">-->
+<!--								Credit card number is required-->
+<!--							</div>-->
+						</div>
+
+						<div class="col-md-3">
+							<label for="cc-expiration" class="form-label">Expiration</label>
+							<input type="text" class="form-control" id="cc-expiration" placeholder="">
+<!--							<div class="invalid-feedback">-->
+<!--								Expiration date required-->
+<!--							</div>-->
+						</div>
+
+						<div class="col-md-3">
+							<label for="cc-cvv" class="form-label">CVV</label>
+							<input type="text" class="form-control" id="cc-cvv" placeholder="">
+<!--							<div class="invalid-feedback">-->
+<!--								Security code required-->
+<!--							</div>-->
+						</div>
+					</div>
+
+					<hr class="my-4">
+
+					<button class="w-100 btn btn-primary btn-lg"> <!--type="submit"-->
+						Pay</button>
+				</form>
+			</div>
+		</div>
+	</main>
+</div>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+<script type="text/javascript" th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"
+		  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		  crossorigin="anonymous"></script>
+
+<script type="text/javascript" th:src="@{/assets/dist/js/bootstrap.bundle.min.js}"></script>
+
+<script th:src="@{/assets/js/checkout.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
+		  integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
+		  crossorigin="anonymous"></script>
+
+</body>
+
+</html>

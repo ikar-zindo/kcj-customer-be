@@ -13,7 +13,14 @@ public class MapperUtil {
 
    @Bean
    public ModelMapper getMapper() {
-      return new ModelMapper();
+      ModelMapper mapper = new ModelMapper();
+
+//      mapper.getConfiguration()
+//              .setFieldMatchingEnabled(true)
+////              .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+//              .setSkipNullEnabled(true);
+
+      return mapper;
    }
 
    public static <R, E> List<R> convertlist(List<E> list, Function<E, R> convert) {

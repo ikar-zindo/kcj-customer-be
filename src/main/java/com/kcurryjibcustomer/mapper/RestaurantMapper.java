@@ -1,11 +1,13 @@
 package com.kcurryjibcustomer.mapper;
 
+import com.kcurryjibcustomer.dto.ProductDto;
 import com.kcurryjibcustomer.dto.RestaurantDto;
 import com.kcurryjibcustomer.entity.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,10 @@ public class RestaurantMapper {
       RestaurantDto restaurantDto = mapper.map(restaurant, RestaurantDto.class);
 
       restaurantDto.setReviewsDto(reviewMapper.convertToReviewsDto(restaurant.getReviews()));
-      restaurantDto.setProductsDto(productMapper.convertToProductsDto(restaurant.getProducts()));
+      restaurantDto.setProductsDto(productMapper.convertToProductsDto(restaurant.getProducts()).stream()
+              .filter(ProductDto::isAvailable)
+              .sorted(Comparator.comparing(ProductDto::getCreatedAt).reversed())
+              .collect(Collectors.toList()));
 
       return restaurantDto;
    }

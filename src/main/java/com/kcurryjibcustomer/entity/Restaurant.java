@@ -38,16 +38,16 @@ public class Restaurant {
    @Column(name = "is_open")
    private Boolean isOpen;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Product> products;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Review> reviews;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Order> orders;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Employee> employees;
 
    public Restaurant() {
@@ -226,24 +226,5 @@ public class Restaurant {
    public int hashCode() {
       return Objects.hash(id, name, address, phoneNumber, openingHours, cuisineType,
               description, socialMediaLinks, isOpen, products, reviews, orders, employees);
-   }
-
-   @Override
-   public String toString() {
-      return "Restaurant{" +
-              "id=" + id +
-              ", name='" + name + '\'' +
-              ", address='" + address + '\'' +
-              ", phoneNumber='" + phoneNumber + '\'' +
-              ", openingHours='" + openingHours + '\'' +
-              ", cuisineType='" + cuisineType + '\'' +
-              ", description='" + description + '\'' +
-              ", socialMediaLinks='" + socialMediaLinks + '\'' +
-              ", isOpen=" + isOpen +
-              ", products=" + products +
-              ", reviews=" + reviews +
-              ", orders=" + orders +
-              ", employees=" + employees +
-              '}';
    }
 }
