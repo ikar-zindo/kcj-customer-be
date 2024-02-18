@@ -1,7 +1,5 @@
 # Web application for food delivery K-Curry Jib
 
----
-
 ### Clone the repository
 
 `git clone git@github.com:ikar-zindo/k-curry-jib-customer.git`

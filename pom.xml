@@ -14,7 +14,7 @@
 	<name>k-curry-jib-customer</name>
 	<description>Customer part web application for food delivery K-Curry Jib</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 
