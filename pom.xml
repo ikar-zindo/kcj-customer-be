@@ -65,6 +65,11 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-oauth2-client</artifactId>-->
+<!--		</dependency>-->
+
 		<!-- swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -116,6 +121,22 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--Apache Geode-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-geode -->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.session</groupId>-->
+<!--			<artifactId>spring-session-data-geode</artifactId>-->
+<!--			<version>2.3.6.RELEASE</version>-->
+<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/org.apache.geode/geode-core -->
+<!--		<dependency>-->
+<!--			<groupId>org.apache.geode</groupId>-->
+<!--			<artifactId>geode-core</artifactId>-->
+<!--			<version>1.15.1</version>-->
+<!--		</dependency>-->
+
+
 		<!-- Spring Boot Starter JDBC -->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->
@@ -126,6 +147,7 @@
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.session</groupId>-->
 <!--			<artifactId>spring-session-core</artifactId>-->
+<!--			<version>3.2.1</version>-->
 <!--		</dependency>-->
 
 <!--		&lt;!&ndash; Spring Session JDBC &ndash;&gt;-->
@@ -134,13 +156,20 @@
 <!--			<artifactId>spring-session-jdbc</artifactId>-->
 <!--		</dependency>-->
 
-<!--		<dependency>-->
-<!--			<groupId>com.h2database</groupId>-->
-<!--			<artifactId>h2</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>spring-milestone</id>
+			<url>https://repo.spring.io/libs-milestone</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
