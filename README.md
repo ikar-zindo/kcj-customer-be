@@ -51,6 +51,7 @@ pass for all: `1qaz`
 
 ### Used technology stack in my web application:
 
+- Java 17
 - Spring Framework
 - Spring Security
 - MySQL
