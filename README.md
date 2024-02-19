@@ -2,25 +2,34 @@
 
 ### Clone the repository
 
-`git clone git@github.com:ikar-zindo/k-curry-jib-customer.git`
+```
+git clone git@github.com:ikar-zindo/k-curry-jib-customer.git
+```
 
 ---
 
 ### Launch jar archive
 
+###### You need to make sure that the DB exists and is connected correctly.
+
 *At the root of the project*
 
-`java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar`
+```
+java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar
+```
 
 ---
 
-### The docker way
+### [The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
+
+###### At the 1st launch, a DB will be created.
 
 *At the root of the project*
 
-`docker-compose build`
-
-`docker-compose up`
+```
+docker-compose build
+docker-compose up
+```
 
 ---
 
@@ -28,7 +37,9 @@
 
 *Copy to browser address bar*
 
-`http://localhost:8889`
+```
+http://localhost:8889
+```
 
 pass for all: `1qaz`
 
@@ -36,17 +47,24 @@ pass for all: `1qaz`
 
 ---
 
-### Customer part web application
+## Customer part web application
 
-**Used technology stack in my web application**
+### Used technology stack in my web application:
 
----
 - Spring Framework
-- MySQL
 - Spring Security
+- MySQL
+- JPA
 - Model Mapper
-- Jupiter
-- Maven
+
 ---
+
+- Jupiter - Testing
+- Maven
+- SLF4J
+
+---
+
+- WebMVC
 - Thymeleaf
 - Bootstrap
