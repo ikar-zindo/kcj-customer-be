@@ -2,7 +2,9 @@
 
 ### Clone the repository
 
-`git clone git@github.com:ikar-zindo/k-curry-jib-customer.git`
+```
+git clone git@github.com:ikar-zindo/k-curry-jib-customer.git
+```
 
 ---
 
@@ -10,7 +12,9 @@
 
 *At the root of the project*
 
-`java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar`
+```
+java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar
+```
 
 ---
 
@@ -18,9 +22,11 @@
 
 *At the root of the project*
 
-`docker-compose build`
+```
+docker-compose build
 
-`docker-compose up`
+docker-compose up
+```
 
 ---
 
@@ -28,7 +34,9 @@
 
 *Copy to browser address bar*
 
-`http://localhost:8889`
+```
+http://localhost:8889
+```
 
 pass for all: `1qaz`
 
@@ -41,12 +49,22 @@ pass for all: `1qaz`
 **Used technology stack in my web application**
 
 ---
+
+- Java 17
 - Spring Framework
-- MySQL
 - Spring Security
+- MySQL
+- JPA
 - Model Mapper
-- Jupiter
-- Maven
+- 
 ---
+
+- Jupiter - Testing
+- Maven
+- SLF4J
+- 
+---
+
+- WebMVC
 - Thymeleaf
 - Bootstrap

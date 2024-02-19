@@ -9,5 +9,4 @@ public class KCurryJibCustomerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KCurryJibCustomerApplication.class, args);
 	}
-
 }
