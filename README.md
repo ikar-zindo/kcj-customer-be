@@ -3,7 +3,7 @@
 ### Clone the repository
 
 ```
-$ git clone git@github.com:ikar-zindo/k-curry-jib-customer.git
+git clone git@github.com:ikar-zindo/k-curry-jib-customer.git
 ```
 
 ---
@@ -15,7 +15,7 @@ $ git clone git@github.com:ikar-zindo/k-curry-jib-customer.git
 *At the root of the project*
 
 ```
-$ java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar
+java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar
 ```
 
 ---
@@ -27,9 +27,8 @@ $ java -jar k-curry-jib-customer-0.0.1-SNAPSHOT.jar
 *At the root of the project*
 
 ```
-$ docker-compose build
-
-$ docker-compose up
+docker-compose build
+docker-compose up
 ```
 
 ---
