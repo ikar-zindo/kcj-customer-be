@@ -15,7 +15,7 @@ git clone git@github.com:ikar-zindo/k-curry-jib-customer.git
 *At the root of the project*
 
 ```
-java -jar k-curry-jib-customer-v1.1.0.jar
+java -jar k-curry-jib-customer-v1.1.1.jar
 ```
 
 ---
