@@ -1,8 +1,6 @@
 package com.kcurryjibcustomer.mapper;
 
-import com.kcurryjibcustomer.dto.RestaurantDto;
 import com.kcurryjibcustomer.dto.ReviewDto;
-import com.kcurryjibcustomer.entity.Restaurant;
 import com.kcurryjibcustomer.entity.Review;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,21 +2,14 @@ package com.kcurryjibcustomer.controller;
 
 import com.kcurryjibcustomer.dto.CartProductDto;
 import com.kcurryjibcustomer.dto.CustomerDto;
-import com.kcurryjibcustomer.dto.OrderDto;
-import com.kcurryjibcustomer.dto.OrderProductDto;
-import com.kcurryjibcustomer.entity.CartProduct;
 import com.kcurryjibcustomer.entity.Customer;
 import com.kcurryjibcustomer.exception.list.CartException;
 import com.kcurryjibcustomer.exception.list.OrderException;
-import com.kcurryjibcustomer.repo.CustomerRepository;
-import com.kcurryjibcustomer.repo.ProductRepository;
 import com.kcurryjibcustomer.service.CartService;
 import com.kcurryjibcustomer.service.CustomerService;
-import com.kcurryjibcustomer.service.MenuService;
-import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/cart")
@@ -36,7 +28,6 @@ public class CartController {
    private final CustomerService customerService;
 
    private final CartService cartService;
-
 
    @Autowired
    public CartController(CustomerService customerService,

@@ -19,19 +19,15 @@ import java.util.stream.Collectors;
 @Service
 public class MenuService {
 
-   private ProductRepository productRepository;
+   private final ProductRepository productRepository;
 
-   private RestaurantRepository restaurantRepository;
-
-   private ProductMapper productMapper;
+   private final ProductMapper productMapper;
 
    @Autowired
    public MenuService(ProductRepository productRepository,
-                      RestaurantRepository restaurantRepository,
                       ProductMapper productMapper) throws ProductException {
 
       this.productRepository = productRepository;
-      this.restaurantRepository = restaurantRepository;
       this.productMapper = productMapper;
    }
 
@@ -41,7 +37,6 @@ public class MenuService {
               .filter(Product::getAvailable)
               .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
               .collect(Collectors.toList());
-
 
       return productMapper.convertToProductsDto(products);
    }

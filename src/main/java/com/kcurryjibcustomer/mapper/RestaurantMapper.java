@@ -40,7 +40,6 @@ public class RestaurantMapper {
       return restaurantDto;
    }
 
-
    // convert to entity
    public Restaurant convertToRestaurant(RestaurantDto restaurantDto) {
       Restaurant restaurant = mapper.map(restaurantDto, Restaurant.class);

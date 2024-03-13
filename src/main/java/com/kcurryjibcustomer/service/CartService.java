@@ -10,9 +10,6 @@ import com.kcurryjibcustomer.mapper.OrderMapper;
 import com.kcurryjibcustomer.repo.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -93,7 +90,6 @@ public class CartService {
                     String.format("Customer not found in database with id=%d",
                             customerId));
          }
-
       } else {
          throw new CustomerException("There is no customer ID to search for!");
       }
@@ -103,23 +99,26 @@ public class CartService {
 
    // READ - CUSTOMER
    public CustomerDto getCustomerByCartId(Long cartId) throws CustomerException {
-
       CustomerDto customerDto = null;
 
       if (cartId != null) {
          Optional<Cart> cartOptional = cartRepository.findById(cartId);
-         Long cartOptionalId = cartOptional.get().getId();
-         Optional<Customer> customerOptional = customerRepository.findCustomerByCartId(cartOptionalId);
 
-         if (customerOptional.isPresent() && cartOptionalId != null) {
-            customerDto = cartMapper.convertToCustomerDto(customerOptional.get());
+         if (cartOptional.isPresent()) {
+            Long cartOptionalId = cartOptional.get().getId();
+            Optional<Customer> customerOptional = customerRepository.findCustomerByCartId(cartOptionalId);
 
+            if (customerOptional.isPresent() && cartOptionalId != null) {
+               customerDto = cartMapper.convertToCustomerDto(customerOptional.get());
+
+            } else {
+               throw new CustomerException(
+                       String.format("Customer not found in database with cart id=%d",
+                               cartId));
+            }
          } else {
-            throw new CustomerException(
-                    String.format("Customer not found in database with cart id=%d",
-                            cartId));
+            throw new CartException("Cart not found!");
          }
-
       } else {
          throw new CustomerException("There is no customer ID to search for!");
       }
@@ -144,53 +143,53 @@ public class CartService {
          ProductDto productDto = menuService.getProductById(productId);
 
          if (productDto != null && productDto.getId() != null) {
-         RestaurantDto restaurantDto = productDto.getRestaurantDto();
+            RestaurantDto restaurantDto = productDto.getRestaurantDto();
 
-               if (restaurantDto != null) {
+            if (restaurantDto != null) {
 
-                  Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
-                  Product product = productRepository.findById(productDto.getId()).orElse(null);
+               Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
+               Product product = productRepository.findById(productDto.getId()).orElse(null);
 
-                  if (customer != null && product != null) {
-                     Optional<CartProduct> existingCartProductOptional = cartProductRepository
-                             .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
+               if (customer != null && product != null) {
+                  Optional<CartProduct> existingCartProductOptional = cartProductRepository
+                          .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
 
-                     if (existingCartProductOptional.isPresent()) {
-                        CartProduct existingCartProduct = existingCartProductOptional.get();
+                  if (existingCartProductOptional.isPresent()) {
+                     CartProduct existingCartProduct = existingCartProductOptional.get();
 
-                        existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
+                     existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
 
-                        cartProductRepository.save(existingCartProduct);
-                        return cartMapper.convertToCartProductDto(existingCartProduct);
+                     cartProductRepository.save(existingCartProduct);
+                     return cartMapper.convertToCartProductDto(existingCartProduct);
+
+                  } else {
+                     CartProduct cartProduct = new CartProduct();
+
+                     cartProduct.setCart(customer.getCart());
+                     cartProduct.setProduct(product);
+                     cartProduct.setCratedAt(LocalDateTime.now());
+                     cartProduct.setQuantity(1);
+
+                     CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
+                     Long idResponse = cartProductResponse.getId();
+
+                     if (idResponse != null && idResponse > 0) {
+                        return cartMapper.convertToCartProductDto(cartProductResponse);
 
                      } else {
-                        CartProduct cartProduct = new CartProduct();
-
-                        cartProduct.setCart(customer.getCart());
-                        cartProduct.setProduct(product);
-                        cartProduct.setCratedAt(LocalDateTime.now());
-                        cartProduct.setQuantity(1);
-
-                        CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
-                        Long idResponse = cartProductResponse.getId();
-
-                        if (idResponse != null && idResponse > 0) {
-                           return cartMapper.convertToCartProductDto(cartProductResponse);
-
-                        } else {
-                           throw new CartException("Unable to add item to cart");
-                        }
+                        throw new CartException("Unable to add item to cart");
                      }
-                  } else {
-                     throw new CartException("Customer or product not found");
                   }
                } else {
-                  throw new RestaurantException(
-                          String.format("Restaurant not found in the database with Id=%d!", +
-                                  productDto.getRestaurantDto().getId()));
+                  throw new CartException("Customer or product not found");
                }
+            } else {
+               throw new RestaurantException(
+                       String.format("Restaurant not found in the database with Id=%d!", +
+                               productDto.getRestaurantDto().getId()));
+            }
          } else {
-               throw new CartException("Product not found");
+            throw new CartException("Product not found");
          }
       } else {
          throw new CartException("Cart ID or Product ID not provided");
