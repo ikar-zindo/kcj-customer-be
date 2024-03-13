@@ -25,10 +25,6 @@ public class OrderDto {
    private RestaurantDto restaurantDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   @JsonProperty("employee")
-   private EmployeeDto employeeDto;
-
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    private LocalDateTime createdAt;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -84,14 +80,6 @@ public class OrderDto {
 
    public void setRestaurantDto(RestaurantDto restaurantDto) {
       this.restaurantDto = restaurantDto;
-   }
-
-   public EmployeeDto getEmployeeDto() {
-      return employeeDto;
-   }
-
-   public void setEmployeeDto(EmployeeDto employeeDto) {
-      this.employeeDto = employeeDto;
    }
 
    public LocalDateTime getCreatedAt() {
@@ -162,11 +150,6 @@ public class OrderDto {
          return this;
       }
 
-      public Builder employeeDto(EmployeeDto employeeDto) {
-         orderDto.employeeDto = employeeDto;
-         return this;
-      }
-
       public Builder createdAt(LocalDateTime createdAt) {
          orderDto.createdAt = createdAt;
          return this;
@@ -213,8 +196,7 @@ public class OrderDto {
       if (o == null || getClass() != o.getClass()) return false;
       OrderDto orderDto = (OrderDto) o;
       return Objects.equals(id, orderDto.id) && Objects.equals(customerDto, orderDto.customerDto) &&
-              Objects.equals(restaurantDto, orderDto.restaurantDto) &&
-              Objects.equals(employeeDto, orderDto.employeeDto) && Objects.equals(createdAt, orderDto.createdAt) &&
+              Objects.equals(restaurantDto, orderDto.restaurantDto) && Objects.equals(createdAt, orderDto.createdAt) &&
               Objects.equals(updateAt, orderDto.updateAt) && Objects.equals(deliveryAddress, orderDto.deliveryAddress) &&
               Objects.equals(totalAmount, orderDto.totalAmount) && orderStatus == orderDto.orderStatus &&
               Objects.equals(orderProductsDto, orderDto.orderProductsDto);
@@ -222,7 +204,7 @@ public class OrderDto {
 
    @Override
    public int hashCode() {
-      return Objects.hash(id, customerDto, restaurantDto, employeeDto, createdAt, updateAt, deliveryAddress, totalAmount, orderStatus, orderProductsDto);
+      return Objects.hash(id, customerDto, restaurantDto, createdAt, updateAt, deliveryAddress, totalAmount, orderStatus, orderProductsDto);
    }
 
    // ToString
@@ -232,7 +214,6 @@ public class OrderDto {
               "id=" + id +
               ", customerDto=" + customerDto +
               ", restaurantDto=" + restaurantDto +
-              ", employeeDto=" + employeeDto +
               ", createdAt=" + createdAt +
               ", updateAt=" + updateAt +
               ", deliveryAddress='" + deliveryAddress + '\'' +

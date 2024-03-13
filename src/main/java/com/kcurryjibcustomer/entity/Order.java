@@ -25,10 +25,6 @@ public class Order {
    @JoinColumn(name = "restaurant_id")
    private Restaurant restaurant;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "employee_id")
-   private Employee employee;
-
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime createdAt;
 
@@ -85,14 +81,6 @@ public class Order {
 
    public void setRestaurant(Restaurant restaurant) {
       this.restaurant = restaurant;
-   }
-
-   public Employee getEmployee() {
-      return employee;
-   }
-
-   public void setEmployee(Employee employee) {
-      this.employee = employee;
    }
 
    public LocalDateTime getCreatedAt() {
@@ -160,11 +148,6 @@ public class Order {
 
       public Builder restaurant(Restaurant restaurant) {
          order.restaurant = restaurant;
-         return this;
-      }
-
-      public Builder employee(Employee employee) {
-         order.employee = employee;
          return this;
       }
 

@@ -60,10 +60,6 @@ public class RestaurantDto {
    @JsonProperty("orders")
    private List<OrderDto> ordersDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
-   @JsonProperty("employees")
-   private List<EmployeeDto> employeesDto;
-
    public RestaurantDto() {
    }
 
@@ -167,14 +163,6 @@ public class RestaurantDto {
       this.ordersDto = ordersDto;
    }
 
-   public List<EmployeeDto> getEmployeesDto() {
-      return employeesDto;
-   }
-
-   public void setEmployeesDto(List<EmployeeDto> employeesDto) {
-      this.employeesDto = employeesDto;
-   }
-
    // Builder
    public static class Builder {
       private RestaurantDto restaurantDto = new RestaurantDto();
@@ -245,14 +233,13 @@ public class RestaurantDto {
               Objects.equals(address, that.address) && Objects.equals(phoneNumber, that.phoneNumber) &&
               Objects.equals(openingHours, that.openingHours) && Objects.equals(cuisineType, that.cuisineType) &&
               Objects.equals(description, that.description) &&
-              Objects.equals(socialMediaLinks, that.socialMediaLinks) &&
-              Objects.equals(productsDto, that.productsDto) && Objects.equals(reviewsDto, that.reviewsDto) &&
-              Objects.equals(ordersDto, that.ordersDto) && Objects.equals(employeesDto, that.employeesDto);
+              Objects.equals(socialMediaLinks, that.socialMediaLinks) && Objects.equals(productsDto, that.productsDto) &&
+              Objects.equals(reviewsDto, that.reviewsDto) && Objects.equals(ordersDto, that.ordersDto);
    }
 
    @Override
    public int hashCode() {
       return Objects.hash(id, name, address, phoneNumber, openingHours, cuisineType, description,
-              socialMediaLinks, isOpen, productsDto, reviewsDto, ordersDto, employeesDto);
+              socialMediaLinks, isOpen, productsDto, reviewsDto, ordersDto);
    }
 }

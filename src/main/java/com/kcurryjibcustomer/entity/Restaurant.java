@@ -47,9 +47,6 @@ public class Restaurant {
    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<Order> orders;
 
-   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-   private List<Employee> employees;
-
    public Restaurant() {
    }
 
@@ -150,14 +147,6 @@ public class Restaurant {
       this.orders = orders;
    }
 
-   public List<Employee> getEmployees() {
-      return employees;
-   }
-
-   public void setEmployees(List<Employee> employees) {
-      this.employees = employees;
-   }
-
    // Builder class
    public static class Builder {
       private Restaurant restaurant = new Restaurant();
@@ -206,25 +195,5 @@ public class Restaurant {
 
    public static Builder builder() {
       return new Builder();
-   }
-
-   @Override
-   public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      Restaurant that = (Restaurant) o;
-      return Objects.equals(id, that.id) && Objects.equals(name, that.name) &&
-              Objects.equals(address, that.address) && Objects.equals(phoneNumber, that.phoneNumber) &&
-              Objects.equals(openingHours, that.openingHours) && Objects.equals(cuisineType, that.cuisineType) &&
-              Objects.equals(description, that.description) &&
-              Objects.equals(socialMediaLinks, that.socialMediaLinks) && Objects.equals(isOpen, that.isOpen) &&
-              Objects.equals(products, that.products) && Objects.equals(reviews, that.reviews) &&
-              Objects.equals(orders, that.orders) && Objects.equals(employees, that.employees);
-   }
-
-   @Override
-   public int hashCode() {
-      return Objects.hash(id, name, address, phoneNumber, openingHours, cuisineType,
-              description, socialMediaLinks, isOpen, products, reviews, orders, employees);
    }
 }
