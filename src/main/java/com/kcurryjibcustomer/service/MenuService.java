@@ -1,12 +1,10 @@
 package com.kcurryjibcustomer.service;
 
-import com.kcurryjibcustomer.config.MapperUtil;
 import com.kcurryjibcustomer.dto.ProductDto;
 import com.kcurryjibcustomer.entity.Product;
 import com.kcurryjibcustomer.exception.list.ProductException;
 import com.kcurryjibcustomer.mapper.ProductMapper;
 import com.kcurryjibcustomer.repo.ProductRepository;
-import com.kcurryjibcustomer.repo.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +35,7 @@ public class MenuService {
               .filter(Product::getAvailable)
               .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
               .collect(Collectors.toList());
+      // TODO .collect(Collectors.toList()); can be replaced with .toList()
 
       return productMapper.convertToProductsDto(products);
    }

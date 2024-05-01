@@ -1,3 +1,10 @@
+-- TODO - I'd better use such structure' ||
+-- ├── docker/
+-- │     ├── Dockerfile
+-- │     ├── init-db.sql
+-- ├── docker-compose.yml'
+--      I mean init sql should be placed somewhere else, not in the project root
+
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+01:00";

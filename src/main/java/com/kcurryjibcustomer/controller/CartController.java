@@ -29,6 +29,7 @@ public class CartController {
 
    private final CartService cartService;
 
+   // TODO why don't you use lombok and its reargsconstrator autowiring? It reduces code
    @Autowired
    public CartController(CustomerService customerService,
                          CartService cartService) {
@@ -69,6 +70,7 @@ public class CartController {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentPrincipalName = authentication.getName();
 
+      // TODO redundant type cast. You can reurn Customer type by loadUserByUsername method
       Customer customer = (Customer) customerService.loadUserByUsername(currentPrincipalName);
 
       CustomerDto customerDto = cartService.getCustomerById(customer.getId());
@@ -77,6 +79,7 @@ public class CartController {
       return "redirect:/restaurant/" + restaurantId;
    }
 
+   // TODO good text formating style, cool! - to make a blanc line between signature and body. Just to let you know
    // CREATE NEW ORDER
    @PostMapping("/payCart")
    public String payCart(@ModelAttribute("customer") CustomerDto customerDtoForDelivery,
@@ -86,6 +89,7 @@ public class CartController {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentPrincipalName = authentication.getName();
 
+      // TODO the same as in previous method - redundant type cast
       Customer customer = (Customer) customerService.loadUserByUsername(currentPrincipalName);
 
       CustomerDto customerDto = cartService.getCustomerById(customer.getId());

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Objects;
 
+// TODO consider using records here and in all dto
 public class CartDto {
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private Long id;

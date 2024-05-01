@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+//TODO I didn't see review functionality on front, not completed?
 @Entity
 @Table(name = "review")
 public class Review {
