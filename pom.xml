@@ -2,14 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<!--		TODO files mvnw and mvnw are not needed in commit-->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.2</version>
+<!--		TODO - redundant comment-->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com</groupId>
 	<artifactId>k-curry-jib-customer</artifactId>
+<!--	TODO Maybe you should explicetly specify packaging-->
+<!--	<packaging>spring-boot-jar</packaging>-->
 	<version>0.0.1-SNAPSHOT</version>
 	<name>k-curry-jib-customer</name>
 	<description>Customer part web application for food delivery K-Curry Jib</description>
@@ -120,7 +124,7 @@
 			<version>5.10.1</version>
 			<scope>test</scope>
 		</dependency>
-
+<!--TODO remove comments, if you have final code version -->
 		<!--Apache Geode-->
 		<!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-geode -->
 <!--		<dependency>-->
@@ -155,7 +159,7 @@
 <!--			<groupId>org.springframework.session</groupId>-->
 <!--			<artifactId>spring-session-jdbc</artifactId>-->
 <!--		</dependency>-->
-
+<!--TODO Do you really need h2? Remove if no-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -169,6 +173,7 @@
 			<url>https://repo.spring.io/libs-milestone</url>
 		</repository>
 	</repositories>
+<!--	TODO I don't see any dependencies that explicitly require a milestone version, looks redundant, remove-->
 
 	<build>
 		<plugins>

@@ -1,13 +1,7 @@
 package com.kcurryjibcustomer.service;
 
-import com.kcurryjibcustomer.dto.CartDto;
-import com.kcurryjibcustomer.dto.CartProductDto;
 import com.kcurryjibcustomer.dto.CustomerDto;
-import com.kcurryjibcustomer.dto.ProductDto;
-import com.kcurryjibcustomer.entity.CartProduct;
 import com.kcurryjibcustomer.entity.Customer;
-import com.kcurryjibcustomer.entity.Product;
-import com.kcurryjibcustomer.exception.list.CartException;
 import com.kcurryjibcustomer.exception.list.CustomerException;
 import com.kcurryjibcustomer.mapper.CustomerMapper;
 import com.kcurryjibcustomer.mapper.ProductMapper;
@@ -21,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -73,6 +65,7 @@ public class CustomerService implements UserDetailsService {
       return customer;
    }
 
+   // TODO don;t keep unused code
    public CustomerDto getCustomerById(Long customerId) throws CustomerException {
       CustomerDto customerDto = null;
 

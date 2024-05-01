@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import java.util.List;
 
 
+//TODO Add javadoc here and in all project, in generail: try to avoid leave comments in code, only in special situations. Instead write javadoc
 public class LogUtils {
 
    private LogUtils() {

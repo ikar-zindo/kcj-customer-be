@@ -138,6 +138,16 @@ public class CartService {
    // CREATE - ADD PRODUCT TO CART
    public CartProductDto addProductToCustomerCart(Long cartId, Long productId) {
 
+      // TODO consider such style of ifs
+//      if (cartId == null){
+//         throw new CartException("CartId is null");
+//      }
+//      if (productId == null) {
+//         throw new ProductException("ProductId is null");
+//      }
+//      main code
+
+
       if (cartId != null && productId != null) {
          CustomerDto customerDto = customerService.getCustomerByCartId(cartId);
          ProductDto productDto = menuService.getProductById(productId);
@@ -204,6 +214,7 @@ public class CartService {
 
 
    // CUSTOMER CART SIZE
+   // TODO Unusual style of comments, better to use javadoc or nothig if obvious
    public int getCartProductsSize(Long cartId) {
 
       if (cartId != null) {
@@ -236,6 +247,7 @@ public class CartService {
    }
 
    // CREATE NEW ORDER
+   // TODO too long method, hard to read, try to refactor and split
    @Transactional
    public OrderDto createOrder(CustomerDto customerDto) {
 

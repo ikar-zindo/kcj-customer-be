@@ -1,7 +1,12 @@
 #
 # Build stage
 #
-FROM maven:3.8.7-eclipse-temurin-17-alpine AS build
+#TODO I couldn't run it on mac with error "docker pull maven:3.8.7-eclipse-temurin-17-alpine
+#
+#                                    3.8.7-eclipse-temurin-17-alpine: Pulling from library/maven
+#                                          no matching manifest for linux/arm64/v8 in the manifest list entries"
+#Try to use universal images, eg maven:3.9.6-eclipse-temurin-17, yours is compartible with linux only
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 COPY src /home/app/src
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package -Dmaven.test.skip=true

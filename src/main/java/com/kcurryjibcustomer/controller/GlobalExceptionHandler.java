@@ -4,6 +4,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+// TODO maybe should be moved to exception folder? controller folder looks strange for it
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
