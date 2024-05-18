@@ -14,7 +14,7 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>logs/${HOSTNAME}.log.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
 
-			<maxHistory>3</maxHistory>
+			<maxHistory>30</maxHistory>
 
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>200MB</maxFileSize>
@@ -33,7 +33,7 @@
 		</layout>
 	</appender>
 
-	<logger name="com.kcurryjib" additivity="false" level="INFO">
+	<logger name="com.kcj-customer-be" additivity="false" level="INFO">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
 	</logger>
