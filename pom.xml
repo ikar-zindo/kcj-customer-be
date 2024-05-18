@@ -177,6 +177,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>kcj-customer-be</finalName>
 	</build>
-
 </project>
