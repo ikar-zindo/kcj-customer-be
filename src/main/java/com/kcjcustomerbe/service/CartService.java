@@ -270,7 +270,7 @@ public class CartService {
                      if (restaurantOptional.isPresent()) {
                         Restaurant restaurant = restaurantOptional.get();
 
-                        if (restaurant.getOpen()) { // check is open restaurant
+                        if (restaurant.getIsOpen()) { // check is open restaurant
 
                            if (isPay(customer.getId(), cart.getId())) {
                               Order order = new Order();

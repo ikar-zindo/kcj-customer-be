@@ -36,7 +36,7 @@ public class MenuService {
 
       if (!products.isEmpty()) {
          List<Product> availableProducts = new ArrayList<>(products).stream()
-                 .filter(Product::getAvailable)
+                 .filter(Product::getIsAvailable)
                  .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
                  .collect(Collectors.toList());
 

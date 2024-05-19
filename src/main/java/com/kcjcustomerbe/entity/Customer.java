@@ -3,6 +3,7 @@ package com.kcjcustomerbe.entity;
 import com.kcjcustomerbe.entity.enums.Role;
 import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -13,6 +14,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "customer")
 public class Customer implements UserDetails {
@@ -66,122 +73,6 @@ public class Customer implements UserDetails {
    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
    private List<Review> reviews;
 
-   public Customer() {
-   }
-
-   // Getters & Setters
-   public UUID getId() {
-      return id;
-   }
-
-   public void setId(UUID id) {
-      this.id = id;
-   }
-
-   public String getFirstName() {
-      return firstName;
-   }
-
-   public void setFirstName(String firstName) {
-      this.firstName = firstName;
-   }
-
-   public String getLastName() {
-      return lastName;
-   }
-
-   public void setLastName(String lastName) {
-      this.lastName = lastName;
-   }
-
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
-   public void setUsername(String username) {
-      this.username = username;
-   }
-
-   public void setPassword(String password) {
-      this.password = password;
-   }
-
-   public String getPhoneNumber() {
-      return phoneNumber;
-   }
-
-   public void setPhoneNumber(String phoneNumber) {
-      this.phoneNumber = phoneNumber;
-   }
-
-   public String getAddress() {
-      return address;
-   }
-
-   public void setAddress(String address) {
-      this.address = address;
-   }
-
-   public String getPostalCode() {
-      return postalCode;
-   }
-
-   public void setPostalCode(String postalCode) {
-      this.postalCode = postalCode;
-   }
-
-   public LocalDateTime getCreatedAt() {
-      return createdAt;
-   }
-
-   public void setCreatedAt(LocalDateTime createdAt) {
-      this.createdAt = createdAt;
-   }
-
-   public Role getRole() {
-      return role;
-   }
-
-   public void setRole(Role role) {
-      this.role = role;
-   }
-
-   public Boolean getBlocked() {
-      return isBlocked;
-   }
-
-   public void setBlocked(Boolean blocked) {
-      isBlocked = blocked;
-   }
-
-   public Cart getCart() {
-      return cart;
-   }
-
-   public void setCart(Cart cart) {
-      this.cart = cart;
-   }
-
-   public List<Order> getOrders() {
-      return orders;
-   }
-
-   public void setOrders(List<Order> orders) {
-      this.orders = orders;
-   }
-
-   public List<Review> getReviews() {
-      return reviews;
-   }
-
-   public void setReviews(List<Review> reviews) {
-      this.reviews = reviews;
-   }
-
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
       return AuthorityUtils.createAuthorityList(String.valueOf(this.role));
@@ -215,79 +106,5 @@ public class Customer implements UserDetails {
    @Override
    public boolean isEnabled() {
       return true;
-   }
-
-   // Builder class
-   public static class Builder {
-
-      private Customer customer = new Customer();
-
-      public Builder id(UUID id) {
-         customer.id = id;
-         return this;
-      }
-
-      public Builder firstName(String firstName) {
-         customer.firstName = firstName;
-         return this;
-      }
-
-      public Builder lastName(String lastName) {
-         customer.lastName = lastName;
-         return this;
-      }
-
-      public Builder email(String email) {
-         customer.username = email;
-         return this;
-      }
-
-      public Builder password(String password) {
-         customer.password = password;
-         return this;
-      }
-
-      public Builder phoneNumber(String phoneNumber) {
-         customer.phoneNumber = phoneNumber;
-         return this;
-      }
-
-      public Builder address(String address) {
-         customer.address = address;
-         return this;
-      }
-
-      public Builder postalCode(String postalCode) {
-         customer.postalCode = postalCode;
-         return this;
-      }
-
-      public Builder createdAt(LocalDateTime createdAt) {
-         customer.createdAt = createdAt;
-         return this;
-      }
-
-      public Builder isBlocked(Boolean isBlocked) {
-         customer.isBlocked = isBlocked;
-         return this;
-      }
-
-      public Builder role(Role role) {
-         customer.role = role;
-         return this;
-      }
-
-      public Builder username(String username) {
-         customer.username = username;
-         return this;
-      }
-
-      public Customer build() {
-         return customer;
-      }
-   }
-
-   public static Builder builder() {
-      return new Builder();
    }
 }

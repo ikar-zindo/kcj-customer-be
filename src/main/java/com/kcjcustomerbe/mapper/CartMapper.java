@@ -60,7 +60,7 @@ public class CartMapper {
               .addMappings(m -> m.skip(CustomerDto::setAddress))
               .addMappings(m -> m.skip(CustomerDto::setPostalCode))
               .addMappings(m -> m.skip(CustomerDto::setCreatedAt))
-              .addMappings(m -> m.skip(CustomerDto::setBlocked))
+              .addMappings(m -> m.skip(CustomerDto::setIsBlocked))
               .addMappings(m -> m.skip(CustomerDto::setCartDto))
               .addMappings(m -> m.skip(CustomerDto::setOrdersDto))
               .addMappings(m -> m.skip(CustomerDto::setReviewsDto));
@@ -81,7 +81,7 @@ public class CartMapper {
       mapper.typeMap(Customer.class, CustomerDto.class)
               .addMappings(m -> m.skip(CustomerDto::setPassword))
               .addMappings(m -> m.skip(CustomerDto::setCreatedAt))
-              .addMappings(m -> m.skip(CustomerDto::setBlocked))
+              .addMappings(m -> m.skip(CustomerDto::setIsBlocked))
               .addMappings(m -> m.skip(CustomerDto::setCartDto))
               .addMappings(m -> m.skip(CustomerDto::setOrdersDto))
               .addMappings(m -> m.skip(CustomerDto::setReviewsDto));

@@ -6,13 +6,19 @@ import com.kcjcustomerbe.entity.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Builder
 public class CustomerDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -78,224 +84,4 @@ public class CustomerDto {
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("review")
    private List<ReviewDto> reviewsDto;
-
-   public CustomerDto() {
-   }
-
-   // Getters && Setters
-   public UUID getId() {
-      return id;
-   }
-
-   public void setId(UUID id) {
-      this.id = id;
-   }
-
-   public String getFirstName() {
-      return firstName;
-   }
-
-   public void setFirstName(String firstName) {
-      this.firstName = firstName;
-   }
-
-   public String getLastName() {
-      return lastName;
-   }
-
-   public void setLastName(String lastName) {
-      this.lastName = lastName;
-   }
-
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
-   public String getUsername() {
-      return username;
-   }
-
-   public void setUsername(String username) {
-      this.username = username;
-   }
-
-   public String getPassword() {
-      return password;
-   }
-
-   public void setPassword(String password) {
-      this.password = password;
-   }
-
-   public String getPhoneNumber() {
-      return phoneNumber;
-   }
-
-   public void setPhoneNumber(String phoneNumber) {
-      this.phoneNumber = phoneNumber;
-   }
-
-   public String getAddress() {
-      return address;
-   }
-
-   public void setAddress(String address) {
-      this.address = address;
-   }
-
-   public String getPostalCode() {
-      return postalCode;
-   }
-
-   public void setPostalCode(String postalCode) {
-      this.postalCode = postalCode;
-   }
-
-   public LocalDateTime getCreatedAt() {
-      return createdAt;
-   }
-
-   public void setCreatedAt(LocalDateTime createdAt) {
-      this.createdAt = createdAt;
-   }
-
-   public Role getRole() {
-      return role;
-   }
-
-   public void setRole(Role role) {
-      this.role = role;
-   }
-
-   public Boolean getBlocked() {
-      return isBlocked;
-   }
-
-   public void setBlocked(Boolean blocked) {
-      isBlocked = blocked;
-   }
-
-   public CartDto getCartDto() {
-      return cartDto;
-   }
-
-   public void setCartDto(CartDto cartDto) {
-      this.cartDto = cartDto;
-   }
-
-   public List<OrderDto> getOrdersDto() {
-      return ordersDto;
-   }
-
-   public void setOrdersDto(List<OrderDto> ordersDto) {
-      this.ordersDto = ordersDto;
-   }
-
-   public List<ReviewDto> getReviewsDto() {
-      return reviewsDto;
-   }
-
-   public void setReviewsDto(List<ReviewDto> reviewsDto) {
-      this.reviewsDto = reviewsDto;
-   }
-
-   // ToString
-   @Override
-   public String toString() {
-      return "CustomerDto{" +
-              "id=" + id +
-              ", firstName='" + firstName + '\'' +
-              ", lastName='" + lastName + '\'' +
-              ", email='" + email + '\'' +
-              ", username='" + username + '\'' +
-              ", password='" + password + '\'' +
-              ", phoneNumber='" + phoneNumber + '\'' +
-              ", address='" + address + '\'' +
-              ", postalCode='" + postalCode + '\'' +
-              ", createdAt=" + createdAt +
-              ", role=" + role +
-              ", isBlocked=" + isBlocked +
-              ", cartDto=" + cartDto +
-              ", ordersDto=" + ordersDto +
-              ", reviewsDto=" + reviewsDto +
-              '}';
-   }
-
-   // Builder class
-   public static class Builder {
-
-      private CustomerDto customerDto = new CustomerDto();
-
-      public Builder id(UUID id) {
-         customerDto.id = id;
-         return this;
-      }
-
-      public Builder firstName(String firstName) {
-         customerDto.firstName = firstName;
-         return this;
-      }
-
-      public Builder lastName(String lastName) {
-         customerDto.lastName = lastName;
-         return this;
-      }
-
-      public Builder email(String email) {
-         customerDto.email = email;
-         return this;
-      }
-
-      public Builder password(String password) {
-         customerDto.password = password;
-         return this;
-      }
-
-      public Builder phoneNumber(String phoneNumber) {
-         customerDto.phoneNumber = phoneNumber;
-         return this;
-      }
-
-      public Builder address(String address) {
-         customerDto.address = address;
-         return this;
-      }
-
-      public Builder postalCode(String postalCode) {
-         customerDto.postalCode = postalCode;
-         return this;
-      }
-
-      public Builder createdAt(LocalDateTime createdAt) {
-         customerDto.createdAt = createdAt;
-         return this;
-      }
-
-      public Builder isBlocked(Boolean isBlocked) {
-         customerDto.isBlocked = isBlocked;
-         return this;
-      }
-
-      public Builder role(Role role) {
-         customerDto.role = role;
-         return this;
-      }
-
-      public Builder username(String username) {
-         customerDto.username = username;
-         return this;
-      }
-
-      public CustomerDto build() {
-         return customerDto;
-      }
-   }
-
-   public static Builder builder() {
-      return new Builder();
-   }
 }
