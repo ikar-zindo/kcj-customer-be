@@ -3,6 +3,7 @@ package com.kcjcustomerbe.service;
 import com.kcjcustomerbe.dto.*;
 import com.kcjcustomerbe.entity.*;
 import com.kcjcustomerbe.entity.enums.OrderStatus;
+import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.*;
 import com.kcjcustomerbe.mapper.CartMapper;
 import com.kcjcustomerbe.mapper.CustomerMapper;
@@ -77,7 +78,7 @@ public class CartService {
    }
 
    // READ - CUSTOMER
-   public CustomerDto getCustomerById(UUID customerId) throws CustomerException {
+   public CustomerDto getCustomerById(UUID customerId) {
       CustomerDto customerDto = null;
 
       if (customerId != null) {
@@ -87,19 +88,17 @@ public class CartService {
             customerDto = cartMapper.convertToCustomerDto(customerOptional.get());
 
          } else {
-            throw new CustomerException(
-                    String.format("Customer not found in database with id=%d",
-                            customerId));
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
          }
       } else {
-         throw new CustomerException("There is no customer ID to search for!");
+         throw new IdNullException(ErrorMessage.NULL_ID);
       }
 
       return customerDto;
    }
 
    // READ - CUSTOMER
-   public CustomerDto getCustomerByCartId(UUID cartId) throws CustomerException {
+   public CustomerDto getCustomerByCartId(UUID cartId) {
       CustomerDto customerDto = null;
 
       if (cartId != null) {
@@ -113,26 +112,25 @@ public class CartService {
                customerDto = cartMapper.convertToCustomerDto(customerOptional.get());
 
             } else {
-               throw new CustomerException(
-                       String.format("Customer not found in database with cart id=%d",
-                               cartId));
+               throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_CART_NOT_FOUND + cartId);
             }
          } else {
-            throw new CartException("Cart not found!");
+            throw new CartNotFoundException(ErrorMessage.CART_ID_NOT_FOUND + cartId);
          }
       } else {
-         throw new CustomerException("There is no customer ID to search for!");
+         throw new IdNotFoundException(ErrorMessage.NULL_ID);
       }
 
       return customerDto;
    }
 
    // DELETE - CLEAR CART
+   @Transactional
    public void clearCart(UUID cartId) {
       if (cartId != null) {
          cartProductRepository.deleteByCartId(cartId);
       } else {
-         throw new CartException("Cart not passed to method");
+         throw new IdNullException(ErrorMessage.NULL_ID);
       }
    }
 
@@ -151,49 +149,51 @@ public class CartService {
                Customer customer = customerRepository.findById(customerDto.getId()).orElse(null);
                Product product = productRepository.findById(productDto.getId()).orElse(null);
 
-               if (customer != null && product != null) {
-                  Optional<CartProduct> existingCartProductOptional = cartProductRepository
-                          .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
+               if (customer != null) {
+                  if (product != null) {
+                     Optional<CartProduct> existingCartProductOptional = cartProductRepository
+                             .findByCartIdAndProductId(customer.getCart().getId(), product.getId());
 
-                  if (existingCartProductOptional.isPresent()) {
-                     CartProduct existingCartProduct = existingCartProductOptional.get();
+                     if (existingCartProductOptional.isPresent()) {
+                        CartProduct existingCartProduct = existingCartProductOptional.get();
 
-                     existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
+                        existingCartProduct.setQuantity(existingCartProduct.getQuantity() + 1);
 
-                     cartProductRepository.save(existingCartProduct);
-                     return cartMapper.convertToCartProductDto(existingCartProduct);
-
-                  } else {
-                     CartProduct cartProduct = new CartProduct();
-
-                     cartProduct.setCart(customer.getCart());
-                     cartProduct.setProduct(product);
-                     cartProduct.setCratedAt(LocalDateTime.now());
-                     cartProduct.setQuantity(1);
-
-                     CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
-                     UUID idResponse = cartProductResponse.getId();
-
-                     if (idResponse != null) { // TODO: реализовать проверку UUID
-                        return cartMapper.convertToCartProductDto(cartProductResponse);
+                        cartProductRepository.save(existingCartProduct);
+                        return cartMapper.convertToCartProductDto(existingCartProduct);
 
                      } else {
-                        throw new CartException("Unable to add item to cart");
+                        CartProduct cartProduct = new CartProduct();
+
+                        cartProduct.setCart(customer.getCart());
+                        cartProduct.setProduct(product);
+                        cartProduct.setCratedAt(LocalDateTime.now());
+                        cartProduct.setQuantity(1);
+
+                        CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
+                        UUID idResponse = cartProductResponse.getId();
+
+                        if (idResponse != null) { // TODO: реализовать проверку UUID
+                           return cartMapper.convertToCartProductDto(cartProductResponse);
+
+                        } else {
+                           throw new CartException(ErrorMessage.CART_EXCEPTION);
+                        }
                      }
+                  } else {
+                     throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
                   }
                } else {
-                  throw new CartException("Customer or product not found");
+                  throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
                }
             } else {
-               throw new RestaurantNotFoundException(
-                       String.format("Restaurant not found in the database with Id=%d!", +
-                               productDto.getRestaurantDto().getId()));
+               throw new RestaurantNotFoundException(ErrorMessage.RESTAURANT_ID_NOT_FOUND + productDto.getRestaurantDto().getId());
             }
          } else {
-            throw new CartException("Product not found");
+            throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
          }
       } else {
-         throw new CartException("Cart ID or Product ID not provided");
+         throw new IdNullException(ErrorMessage.NULL_ID);
       }
    }
 
@@ -214,7 +214,7 @@ public class CartService {
                  .mapToInt(CartProductDto::getQuantity)
                  .sum();
       } else {
-         throw new CartException("Cart not found!");
+         throw new IdNullException(ErrorMessage.NULL_ID);
       }
    }
 
@@ -260,8 +260,7 @@ public class CartService {
 
                      } else if (!restaurantId.equals(cartProduct.getProduct().getRestaurant().getId())) {
 
-                        throw new CartException("Cart contains products from different restaurants. " +
-                                "Place an order from 1 restaurant");
+                        throw new DifferentRestaurantException(ErrorMessage.PRODUCTS_CANNOT_BE_ADD_TO_CART);
                      }
                   }
 
@@ -300,7 +299,7 @@ public class CartService {
                                     if (cartProduct.getProduct() != null) {
                                        orderProduct.setProduct(cartProduct.getProduct());
                                     } else {
-                                       throw new ProductNotFoundException("Product not found to add to order");
+                                       throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
                                     }
 
                                     orderProducts.add(orderProduct);
@@ -311,37 +310,33 @@ public class CartService {
                                  return orderMapper.cnovertToOrderDto(orderResponse);
 
                               } else {
-                                 throw new OrderException("The order was not saved to the database");
+                                 throw new OrderException(ErrorMessage.ORDER_NOT_SAVED);
                               }
                            } else {
-                              throw new OrderException("Payment for the order did not go through");
+                              throw new PaymentException(ErrorMessage.PAYMENT_NOT_THROUGH);
                            }
                         } else {
                            throw new RestaurantNotFoundException( // check is open restaurant
-                                   String.format("Sorry, We are closed, try during opening hours.%n«%s» - %s",
+                                   String.format(ErrorMessage.RESTAURANTS_IS_CLOSE,
                                            restaurant.getName(), restaurant.getOpeningHours()));
                         }
                      } else {
-                        throw new RestaurantNotFoundException(
-                                String.format("Restaurant not found with ID=%d",
-                                        restaurantId));
+                        throw new RestaurantNotFoundException(ErrorMessage.RESTAURANT_ID_NOT_FOUND + restaurantId);
                      }
                   } else {
-                     throw new RestaurantNotFoundException("Restaurant not FOUND!");
+                     throw new RestaurantNotFoundException(ErrorMessage.RESTAURANT_NOT_FOUND);
                   }
                } else {
-                  throw new CartException("Cart is EMPTY! First add products to cart");
+                  throw new CartNotFoundException(ErrorMessage.CART_IS_EMPTY);
                }
             } else {
-               throw new CartException(
-                       String.format("Cart is missing for the client with ID=%d",
-                               customer.getId()));
+               throw new CartNotFoundException(ErrorMessage.CART_ID_NOT_FOUND + customer.getId());
             }
          } else {
-            throw new CartException("The customer was not found!!");
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
          }
       } else {
-         throw new CustomerException("Customer not passed to method");
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerDto.getId());
       }
    }
 

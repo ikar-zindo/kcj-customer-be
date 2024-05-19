@@ -2,7 +2,7 @@ package com.kcjcustomerbe.service;
 
 import com.kcjcustomerbe.dto.CustomerDto;
 import com.kcjcustomerbe.entity.Customer;
-import com.kcjcustomerbe.exception.list.CustomerException;
+import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
 import com.kcjcustomerbe.mapper.CustomerMapper;
 import com.kcjcustomerbe.mapper.ProductMapper;
 import com.kcjcustomerbe.repo.CartProductRepository;
@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CustomerService implements UserDetailsService {
@@ -65,7 +66,7 @@ public class CustomerService implements UserDetailsService {
       return customer;
    }
 
-   public CustomerDto getCustomerById(Long customerId) throws CustomerException {
+   public CustomerDto getCustomerById(UUID customerId) throws CustomerNotFoundException {
       CustomerDto customerDto = null;
 
       if (customerId != null) {
@@ -75,18 +76,18 @@ public class CustomerService implements UserDetailsService {
             customerDto = mapper.customerInfoDelivery(customerOptional.get());
 
          } else {
-            throw new CustomerException(
+            throw new CustomerNotFoundException(
                     String.format("Customer not found in database with id=%d",
                             customerId));
          }
       } else {
-         throw new CustomerException("There is no customer ID to search for!");
+         throw new CustomerNotFoundException("There is no customer ID to search for!");
       }
 
       return customerDto;
    }
 
-   public CustomerDto getCustomerByCartId(Long cartId) throws CustomerException {
+   public CustomerDto getCustomerByCartId(UUID cartId) throws CustomerNotFoundException {
       CustomerDto customerDto = null;
 
       if (cartId != null) {
@@ -96,12 +97,12 @@ public class CustomerService implements UserDetailsService {
             customerDto = mapper.customerInfoDelivery(customerOptional.get());
 
          } else {
-            throw new CustomerException(
+            throw new CustomerNotFoundException(
                     String.format("Customer not found in database with id=%d",
                             cartId));
          }
       } else {
-         throw new CustomerException("There is no customer ID to search for!");
+         throw new CustomerNotFoundException("There is no customer ID to search for!");
       }
 
       return customerDto;

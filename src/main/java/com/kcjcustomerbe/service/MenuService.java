@@ -2,7 +2,8 @@ package com.kcjcustomerbe.service;
 
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.entity.Product;
-import com.kcjcustomerbe.exception.list.ProductException;
+import com.kcjcustomerbe.exception.ErrorMessage;
+import com.kcjcustomerbe.exception.list.ProductNotFoundException;
 import com.kcjcustomerbe.mapper.ProductMapper;
 import com.kcjcustomerbe.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +24,31 @@ public class MenuService {
 
    @Autowired
    public MenuService(ProductRepository productRepository,
-                      ProductMapper productMapper) throws ProductException {
+                      ProductMapper productMapper) throws ProductNotFoundException {
 
       this.productRepository = productRepository;
       this.productMapper = productMapper;
    }
 
    // READ
-   public List<ProductDto> getAvailableProducts() throws ProductException {
-      List<Product> products = new ArrayList<>(productRepository.findAll()).stream()
-              .filter(Product::getAvailable)
-              .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
-              .collect(Collectors.toList());
+   public List<ProductDto> getAvailableProducts() throws ProductNotFoundException {
+      List<Product> products = productRepository.findAll();
 
-      return productMapper.convertToProductsDto(products);
+      if (!products.isEmpty()) {
+         List<Product> availableProducts = new ArrayList<>(products).stream()
+                 .filter(Product::getAvailable)
+                 .sorted(Comparator.comparing(Product::getCreatedAt).reversed())
+                 .collect(Collectors.toList());
+
+         return productMapper.convertToProductsDto(availableProducts);
+
+      } else {
+         throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
+      }
    }
 
    // READ
-   public ProductDto getProductById(Long id) throws ProductException {
+   public ProductDto getProductById(Long id) throws ProductNotFoundException {
       ProductDto productDto = null;
 
       if (id != null) {
@@ -50,12 +58,12 @@ public class MenuService {
             productDto = productMapper.showProductDetails(productOptional.get());
 
          } else {
-            throw new ProductException(
+            throw new ProductNotFoundException(
                     String.format("Product not found in database with id=%d",
                             id));
          }
       } else {
-         throw new ProductException("There is no product ID to search for!");
+         throw new ProductNotFoundException("There is no product ID to search for!");
       }
 
       return productDto;

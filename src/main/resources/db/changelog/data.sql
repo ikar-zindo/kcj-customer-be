@@ -83,7 +83,6 @@ INSERT INTO `product` (`name`, `description`,  `price`, `restaurant_id`, `image_
     ('Bulgogi Zungshik', 'Beef & vehetables in sweet sauce on the hot plate, rice', 13, 1, '1.jpg'),
     ('Osam Bokum', 'Fried squids, pork and vegetables in spicy gochujang sauce', 28, 1, '1.jpg');
 
-
 --
 -- Dumping data for table `order`
 --
@@ -100,7 +99,6 @@ INSERT INTO `order_product` (`order_product_id`, `order_id`, `product_id`, `quan
     (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f41d1'), UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49d1'), '1', '2'),
     (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f41d2'), UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49d1'), '2', '1'),
     (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f41d3'), UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49d2'), '1', '1');
-
 
 --
 -- Dumping data for table `review`

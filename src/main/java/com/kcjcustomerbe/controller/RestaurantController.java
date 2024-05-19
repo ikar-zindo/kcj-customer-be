@@ -2,7 +2,6 @@ package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.dto.RestaurantDto;
-import com.kcjcustomerbe.exception.list.RestaurantException;
 import com.kcjcustomerbe.service.RestaurantService;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.stereotype.Controller;
@@ -28,7 +27,7 @@ public class RestaurantController {
 
    // READ - LIST OF ALL RESTAURANTS
    @GetMapping("/all")
-   public String getAllRestaurants(Model model) throws RestaurantException {
+   public String getAllRestaurants(Model model) {
       List<RestaurantDto> restaurantsDto = service.getAll();
 
       model.addAttribute("restaurants", restaurantsDto);
@@ -40,7 +39,7 @@ public class RestaurantController {
    // READ - RESTAURANT
    @GetMapping("/{id}")
    public String getRestaurantByIdWithProducts(@PathVariable Long id,
-                                   Model model) throws RestaurantException {
+                                   Model model) {
 
       if (service.getById(id) == null) {
          return "redirect:/restaurant/all";

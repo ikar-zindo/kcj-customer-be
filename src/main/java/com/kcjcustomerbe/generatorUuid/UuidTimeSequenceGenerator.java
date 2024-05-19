@@ -14,7 +14,6 @@ public class UuidTimeSequenceGenerator implements IdentifierGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         long currTimeMillis = System.currentTimeMillis();
-
         return concatUUIDAndTime(currTimeMillis, UUID.randomUUID());
     }
 

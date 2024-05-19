@@ -4,7 +4,10 @@ import com.kcjcustomerbe.config.MapperUtil;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.entity.Restaurant;
-import com.kcjcustomerbe.exception.list.RestaurantException;
+import com.kcjcustomerbe.exception.ErrorMessage;
+import com.kcjcustomerbe.exception.list.IdNotFoundException;
+import com.kcjcustomerbe.exception.list.RestaurantNotFoundException;
+import com.kcjcustomerbe.exception.list.RestaurantsListException;
 import com.kcjcustomerbe.mapper.RestaurantMapper;
 import com.kcjcustomerbe.repo.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +35,19 @@ public class RestaurantService {
    }
 
    // READ
-   public List<RestaurantDto> getAll() throws RestaurantException {
+   public List<RestaurantDto> getAll() {
       List<Restaurant> restaurants = new ArrayList<>(repository.findAll());
 
-      return MapperUtil.convertlist(restaurants, mapper::allInfoRestaurantDto);
+      if (!restaurants.isEmpty()) {
+         return MapperUtil.convertlist(restaurants, mapper::allInfoRestaurantDto);
+
+      } else {
+         throw new RestaurantsListException(ErrorMessage.RESTAURANTS_LIST_IS_EMPTY);
+      }
    }
 
    // READ
-   public RestaurantDto getById(Long id) throws RestaurantException {
+   public RestaurantDto getById(Long id) {
       RestaurantDto restaurantDto = null;
 
       if (id != null) {
@@ -49,23 +57,22 @@ public class RestaurantService {
             restaurantDto = mapper.allInfoRestaurantDto(restaurantOptional.get());
 
          } else {
-            throw new RestaurantException(
-                    String.format("Restaurant not found in database with id=%d",
-                            id));
+            throw new RestaurantNotFoundException(ErrorMessage.RESTAURANT_ID_NOT_FOUND + id);
          }
       } else {
-         throw new RestaurantException("There is no restaurant ID to search for!");
+         throw new IdNotFoundException(ErrorMessage.NULL_ID);
       }
 
       return restaurantDto;
    }
 
-   public int getNumberOfReviewsByRestaurantId(Long id) throws RestaurantException {
+   public int getNumberOfReviewsByRestaurantId(Long id) {
       RestaurantDto restaurantDto = getById(id);
 
       if (restaurantDto != null && restaurantDto.getReviewsDto() != null) {
          return restaurantDto.getReviewsDto().size();
       }
+
       return 0;
    }
 

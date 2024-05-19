@@ -3,8 +3,7 @@ package com.kcjcustomerbe.controller;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.CustomerDto;
 import com.kcjcustomerbe.entity.Customer;
-import com.kcjcustomerbe.exception.list.CartException;
-import com.kcjcustomerbe.exception.list.OrderException;
+import com.kcjcustomerbe.exception.list.CartNotFoundException;
 import com.kcjcustomerbe.service.CartService;
 import com.kcjcustomerbe.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class CartController {
    // CREATE - ADD PRODUCT TO CART
    @PutMapping("/{restaurantId}/{productId}/add")
    public String addProductToCart(@PathVariable Long productId,
-                                  @PathVariable Long restaurantId) throws CartException {
+                                  @PathVariable Long restaurantId) throws CartNotFoundException {
 
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentPrincipalName = authentication.getName();
