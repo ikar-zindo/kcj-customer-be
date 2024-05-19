@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/cart")
@@ -49,7 +50,7 @@ public class CartController {
       List<CartProductDto> cartProductsDto = customerDto.getCartDto().getCartProductsDto();
 
       // CART INFO
-      Long cartId = customerDto.getCartDto().getId();
+      UUID cartId = customerDto.getCartDto().getId();
       int cartSize = cartService.getCartProductsSize(cartId);
       BigDecimal total = cartService.getTotalCartById(cartId);
 
@@ -81,7 +82,7 @@ public class CartController {
    @PostMapping("/payCart")
    public String payCart(@ModelAttribute("customer") CustomerDto customerDtoForDelivery,
                          BindingResult result,
-                         Model model) throws OrderException {
+                         Model model) {
 
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       String currentPrincipalName = authentication.getName();
@@ -90,7 +91,7 @@ public class CartController {
 
       CustomerDto customerDto = cartService.getCustomerById(customer.getId());
 
-      Long cartId = customerDto.getCartDto().getId();
+      UUID cartId = customerDto.getCartDto().getId();
       int cartSize = cartService.getCartProductsSize(cartId);
       BigDecimal total = cartService.getTotalCartById(cartId);
 
@@ -109,8 +110,8 @@ public class CartController {
 
    // DELETE - CLEAR CART
    @DeleteMapping("/{cartId}/clear")
-   public String clearCart(@PathVariable Long cartId) {
-      cartService.clearCart(cartId);
+   public String clearCart(@PathVariable String cartId) {
+      cartService.clearCart(UUID.fromString(cartId));
       return "redirect:/cart";
    }
 }

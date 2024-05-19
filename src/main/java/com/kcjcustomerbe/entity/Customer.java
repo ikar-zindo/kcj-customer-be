@@ -1,7 +1,9 @@
 package com.kcjcustomerbe.entity;
 
 import com.kcjcustomerbe.entity.enums.Role;
+import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,15 +11,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "customer")
 public class Customer implements UserDetails {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(generator = "UUID")
+   @GenericGenerator(name = "UUID", type = UuidTimeSequenceGenerator.class)
    @Column(name = "customer_id")
-   private Long id;
+   private UUID id;
 
    @Column(name = "first_name")
    private String firstName;
@@ -66,11 +70,11 @@ public class Customer implements UserDetails {
    }
 
    // Getters & Setters
-   public Long getId() {
+   public UUID getId() {
       return id;
    }
 
-   public void setId(Long id) {
+   public void setId(UUID id) {
       this.id = id;
    }
 
@@ -218,7 +222,7 @@ public class Customer implements UserDetails {
 
       private Customer customer = new Customer();
 
-      public Builder id(Long id) {
+      public Builder id(UUID id) {
          customer.id = id;
          return this;
       }

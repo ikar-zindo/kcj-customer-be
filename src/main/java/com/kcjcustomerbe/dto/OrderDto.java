@@ -9,12 +9,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 public class OrderDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Long id;
+   private UUID id;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("customer")
@@ -50,7 +51,7 @@ public class OrderDto {
    }
 
    // Getters & Setters
-   public Long getId() {
+   public UUID getId() {
       return id;
    }
 
@@ -62,7 +63,7 @@ public class OrderDto {
       this.postalCode = postalCode;
    }
 
-   public void setId(Long id) {
+   public void setId(UUID id) {
       this.id = id;
    }
 
@@ -135,7 +136,7 @@ public class OrderDto {
 
       private OrderDto orderDto = new OrderDto();
 
-      public Builder id(Long id) {
+      public Builder id(UUID id) {
          orderDto.id = id;
          return this;
       }

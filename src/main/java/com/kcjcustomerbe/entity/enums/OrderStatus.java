@@ -8,26 +8,20 @@ public enum OrderStatus {
    COMPLETED("COMPLETED"),
    CANCELLED("CANCELLED");
 
-   public String value;
+   public final String value;
 
    OrderStatus(String value) {
       this.value = value;
    }
 
    public String getColor(OrderStatus status) {
-      switch (status) {
-         case CREATED:
-            return "primary";
-         case COOKING:
-            return "warning";
-         case DELIVERING:
-            return "info";
-         case COMPLETED:
-            return "success";
-         case CANCELLED:
-            return "danger";
-         default:
-            return "secondary";
-      }
+      return switch (status) {
+         case CREATED -> "primary";
+         case COOKING -> "warning";
+         case DELIVERING -> "info";
+         case COMPLETED -> "success";
+         case CANCELLED -> "danger";
+         default -> "secondary";
+      };
    }
 }

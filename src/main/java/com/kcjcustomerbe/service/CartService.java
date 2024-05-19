@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CartService {
@@ -76,7 +77,7 @@ public class CartService {
    }
 
    // READ - CUSTOMER
-   public CustomerDto getCustomerById(Long customerId) throws CustomerException {
+   public CustomerDto getCustomerById(UUID customerId) throws CustomerException {
       CustomerDto customerDto = null;
 
       if (customerId != null) {
@@ -98,14 +99,14 @@ public class CartService {
    }
 
    // READ - CUSTOMER
-   public CustomerDto getCustomerByCartId(Long cartId) throws CustomerException {
+   public CustomerDto getCustomerByCartId(UUID cartId) throws CustomerException {
       CustomerDto customerDto = null;
 
       if (cartId != null) {
          Optional<Cart> cartOptional = cartRepository.findById(cartId);
 
          if (cartOptional.isPresent()) {
-            Long cartOptionalId = cartOptional.get().getId();
+            UUID cartOptionalId = cartOptional.get().getId();
             Optional<Customer> customerOptional = customerRepository.findCustomerByCartId(cartOptionalId);
 
             if (customerOptional.isPresent() && cartOptionalId != null) {
@@ -127,7 +128,7 @@ public class CartService {
    }
 
    // DELETE - CLEAR CART
-   public void clearCart(Long cartId) {
+   public void clearCart(UUID cartId) {
       if (cartId != null) {
          cartProductRepository.deleteByCartId(cartId);
       } else {
@@ -136,7 +137,7 @@ public class CartService {
    }
 
    // CREATE - ADD PRODUCT TO CART
-   public CartProductDto addProductToCustomerCart(Long cartId, Long productId) {
+   public CartProductDto addProductToCustomerCart(UUID cartId, Long productId) {
 
       if (cartId != null && productId != null) {
          CustomerDto customerDto = customerService.getCustomerByCartId(cartId);
@@ -171,9 +172,9 @@ public class CartService {
                      cartProduct.setQuantity(1);
 
                      CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
-                     Long idResponse = cartProductResponse.getId();
+                     UUID idResponse = cartProductResponse.getId();
 
-                     if (idResponse != null && idResponse > 0) {
+                     if (idResponse != null) { // TODO: реализовать проверку UUID
                         return cartMapper.convertToCartProductDto(cartProductResponse);
 
                      } else {
@@ -184,7 +185,7 @@ public class CartService {
                   throw new CartException("Customer or product not found");
                }
             } else {
-               throw new RestaurantException(
+               throw new RestaurantNotFoundException(
                        String.format("Restaurant not found in the database with Id=%d!", +
                                productDto.getRestaurantDto().getId()));
             }
@@ -197,14 +198,14 @@ public class CartService {
    }
 
    // GET ALL PRODUCTS IN CUSTOMER CART
-   public List<CartProductDto> getCartProductsByCartId(Long cartId) {
+   public List<CartProductDto> getCartProductsByCartId(UUID cartId) {
       CustomerDto customerDto = getCustomerByCartId(cartId);
       return customerDto.getCartDto().getCartProductsDto();
    }
 
 
    // CUSTOMER CART SIZE
-   public int getCartProductsSize(Long cartId) {
+   public int getCartProductsSize(UUID cartId) {
 
       if (cartId != null) {
          List<CartProductDto> cartProductsDto = getCartProductsByCartId(cartId);
@@ -218,7 +219,7 @@ public class CartService {
    }
 
    // TOTAL CART PRICE
-   public BigDecimal getTotalCartById(Long cartId) {
+   public BigDecimal getTotalCartById(UUID cartId) {
       List<CartProductDto> cartProductsDto = getCartProductsByCartId(cartId);
       BigDecimal sum = BigDecimal.ZERO;
 
@@ -284,9 +285,9 @@ public class CartService {
                               order.setOrderStatus(OrderStatus.CREATED);
 
                               Order orderResponse = orderRepository.save(order); // ====================================
-                              Long orderResponseId = orderResponse.getId();
+                              UUID orderResponseId = orderResponse.getId();
 
-                              if (orderResponse != null && orderResponseId > 0) {
+                              if (orderResponse != null && !orderResponseId.toString().isEmpty()) { // TODO: реализовать проверку UUID
                                  // CREATE LIST ORDER PRODUCTS
                                  List<OrderProduct> orderProducts = new ArrayList<>();
 
@@ -299,7 +300,7 @@ public class CartService {
                                     if (cartProduct.getProduct() != null) {
                                        orderProduct.setProduct(cartProduct.getProduct());
                                     } else {
-                                       throw new ProductException("Product not found to add to order");
+                                       throw new ProductNotFoundException("Product not found to add to order");
                                     }
 
                                     orderProducts.add(orderProduct);
@@ -316,17 +317,17 @@ public class CartService {
                               throw new OrderException("Payment for the order did not go through");
                            }
                         } else {
-                           throw new RestaurantException( // check is open restaurant
+                           throw new RestaurantNotFoundException( // check is open restaurant
                                    String.format("Sorry, We are closed, try during opening hours.%n«%s» - %s",
                                            restaurant.getName(), restaurant.getOpeningHours()));
                         }
                      } else {
-                        throw new RestaurantException(
+                        throw new RestaurantNotFoundException(
                                 String.format("Restaurant not found with ID=%d",
                                         restaurantId));
                      }
                   } else {
-                     throw new RestaurantException("Restaurant not FOUND!");
+                     throw new RestaurantNotFoundException("Restaurant not FOUND!");
                   }
                } else {
                   throw new CartException("Cart is EMPTY! First add products to cart");
@@ -345,7 +346,7 @@ public class CartService {
    }
 
    // PAY VALIDATION
-   public Boolean isPay(Long customerId, Long cartId) {
+   public Boolean isPay(UUID customerId, UUID cartId) {
       return true;
    }
 }

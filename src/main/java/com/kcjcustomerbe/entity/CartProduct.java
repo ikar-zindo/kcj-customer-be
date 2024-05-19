@@ -1,17 +1,21 @@
 package com.kcjcustomerbe.entity;
 
+import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "cart_product")
 public class CartProduct {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(generator = "UUID")
+   @GenericGenerator(name = "UUID", type = UuidTimeSequenceGenerator.class)
    @Column(name = "cart_product_id")
-   private Long id;
+   private UUID id;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "cart_id")
@@ -30,11 +34,11 @@ public class CartProduct {
    public CartProduct() {
    }
 
-   public Long getId() {
+   public UUID getId() {
       return id;
    }
 
-   public void setId(Long id) {
+   public void setId(UUID id) {
       this.id = id;
    }
 
@@ -75,7 +79,7 @@ public class CartProduct {
 
       private CartProduct cartProduct = new CartProduct();
 
-      public Builder id(Long id) {
+      public Builder id(UUID id) {
          cartProduct.id = id;
          return this;
       }

@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 public class CartProductDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Long id;
+   private UUID id;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cart")
@@ -28,11 +29,11 @@ public class CartProductDto {
    public CartProductDto() {
    }
 
-   public Long getId() {
+   public UUID getId() {
       return id;
    }
 
-   public void setId(Long id) {
+   public void setId(UUID id) {
       this.id = id;
    }
 
@@ -73,7 +74,7 @@ public class CartProductDto {
 
       private CartProductDto cartProductDto = new CartProductDto();
 
-      public Builder id(Long id) {
+      public Builder id(UUID id) {
          cartProductDto.id = id;
          return this;
       }
