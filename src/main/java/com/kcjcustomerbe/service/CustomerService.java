@@ -12,16 +12,13 @@ import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CustomerService implements UserDetailsService {
+public class CustomerService {
 
    private final CustomerMapper mapper;
 
@@ -53,19 +50,6 @@ public class CustomerService implements UserDetailsService {
       this.cartProductRepository = cartProductRepository;
       this.productRepository = productRepository;
       this.menuService = menuService;
-   }
-
-   // TODO: Security
-   // READ
-   @Override
-   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      UserDetails customer = customerRepository.findByEmail(username);
-
-      if (customer == null) {
-         throw new UsernameNotFoundException("Customer not found!");
-      }
-
-      return customer;
    }
 
    public CustomerDto getCustomerById(UUID customerId) throws CustomerNotFoundException {

@@ -5,12 +5,8 @@ import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "customer")
-public class Customer implements UserDetails {
+public class Customer {
 
    @Id
    @GeneratedValue(generator = "UUID")
@@ -56,6 +52,9 @@ public class Customer implements UserDetails {
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime createdAt;
 
+   @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+   private LocalDateTime updatedAt;
+
    @Enumerated(EnumType.STRING)
    @Column(name = "role")
    private Role role;
@@ -71,39 +70,4 @@ public class Customer implements UserDetails {
 
    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
    private List<Review> reviews;
-
-   @Override
-   public Collection<? extends GrantedAuthority> getAuthorities() {
-      return AuthorityUtils.createAuthorityList(String.valueOf(this.role));
-   }
-
-   @Override
-   public String getPassword() {
-      return password;
-   }
-
-   @Override
-   public String getUsername() {
-      return email; // authorization by email
-   }
-
-   @Override
-   public boolean isAccountNonExpired() {
-      return true;
-   }
-
-   @Override
-   public boolean isAccountNonLocked() {
-      return !isBlocked;
-   }
-
-   @Override
-   public boolean isCredentialsNonExpired() {
-      return true;
-   }
-
-   @Override
-   public boolean isEnabled() {
-      return true;
-   }
 }

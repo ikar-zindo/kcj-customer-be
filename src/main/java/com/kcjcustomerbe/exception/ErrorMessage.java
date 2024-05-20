@@ -3,6 +3,8 @@ package com.kcjcustomerbe.exception;
 public class ErrorMessage {
 
    // GLOBAL EXCEPTION MASSAGES
+   public static final String NULL_POINTER = "Null pointer";
+
    public static final String NULL_ID = "ID cannot be NULL";
    public static final String ID_NOT_FOUND = "Passed ID not found=";
    public static final String INVALID_ID = "It is not UUID format";

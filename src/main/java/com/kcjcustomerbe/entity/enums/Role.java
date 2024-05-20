@@ -1,9 +1,7 @@
 package com.kcjcustomerbe.entity.enums;
 
 
-import org.springframework.security.core.GrantedAuthority;
-
-public enum Role implements GrantedAuthority {
+public enum Role {
 
    ROLE_CUSTOMER("ROLE_CUSTOMER");
 
@@ -11,10 +9,5 @@ public enum Role implements GrantedAuthority {
 
    Role(String value) {
       this.value = value;
-   }
-
-   @Override
-   public String getAuthority() {
-      return value;
    }
 }

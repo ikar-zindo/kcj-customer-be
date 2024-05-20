@@ -68,6 +68,9 @@ public class CustomerDto {
    private LocalDateTime createdAt;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
+   private LocalDateTime updatedAt;
+
+   @JsonInclude(JsonInclude.Include.NON_NULL)
    private Role role;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)

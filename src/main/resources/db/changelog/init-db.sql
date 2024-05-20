@@ -32,6 +32,7 @@ CREATE TABLE `customer` (
   address VARCHAR(120),
   postal_code VARCHAR(5),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP,
   role ENUM('ROLE_CUSTOMER'),
   is_blocked BOOL DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;

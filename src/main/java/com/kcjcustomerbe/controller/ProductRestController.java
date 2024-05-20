@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.controller.rest;
+package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.service.MenuService;

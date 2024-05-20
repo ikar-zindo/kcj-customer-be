@@ -13,15 +13,4 @@ public enum OrderStatus {
    OrderStatus(String value) {
       this.value = value;
    }
-
-   public String getColor(OrderStatus status) {
-      return switch (status) {
-         case CREATED -> "primary";
-         case COOKING -> "warning";
-         case DELIVERING -> "info";
-         case COMPLETED -> "success";
-         case CANCELLED -> "danger";
-         default -> "secondary";
-      };
-   }
 }
