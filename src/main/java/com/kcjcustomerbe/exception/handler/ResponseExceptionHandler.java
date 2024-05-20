@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.exception.hendler;
+package com.kcjcustomerbe.exception.handler;
 
 import com.kcjcustomerbe.exception.list.*;
 import jakarta.validation.ConstraintViolationException;

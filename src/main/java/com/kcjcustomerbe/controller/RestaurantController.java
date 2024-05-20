@@ -35,7 +35,6 @@ public class RestaurantController {
       return "restaurant/all";
    }
 
-
    // READ - RESTAURANT
    @GetMapping("/{id}")
    public String getRestaurantByIdWithProducts(@PathVariable Long id,

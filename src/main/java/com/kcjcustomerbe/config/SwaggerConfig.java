@@ -23,9 +23,11 @@ public class SwaggerConfig {
               .info(new Info()
                       .title("REST API K-CURRY-JIB")
                       .description("RESTful API for managing awesome features.")
-                      .version("1.0")
+                      .version("1.2.0")
                       .contact(new Contact()
-                              .name("K-Curry Jib").email( "www.k-curry-jib.com").url("root@k-curry-jib.com"))
+                              .name("K-Curry Jib")
+                              .email("root@k-curry-jib.com")
+                              .url("https://github.com/ikar-zindo?tab=repositories"))
                       .license(new License()
                               .name("License of API").url("API license URL")));
    }

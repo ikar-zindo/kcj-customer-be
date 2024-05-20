@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.exception.hendler;
+package com.kcjcustomerbe.exception.handler;
 
 import lombok.Value;
 import org.springframework.http.HttpStatus;

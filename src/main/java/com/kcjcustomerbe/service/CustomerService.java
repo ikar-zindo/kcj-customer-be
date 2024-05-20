@@ -2,7 +2,9 @@ package com.kcjcustomerbe.service;
 
 import com.kcjcustomerbe.dto.CustomerDto;
 import com.kcjcustomerbe.entity.Customer;
+import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
+import com.kcjcustomerbe.exception.list.IdNullException;
 import com.kcjcustomerbe.mapper.CustomerMapper;
 import com.kcjcustomerbe.mapper.ProductMapper;
 import com.kcjcustomerbe.repo.CartProductRepository;
@@ -53,10 +55,10 @@ public class CustomerService implements UserDetailsService {
       this.menuService = menuService;
    }
 
+   // TODO: Security
    // READ
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//      UserDetails customer = customerRepository.findByUsername(username);
       UserDetails customer = customerRepository.findByEmail(username);
 
       if (customer == null) {
@@ -76,12 +78,10 @@ public class CustomerService implements UserDetailsService {
             customerDto = mapper.customerInfoDelivery(customerOptional.get());
 
          } else {
-            throw new CustomerNotFoundException(
-                    String.format("Customer not found in database with id=%d",
-                            customerId));
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
          }
       } else {
-         throw new CustomerNotFoundException("There is no customer ID to search for!");
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
       }
 
       return customerDto;
@@ -97,12 +97,10 @@ public class CustomerService implements UserDetailsService {
             customerDto = mapper.customerInfoDelivery(customerOptional.get());
 
          } else {
-            throw new CustomerNotFoundException(
-                    String.format("Customer not found in database with id=%d",
-                            cartId));
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
          }
       } else {
-         throw new CustomerNotFoundException("There is no customer ID to search for!");
+         throw new IdNullException(ErrorMessage.CART_NOT_FOUND);
       }
 
       return customerDto;

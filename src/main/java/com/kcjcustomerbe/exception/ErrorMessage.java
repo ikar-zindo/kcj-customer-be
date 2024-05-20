@@ -14,6 +14,7 @@ public class ErrorMessage {
    public static final String CUSTOMER_IS_NULL = "Customer not passed to method";
 
    // CART EXCEPTION MASSAGES
+   public static final String CART_NOT_FOUND = "The customer was not found!!";
    public static final String CART_EXCEPTION = "Unable to add item to cart";
    public static final String CART_IS_EMPTY = "Cart is EMPTY! First add products to cart";
    public static final String CART_ID_NOT_FOUND = "Cart not found with ID=";
@@ -22,8 +23,9 @@ public class ErrorMessage {
            "Cart contains products from different restaurants. Place an order from 1 restaurant";
 
    // PRODUCTS EXCEPTION MASSAGES
+   public static final String PRODUCT_NOT_FOUND = "Products not found";
    public static final String PRODUCTS_NOT_FOUND = "Products not found";
-   public static final String PRODUCTS_ID_NOT_FOUND = "Products not found in database with ID=";
+   public static final String PRODUCT_ID_NOT_FOUND = "Products not found in database with ID=";
 
    // ORDER EXCEPTION MASSAGES
    public static final String ORDER_NOT_SAVED = "The order was not saved to the database";

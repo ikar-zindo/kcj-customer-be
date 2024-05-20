@@ -181,7 +181,7 @@ public class CartService {
                         }
                      }
                   } else {
-                     throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
+                     throw new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
                   }
                } else {
                   throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
@@ -190,7 +190,7 @@ public class CartService {
                throw new RestaurantNotFoundException(ErrorMessage.RESTAURANT_ID_NOT_FOUND + productDto.getRestaurantDto().getId());
             }
          } else {
-            throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
+            throw new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
          }
       } else {
          throw new IdNullException(ErrorMessage.NULL_ID);
@@ -299,7 +299,7 @@ public class CartService {
                                     if (cartProduct.getProduct() != null) {
                                        orderProduct.setProduct(cartProduct.getProduct());
                                     } else {
-                                       throw new ProductNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
+                                       throw new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
                                     }
 
                                     orderProducts.add(orderProduct);
@@ -333,10 +333,10 @@ public class CartService {
                throw new CartNotFoundException(ErrorMessage.CART_ID_NOT_FOUND + customer.getId());
             }
          } else {
-            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerDto.getId());
          }
       } else {
-         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerDto.getId());
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
       }
    }
 

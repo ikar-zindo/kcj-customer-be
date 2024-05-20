@@ -58,12 +58,10 @@ public class MenuService {
             productDto = productMapper.showProductDetails(productOptional.get());
 
          } else {
-            throw new ProductNotFoundException(
-                    String.format("Product not found in database with id=%d",
-                            id));
+            throw new ProductNotFoundException(ErrorMessage.PRODUCT_ID_NOT_FOUND + id);
          }
       } else {
-         throw new ProductNotFoundException("There is no product ID to search for!");
+         throw new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
       }
 
       return productDto;

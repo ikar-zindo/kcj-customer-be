@@ -32,15 +32,19 @@ public class SecurityConfig {
               )
               .authorizeHttpRequests(auth -> auth
                               .requestMatchers(
-//                                      "/**",
+                                      "/**",
                                       "/",
                                       "/error",
                                       "/assets/**",
                                       "/images/**",
-                                      "/swagger-ui/**",
-                                      "/h2-console/**",
                                       "/menu/**",
-                                      "/restaurant/**"
+                                      "/restaurant/**",
+                                      "/rest/**",
+                                      "/rest/product/**",
+                                      "/swagger-ui.html",
+                                      "/swagger-ui/**",
+                                      "/v3/api-docs/**",
+                                      "/api/v1/auth/"
                               )
                               .permitAll()
 //                              .requestMatchers(
