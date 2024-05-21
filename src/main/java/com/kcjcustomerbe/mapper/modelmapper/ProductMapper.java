@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.mapper;
+package com.kcjcustomerbe.mapper.modelmapper;
 
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.dto.RestaurantDto;

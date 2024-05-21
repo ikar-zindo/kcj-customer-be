@@ -2,18 +2,25 @@ package com.kcjcustomerbe.exception.handler;
 
 import com.kcjcustomerbe.exception.list.*;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.context.annotation.Description;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
-public class ResponseExceptionHandler {
+public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
    // GLOBAL EXCEPTION
    @ExceptionHandler(IdNullException.class)
@@ -30,6 +37,21 @@ public class ResponseExceptionHandler {
       return new ResponseEntity<>(new ErrorExtension(
               e.getMessage(), HttpStatus.NOT_FOUND),
               NOT_FOUND);
+   }
+
+   @Override
+   protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                 HttpHeaders headers,
+                                                                 HttpStatusCode status,
+                                                                 WebRequest request) {
+      Map<String, String> errors = new HashMap<>();
+      ex.getBindingResult().getAllErrors().forEach((error) -> {
+         String fieldName = ((FieldError) error).getField();
+         String errorMessage = error.getDefaultMessage();
+         errors.put(fieldName, errorMessage);
+      });
+      ErrorExtension errorExtension = new ErrorExtension(errors.toString(), BAD_REQUEST);
+      return new ResponseEntity<>(errorExtension, BAD_REQUEST);
    }
 
    // CUSTOMER EXCEPTIONS
@@ -112,16 +134,18 @@ public class ResponseExceptionHandler {
    }
 
    // CATCHING INVALID UUID
-   @Description(value = "Catching an invalid UUID using ConstraintViolationException.class")
-   @ExceptionHandler(value = { ConstraintViolationException.class, InvalidIdException.class})
-   public ResponseEntity<Object> handleInvalidIdException(RuntimeException e, WebRequest request) {
-      String errorMessage = e.getMessage();
-      HttpStatus errorCode = HttpStatus.BAD_REQUEST;
+   @ExceptionHandler(InvalidIdException.class)
+   @ResponseStatus(BAD_REQUEST)
+   public ResponseEntity<ErrorExtension> handleInvalidIdException(InvalidIdException e) {
+      return new ResponseEntity<>(new ErrorExtension(
+              e.getMessage(), BAD_REQUEST),
+              BAD_REQUEST);
+   }
 
-      if (e instanceof ConstraintViolationException) {
-         errorMessage = ((ConstraintViolationException) e).getMessage();
-      }
-
+   @ExceptionHandler(ConstraintViolationException.class)
+   protected ResponseEntity<Object> handleConstraintViolationException(RuntimeException ex, WebRequest request) {
+      String errorMessage = ex.getMessage();
+      HttpStatus errorCode = BAD_REQUEST;
       ErrorExtension errorExtension = new ErrorExtension(errorMessage, errorCode);
       return new ResponseEntity<>(errorExtension, errorCode);
    }

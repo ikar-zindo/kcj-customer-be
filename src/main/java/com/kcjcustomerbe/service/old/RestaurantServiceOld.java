@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.service;
+package com.kcjcustomerbe.service.old;
 
 import com.kcjcustomerbe.config.MapperUtil;
 import com.kcjcustomerbe.dto.RestaurantDto;
@@ -8,7 +8,7 @@ import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.IdNotFoundException;
 import com.kcjcustomerbe.exception.list.RestaurantNotFoundException;
 import com.kcjcustomerbe.exception.list.RestaurantsListException;
-import com.kcjcustomerbe.mapper.RestaurantMapper;
+import com.kcjcustomerbe.mapper.modelmapper.RestaurantMapper;
 import com.kcjcustomerbe.repo.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RestaurantService {
+public class RestaurantServiceOld {
 
    private final RestaurantRepository repository;
 
    private final RestaurantMapper mapper;
 
    @Autowired
-   public RestaurantService(RestaurantRepository repository,
-                            RestaurantMapper mapper) {
+   public RestaurantServiceOld(RestaurantRepository repository,
+                               RestaurantMapper mapper) {
 
       this.repository = repository;
       this.mapper = mapper;

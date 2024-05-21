@@ -14,6 +14,8 @@ public class ErrorMessage {
    public static final String CUSTOMER_NOT_FOUND = "The customer was not found!!";
    public static final String CUSTOMER_ID_NOT_FOUND = "The customer was not found with ID=";
    public static final String CUSTOMER_IS_NULL = "Customer not passed to method";
+   public static final String EMAIL_ALREADY_EXISTS = "A client with the same email already exists";
+   public static final String USERNAME_ALREADY_EXISTS = "A client with the same username already exists";
 
    // CART EXCEPTION MASSAGES
    public static final String CART_NOT_FOUND = "The customer was not found!!";

@@ -1,10 +1,10 @@
-package com.kcjcustomerbe.service;
+package com.kcjcustomerbe.service.old;
 
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.entity.Product;
 import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.ProductNotFoundException;
-import com.kcjcustomerbe.mapper.ProductMapper;
+import com.kcjcustomerbe.mapper.modelmapper.ProductMapper;
 import com.kcjcustomerbe.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class MenuService {
+public class MenuServiceOld {
 
    private final ProductRepository productRepository;
 
    private final ProductMapper productMapper;
 
    @Autowired
-   public MenuService(ProductRepository productRepository,
-                      ProductMapper productMapper) throws ProductNotFoundException {
+   public MenuServiceOld(ProductRepository productRepository,
+                         ProductMapper productMapper) throws ProductNotFoundException {
 
       this.productRepository = productRepository;
       this.productMapper = productMapper;

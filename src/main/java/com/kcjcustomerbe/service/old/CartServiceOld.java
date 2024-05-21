@@ -1,13 +1,13 @@
-package com.kcjcustomerbe.service;
+package com.kcjcustomerbe.service.old;
 
 import com.kcjcustomerbe.dto.*;
 import com.kcjcustomerbe.entity.*;
 import com.kcjcustomerbe.entity.enums.OrderStatus;
 import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.*;
-import com.kcjcustomerbe.mapper.CartMapper;
-import com.kcjcustomerbe.mapper.CustomerMapper;
-import com.kcjcustomerbe.mapper.OrderMapper;
+import com.kcjcustomerbe.mapper.modelmapper.CartMapper;
+import com.kcjcustomerbe.mapper.modelmapper.CustomerMapper;
+import com.kcjcustomerbe.mapper.modelmapper.OrderMapper;
 import com.kcjcustomerbe.repo.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class CartService {
+public class CartServiceOld {
 
    private final CartMapper cartMapper;
 
@@ -43,23 +43,23 @@ public class CartService {
 
    private final OrderProductRepository orderProductRepository;
 
-   private final MenuService menuService;
+   private final MenuServiceOld menuServiceOld;
 
-   private final CustomerService customerService;
+   private final CustomerServiceOld customerServiceOld;
 
    @Autowired
-   public CartService(CartMapper cartMapper,
-                      OrderMapper orderMapper,
-                      CustomerMapper customerMapper,
-                      CustomerRepository customerRepository,
-                      CartRepository cartRepository,
-                      CartProductRepository cartProductRepository,
-                      ProductRepository productRepository,
-                      RestaurantRepository restaurantRepository,
-                      OrderRepository orderRepository,
-                      OrderProductRepository orderProductRepository,
-                      MenuService menuService,
-                      CustomerService customerService) {
+   public CartServiceOld(CartMapper cartMapper,
+                         OrderMapper orderMapper,
+                         CustomerMapper customerMapper,
+                         CustomerRepository customerRepository,
+                         CartRepository cartRepository,
+                         CartProductRepository cartProductRepository,
+                         ProductRepository productRepository,
+                         RestaurantRepository restaurantRepository,
+                         OrderRepository orderRepository,
+                         OrderProductRepository orderProductRepository,
+                         MenuServiceOld menuServiceOld,
+                         CustomerServiceOld customerServiceOld) {
 
       this.cartMapper = cartMapper;
       this.customerMapper = customerMapper;
@@ -73,8 +73,8 @@ public class CartService {
       this.orderRepository = orderRepository;
       this.orderProductRepository = orderProductRepository;
 
-      this.menuService = menuService;
-      this.customerService = customerService;
+      this.menuServiceOld = menuServiceOld;
+      this.customerServiceOld = customerServiceOld;
    }
 
    // READ - CUSTOMER
@@ -138,8 +138,8 @@ public class CartService {
    public CartProductDto addProductToCustomerCart(UUID cartId, Long productId) {
 
       if (cartId != null && productId != null) {
-         CustomerDto customerDto = customerService.getCustomerByCartId(cartId);
-         ProductDto productDto = menuService.getProductById(productId);
+         CustomerDto customerDto = customerServiceOld.getCustomerByCartId(cartId);
+         ProductDto productDto = menuServiceOld.getProductById(productId);
 
          if (productDto != null && productDto.getId() != null) {
             RestaurantDto restaurantDto = productDto.getRestaurantDto();
