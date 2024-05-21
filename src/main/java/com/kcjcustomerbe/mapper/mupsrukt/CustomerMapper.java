@@ -18,12 +18,13 @@ public interface CustomerMapper {
    @Mapping(target = "address", source = "address")
    @Mapping(target = "postalCode", source = "postalCode")
    @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
+//   @Mapping(target = "cart.getCustomer", source = "cart")
    Customer toEntity(CustomerCreateDto customerCreateDto);
 
    @AfterMapping
-   default void createdUserInfo(@MappingTarget Customer customer, CustomerCreateDto customerCreateDto) {
+   default void createCart(@MappingTarget Customer customer) {
       Cart cart = new Cart();
-      cart.setCustomer(toEntity(customerCreateDto));
+      cart.setCustomer(customer);
       customer.setCart(cart);
    }
 

@@ -63,6 +63,14 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
               NOT_FOUND);
    }
 
+   @ExceptionHandler(CustomerIsExistException.class)
+   @ResponseStatus(CONFLICT)
+   public ResponseEntity<ErrorExtension> handleCustomerIsExistException(CustomerIsExistException e) {
+      return new ResponseEntity<>(new ErrorExtension(
+              e.getMessage(), CONFLICT),
+              CONFLICT);
+   }
+
    // CART EXCEPTIONS
    @ExceptionHandler(CartNotFoundException.class)
    @ResponseStatus(NOT_FOUND)

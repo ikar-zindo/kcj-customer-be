@@ -2,7 +2,9 @@ package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.annotation.*;
 import com.kcjcustomerbe.dto.customer.CustomerAfterCreateDto;
+import com.kcjcustomerbe.dto.customer.CustomerAfterUpdateDto;
 import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
+import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.service.impl.CustomerServiceImpl;
 import jakarta.validation.Valid;
@@ -22,7 +24,7 @@ public class CustomerController {
 
    @CreateCustomer(path = "/creat")
    public CustomerAfterCreateDto registrationCustomer(
-           @Valid @RequestBody CustomerCreateDto customerCreateDto) throws NullPointerException {
+           @Valid @RequestBody CustomerCreateDto customerCreateDto) {
 
       return customerService.registrationCustomer(customerCreateDto);
    }
@@ -30,5 +32,12 @@ public class CustomerController {
    @GetCustomer(path = "/{id}")
    public Customer getCustomerById(@UuidFormatChecker @PathVariable("id") String customerId) {
       return customerService.getCustomerById(UUID.fromString(customerId));
+   }
+
+   @PutMapping("/{id}/")
+   public CustomerAfterUpdateDto updateUser(@UuidFormatChecker @PathVariable("id") String id,
+                                            @RequestBody CustomerUpdateDto customerUpdateDto) {
+
+      return customerService.updateCustomerInfo(UUID.fromString(id), customerUpdateDto);
    }
 }
