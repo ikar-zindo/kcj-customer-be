@@ -6,27 +6,22 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
+@Value
 public class OrderProductDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private UUID id;
+   UUID id;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private int quantity;
+   int quantity;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("order")
-   private OrderDto orderDto;
+   OrderDto orderDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("product")
-   private ProductDto productDto;
+   ProductDto productDto;
 }
 
 

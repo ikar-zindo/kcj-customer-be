@@ -1,16 +1,13 @@
 package com.kcjcustomerbe.service.impl;
 
-import com.kcjcustomerbe.dto.customer.CustomerAfterCreateDto;
-import com.kcjcustomerbe.dto.customer.CustomerAfterUpdateDto;
-import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
-import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
+import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.entity.enums.Role;
 import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.CustomerIsExistException;
 import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
 import com.kcjcustomerbe.exception.list.IdNullException;
-import com.kcjcustomerbe.mapper.mupsrukt.CustomerMapper;
+import com.kcjcustomerbe.mapper.mapsruct.CustomerMapper;
 import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.service.CustomerService;
@@ -40,11 +37,11 @@ public class CustomerServiceImpl implements CustomerService {
       if (optionalCustomerByUsername.isEmpty()) {
          if (optionalCustomerByEmail.isEmpty()) {
 
-            Customer customer = customerMapper.toEntity(customerCreateDto);
+            Customer customer = customerMapper.createCustomerFromDto(customerCreateDto);
             customer.setRole(Role.ROLE_CUSTOMER);
             Customer afterCreate = customerRepository.save(customer);
 
-            return customerMapper.toAfterCreateDto(afterCreate);
+            return customerMapper.convertToCustomerAfterCreateDto(afterCreate);
 
          } else {
             throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
@@ -56,11 +53,11 @@ public class CustomerServiceImpl implements CustomerService {
 
    @Override
    @Transactional
-   public Customer getCustomerById(UUID customerId) throws IdNullException {
+   public CustomerDto getCustomerById(UUID customerId) throws IdNullException {
       Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
       if (customerOptional.isPresent()) {
-         return customerOptional.get();
+         return customerMapper.convertToCustomerDto(customerOptional.get());
 
       } else {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);

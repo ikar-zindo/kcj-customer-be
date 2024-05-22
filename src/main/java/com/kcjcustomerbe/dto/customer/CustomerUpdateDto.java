@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.dto.customer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -31,4 +32,6 @@ public class CustomerUpdateDto {
 
    @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "{validation.customer.postalCode}")
    String postalCode;
+
+   Boolean isBlocked;
 }

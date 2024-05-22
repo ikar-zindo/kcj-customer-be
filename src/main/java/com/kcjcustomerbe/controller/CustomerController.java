@@ -1,10 +1,7 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.annotation.*;
-import com.kcjcustomerbe.dto.customer.CustomerAfterCreateDto;
-import com.kcjcustomerbe.dto.customer.CustomerAfterUpdateDto;
-import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
-import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
+import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.service.impl.CustomerServiceImpl;
 import jakarta.validation.Valid;
@@ -22,7 +19,7 @@ public class CustomerController {
 
    private final CustomerServiceImpl customerService;
 
-   @CreateCustomer(path = "/creat")
+   @CreateCustomer
    public CustomerAfterCreateDto registrationCustomer(
            @Valid @RequestBody CustomerCreateDto customerCreateDto) {
 
@@ -30,11 +27,11 @@ public class CustomerController {
    }
 
    @GetCustomer(path = "/{id}")
-   public Customer getCustomerById(@UuidFormatChecker @PathVariable("id") String customerId) {
+   public CustomerDto getCustomerById(@UuidFormatChecker @PathVariable("id") String customerId) {
       return customerService.getCustomerById(UUID.fromString(customerId));
    }
 
-   @PutMapping("/{id}/")
+   @PutMapping("/{id}")
    public CustomerAfterUpdateDto updateUser(@UuidFormatChecker @PathVariable("id") String id,
                                             @RequestBody CustomerUpdateDto customerUpdateDto) {
 

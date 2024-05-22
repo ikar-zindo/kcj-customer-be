@@ -2,27 +2,23 @@ package com.kcjcustomerbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
 import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
+@Value
 public class CartDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private UUID id;
+   UUID id;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("customer")
-   private CustomerDto customerDto;
+   CustomerDto customerDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("customerProducts")
-   private List<CartProductDto> cartProductsDto;
+   List<CartProductDto> cartProductsDto;
 }

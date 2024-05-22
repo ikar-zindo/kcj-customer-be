@@ -14,51 +14,39 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
+@Value
 public class ProductDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Long id;
+   Long id;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   @NotEmpty(message = "{validation.length.empty}")
-   @Length(max = 25, message = "{validation.length.max.25}")
-   private String name;
+   String name;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   @NotEmpty(message = "{validation.length.empty}")
-   @Length(max = 1000, message = "{validation.length.max.1000}")
-   private String description;
+   String description;
 
    @NotNull(message = "{validation.value.null}")
-   @DecimalMin(value = "0.01", message = "{validation.product.price}")
-   @DecimalMax(value = "10000", message = "{validation.product.price.value}")
-   private BigDecimal price;
+   BigDecimal price;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private String imageUrl;
+   String imageUrl;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private LocalDateTime createdAt;
+   LocalDateTime createdAt;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private boolean isAvailable;
+   boolean isAvailable;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("restaurant")
-   @NotNull(message = "{validation.value.null}")
-   private RestaurantDto restaurantDto;
+   RestaurantDto restaurantDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cartProducts")
-   private List<CartProductDto> cartProductsDto;
+   List<CartProductDto> cartProductsDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("orderProducts")
-   private List<OrderProductDto> orderProductsDto;
+   List<OrderProductDto> orderProductsDto;
 }

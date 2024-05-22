@@ -13,8 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -62,7 +60,7 @@ public class Customer {
    @Column(name = "is_blocked")
    private Boolean isBlocked;
 
-   @OneToOne(mappedBy = "customer")
+   @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
    private Cart cart;
 
    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)

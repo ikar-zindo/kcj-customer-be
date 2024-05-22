@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.dto.customer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -39,4 +40,6 @@ public class CustomerCreateDto {
    @NotEmpty(message = "{validation.length.empty}")
    @Pattern(regexp = "^\\d{5}$", message = "{validation.customer.postalCode}")
    String postalCode;
+
+   Boolean isBlocked;
 }

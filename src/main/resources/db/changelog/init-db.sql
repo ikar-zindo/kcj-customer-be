@@ -1,6 +1,6 @@
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+01:00";
+-- SET AUTOCOMMIT = 0;
+-- START TRANSACTION;
+-- SET time_zone = "+01:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -8,8 +8,26 @@ SET time_zone = "+01:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE SCHEMA IF NOT EXISTS `kcj-db` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
-USE `kcj-db`;
+-- CREATE SCHEMA IF NOT EXISTS `kcj-db` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+-- USE `kcj-db`;
+
+drop table if exists `cart_product`;
+
+drop table if exists `order_product`;
+
+drop table if exists `product`;
+
+drop table if exists `cart`;
+
+drop table if exists `order`;
+
+drop table if exists `review`;
+
+drop table if exists `customer`;
+
+drop table if exists `employee`;
+
+drop table if exists `restaurant`;
 
 --
 -- Database: `k-curry-jib`
@@ -55,7 +73,8 @@ CREATE TABLE `cart_product` (
   cart_id BINARY(16) NOT NULL,
   product_id BIGINT,
   quantity INT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
 
 --

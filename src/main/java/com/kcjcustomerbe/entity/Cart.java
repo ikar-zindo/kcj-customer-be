@@ -1,5 +1,7 @@
 package com.kcjcustomerbe.entity;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,8 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "cart")
 public class Cart {

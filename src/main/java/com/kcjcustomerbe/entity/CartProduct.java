@@ -11,8 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "cart_product")
 public class CartProduct {
@@ -36,4 +34,7 @@ public class CartProduct {
 
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime cratedAt;
+
+   @Column(name = "updated_at")
+   private LocalDateTime updatedAt;
 }

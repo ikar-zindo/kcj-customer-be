@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "review")
 public class Review {
@@ -36,4 +34,7 @@ public class Review {
 
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime createdAt;
+
+   @Column(name = "updated_at")
+   private LocalDateTime updatedAt;
 }

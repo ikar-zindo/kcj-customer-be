@@ -7,28 +7,23 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
+@Value
 public class CartProductDto {
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private UUID id;
+   UUID id;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cart")
-   private CartDto cartDto;
+   CartDto cartDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("product")
-   private ProductDto productDto;
+   ProductDto productDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private int quantity;
+   int quantity;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private LocalDateTime cratedAt;
+   LocalDateTime cratedAt;
 }
