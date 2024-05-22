@@ -11,17 +11,18 @@ import java.util.List;
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
-      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+      uses = RestaurantMapper.class)
 public interface ProductMapper {
 
    /**
     * This method takes a `Product` object and maps it to a `ProductDto`.
-    *
+    * <p>
     * It maps:
     * - id, name, description, price, imageUrl, isAvailable from the entity to the DTO
     * - It also maps the associated `RestaurantDto`
     *
-    * @param product The `Product` entity to convert.
+    * @param entity The `Product` entity to convert.
     * @return The converted `ProductDto`.
     */
    @Mapping(target = "id", source = "id")
@@ -31,15 +32,15 @@ public interface ProductMapper {
    @Mapping(target = "imageUrl", source = "imageUrl")
    @Mapping(target = "isAvailable", source = "isAvailable")
    @Mapping(target = "restaurantDto", source = "restaurant")
-   ProductDto convertToProductDto(Product product);
+   ProductDto mapToProductDto(Product entity);
 
    /**
     * This method maps the list of `Product` entities to a list of `ProductDto`.
-    *
+    * <p>
     * It leverages the `convertToProductDto` method for the mapping of individual `Product` entities.
     *
     * @param products The list of `Product` entities to convert.
     * @return The converted list of `ProductDto`.
     */
-   List<ProductDto> convertToProductsDto(List<Product> products);
+   List<ProductDto> mapToProductsDto(List<Product> products);
 }

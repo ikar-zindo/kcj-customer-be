@@ -140,6 +140,13 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
               e.getMessage(), BAD_REQUEST),
               BAD_REQUEST);
    }
+   @ExceptionHandler(ReviewEmptyException.class)
+   @ResponseStatus(NOT_FOUND)
+   public ResponseEntity<ErrorExtension> handleReviewEmptyException(Exception e) {
+      return new ResponseEntity<>(new ErrorExtension(
+            e.getMessage(), NOT_FOUND),
+            NOT_FOUND);
+   }
 
    // CATCHING INVALID UUID
    @ExceptionHandler(InvalidIdException.class)

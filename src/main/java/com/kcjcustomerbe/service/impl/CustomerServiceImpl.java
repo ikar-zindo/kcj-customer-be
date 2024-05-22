@@ -37,11 +37,11 @@ public class CustomerServiceImpl implements CustomerService {
       if (optionalCustomerByUsername.isEmpty()) {
          if (optionalCustomerByEmail.isEmpty()) {
 
-            Customer customer = customerMapper.createCustomerFromDto(customerCreateDto);
+            Customer customer = customerMapper.mapCustomerFromDto(customerCreateDto);
             customer.setRole(Role.ROLE_CUSTOMER);
             Customer afterCreate = customerRepository.save(customer);
 
-            return customerMapper.convertToCustomerAfterCreateDto(afterCreate);
+            return customerMapper.mapToCustomerAfterCreateDto(afterCreate);
 
          } else {
             throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
@@ -57,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
       Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
       if (customerOptional.isPresent()) {
-         return customerMapper.convertToCustomerDto(customerOptional.get());
+         return customerMapper.mapToCustomerDto(customerOptional.get());
 
       } else {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);

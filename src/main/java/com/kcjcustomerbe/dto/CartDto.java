@@ -19,6 +19,6 @@ public class CartDto {
    CustomerDto customerDto;
 
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   @JsonProperty("customerProducts")
+   @JsonProperty("cartProducts")
    List<CartProductDto> cartProductsDto;
 }

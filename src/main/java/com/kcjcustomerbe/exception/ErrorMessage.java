@@ -4,7 +4,6 @@ public class ErrorMessage {
 
    // GLOBAL EXCEPTION MASSAGES
    public static final String NULL_POINTER = "Null pointer";
-
    public static final String NULL_ID = "ID cannot be NULL";
    public static final String ID_NOT_FOUND = "Passed ID not found=";
    public static final String INVALID_ID = "It is not UUID format";
@@ -39,6 +38,11 @@ public class ErrorMessage {
    public static final String RESTAURANT_ID_NOT_FOUND = "Restaurant not found in database with id=";
    public static final String RESTAURANTS_LIST_IS_EMPTY = "Restaurants list is empty";
    public static final String RESTAURANTS_IS_CLOSE = "Sorry, We are closed, try during opening hours.%n«%s» - %s";
+
+   // REVIEW EXCEPTION MASSAGES
+   public static final String REVIEW_ID_NOT_FOUND = "Review not found with id=";
+   public static final String REVIEWS_NOT_FOUND = "Reviews list is empty";
+   public static final String REVIEW_BODY_IS_EMPTY = "Reviews body is empty";
 
    // PAYMENT EXCEPTION MASSAGES
    public static final String PAYMENT_NOT_THROUGH = "Payment for the order did not go through";

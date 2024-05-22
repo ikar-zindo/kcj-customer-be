@@ -8,6 +8,9 @@ import org.mapstruct.*;
 
 import java.util.List;
 
+/**
+ * This mapper helps in the conversion between `Order` entity and `OrderDto`
+ */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
       nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
@@ -25,7 +28,7 @@ public interface OrderMapper {
          @Mapping(target = "orderStatus", source = "entity.orderStatus"),
          @Mapping(target = "orderProductsDto", source = "entity.orderProducts")
    })
-   OrderDto orderToOrderDto(Order entity);
+   OrderDto mapOrderToOrderDto(Order entity);
 
    @Mappings({
          @Mapping(target = "id", source = "dto.id"),
@@ -38,27 +41,27 @@ public interface OrderMapper {
          @Mapping(target = "orderStatus", source = "dto.orderStatus"),
          @Mapping(target = "orderProducts", source = "dto.orderProductsDto")
    })
-   Order orderDtoToOrder(OrderDto dto);
+   Order mapOrderDtoToOrder(OrderDto dto);
 
    @Mappings({
          @Mapping(target = "id", source = "entity.id"),
          @Mapping(target = "quantity", source = "entity.quantity"),
          @Mapping(target = "productDto", source = "entity.product"),
    })
-   OrderProductDto orderProductToOrderProductDto(OrderProduct entity);
+   OrderProductDto mapOrderProductToOrderProductDto(OrderProduct entity);
 
    @Mappings({
          @Mapping(target = "id", source = "dto.id"),
          @Mapping(target = "quantity", source = "dto.quantity"),
          @Mapping(target = "product", source = "dto.productDto"),
    })
-   OrderProduct orderProductDtoToOrderProduct(OrderProductDto dto);
+   OrderProduct mapOrderProductDtoToOrderProduct(OrderProductDto dto);
 
-   List<OrderDto> ordersToOrdersDto(List<Order> entities);
+   List<OrderDto> mapOrdersToOrdersDto(List<Order> entities);
 
-   List<Order> ordersDtoToOrders(List<OrderDto> dtos);
+   List<Order> mapOrdersDtoToOrders(List<OrderDto> dtos);
 
-   List<OrderProductDto> orderProductsToOrderProductsDto(List<OrderProduct> entities);
+   List<OrderProductDto> mapOrderProductsToOrderProductsDto(List<OrderProduct> entities);
 
-   List<OrderProduct> orderProductsDtoToOrderProducts(List<OrderProductDto> dtos);
+   List<OrderProduct> mapOrderProductsDtoToOrderProducts(List<OrderProductDto> dtos);
 }
