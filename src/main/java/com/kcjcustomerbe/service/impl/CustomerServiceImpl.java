@@ -7,7 +7,7 @@ import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.CustomerIsExistException;
 import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
 import com.kcjcustomerbe.exception.list.IdNullException;
-import com.kcjcustomerbe.mapper.mapsruct.CustomerMapper;
+import com.kcjcustomerbe.mapper.CustomerMapper;
 import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.service.CustomerService;

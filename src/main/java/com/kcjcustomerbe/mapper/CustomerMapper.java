@@ -15,20 +15,12 @@ import java.util.List;
 /**
  * This mapper assists in converting between `Customer` entity and its respective DTO objects.
  */
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+      unmappedTargetPolicy = ReportingPolicy.IGNORE,
+      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+      uses = {ProductMapper.class, OrderMapper.class})
 public interface CustomerMapper {
 
-   /**
-    * This method converts a `CustomerCreateDto` to a `Customer` entity.
-    *
-    * It maps:
-    * - firstName, lastName, email, username, password, phoneNumber, address, and postalCode from DTO to entity.
-    * - Sets the `createdAt` field to the current LocalDateTime.
-    * - Sets the `isBlocked` field to false, if not provided in DTO.
-    *
-    * @param customerCreateDto The `CustomerCreateDto` to convert.
-    * @return The converted `Customer` entity.
-    */
    @Mapping(target = "firstName", source = "firstName")
    @Mapping(target = "lastName", source = "lastName")
    @Mapping(target = "email", source = "email")
@@ -41,13 +33,6 @@ public interface CustomerMapper {
    @Mapping(target = "isBlocked", defaultValue = "false")
    Customer createCustomerFromDto(CustomerCreateDto customerCreateDto);
 
-   /**
-    * This method is executes after the `createCustomerFromDto` method.
-    *
-    * It creates a new Cart for the customer, and sets the customer-cart association in both directions.
-    *
-    * @param customer The `Customer` that was created, to associate with a new Cart.
-    */
    @AfterMapping
    default void createCart(@MappingTarget Customer customer) {
       Cart cart = new Cart();
@@ -55,29 +40,12 @@ public interface CustomerMapper {
       customer.setCart(cart);
    }
 
-   /**
-    * This method converts a `Customer` to a `CustomerAfterCreateDto`.
-    *
-    * It simply maps `id` field from entity to DTO.
-    *
-    * @param customerAfterCreation The `Customer` to convert.
-    * @return The converted `CustomerAfterCreateDto`.
-    */
    @Mapping(target = "id", source = "id")
    CustomerAfterCreateDto convertToCustomerAfterCreateDto(Customer customerAfterCreation);
 
 // =====================================================================================================================
 
-   /**
-    * This method converts a `Customer` entity to a `CustomerDto`.
-    *
-    * It maps:
-    * - firstName, lastName, email, username, phoneNumber, address, postalCode, isBlocked from entity to DTO.
-    * - Additionally, it includes mapping from `Customer`'s `Cart` to `CartDto`.
-    *
-    * @param customer The `Customer` entity to convert.
-    * @return The converted `CustomerDto`.
-    */
+   @Mapping(target = "id", source = "customer.id")
    @Mapping(target = "firstName", source = "customer.firstName")
    @Mapping(target = "lastName", source = "customer.lastName")
    @Mapping(target = "email", source = "customer.email")
@@ -85,29 +53,24 @@ public interface CustomerMapper {
    @Mapping(target = "phoneNumber", source = "customer.phoneNumber")
    @Mapping(target = "address", source = "customer.address")
    @Mapping(target = "postalCode", source = "customer.postalCode")
-   @Mapping(target = "cartDto", source = "customer.cart")
+   @Mapping(target = "createdAt", ignore = true)
+   @Mapping(target = "updatedAt", ignore = true)
+   @Mapping(target = "role", source = "customer.role")
    @Mapping(target = "isBlocked", source = "customer.isBlocked")
+   @Mapping(target = "ordersDto", source = "customer.orders")
+   @Mapping(target = "cartDto", source = "customer.cart")
+   @Mapping(target = "reviewsDto", source = "customer.reviews")
    CustomerDto convertToCustomerDto(Customer customer);
 
-   /**
-    * This method converts a `Cart` entity to a `CartDto`.
-    *
-    * It maps:
-    * - id from entity to DTO.
-    * - Includes mapping from `CartProduct` list in the Cart entity to `CartProductDto` list in the DTO
-    *
-    * @param cart The `Cart` entity to convert.
-    * @return The converted `CartDto`.
-    */
    @Mapping(target = "id", source = "id")
+   @Mapping(target = "customerDto", ignore = true)
    @Mapping(target = "cartProductsDto", source = "cartProducts")
    CartDto convertToCartDto(Cart cart);
 
-   /**
-    * This method converts a list of `CartProduct` entities to a list of `CartProductDto`.
-    *
-    * @param cartProducts The list of `CartProduct` entities to convert.
-    * @return The converted list of `CartProductDto`.
-    */
+   @Mapping(target = "id", source = "id")
+   @Mapping(target = "cartDto", ignore = true)
+   @Mapping(target = "quantity", source = "quantity")
+   @Mapping(target = "productDto", source = "product")
+   @Mapping(target = "cratedAt", source = "cratedAt")
    List<CartProductDto> convertToCartProductsDto(List<CartProduct> cartProducts);
 }

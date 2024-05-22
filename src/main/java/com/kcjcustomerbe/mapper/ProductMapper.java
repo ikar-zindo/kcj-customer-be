@@ -9,7 +9,9 @@ import java.util.List;
 /**
  * This mapper helps in the conversion between `Product` entity and `ProductDto`.
  */
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+      unmappedTargetPolicy = ReportingPolicy.IGNORE,
+      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProductMapper {
 
    /**
@@ -28,7 +30,7 @@ public interface ProductMapper {
    @Mapping(target = "price", source = "price")
    @Mapping(target = "imageUrl", source = "imageUrl")
    @Mapping(target = "isAvailable", source = "isAvailable")
-   @Mapping(target = "restaurantDto", source = "restaurantDto")
+   @Mapping(target = "restaurantDto", source = "restaurant")
    ProductDto convertToProductDto(Product product);
 
    /**
