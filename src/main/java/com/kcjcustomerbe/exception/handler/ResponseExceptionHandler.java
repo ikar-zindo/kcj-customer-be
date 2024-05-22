@@ -2,6 +2,18 @@ package com.kcjcustomerbe.exception.handler;
 
 import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.*;
+import com.kcjcustomerbe.exception.list.cart.CartException;
+import com.kcjcustomerbe.exception.list.cart.CartNotFoundException;
+import com.kcjcustomerbe.exception.list.customer.CustomerIsExistException;
+import com.kcjcustomerbe.exception.list.customer.CustomerNotFoundException;
+import com.kcjcustomerbe.exception.list.order.OrderException;
+import com.kcjcustomerbe.exception.list.order.PaymentException;
+import com.kcjcustomerbe.exception.list.product.ProductIdNotFoundException;
+import com.kcjcustomerbe.exception.list.product.ProductNotAvailableException;
+import com.kcjcustomerbe.exception.list.restaurant.DifferentRestaurantException;
+import com.kcjcustomerbe.exception.list.restaurant.RestaurantNotFoundException;
+import com.kcjcustomerbe.exception.list.review.ReviewEmptyException;
+import com.kcjcustomerbe.exception.list.review.ReviewException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -157,9 +169,9 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    }
 
    // PRODUCT EXCEPTIONS
-   @ExceptionHandler(ProductNotFoundException.class)
+   @ExceptionHandler(ProductIdNotFoundException.class)
    @ResponseStatus(NOT_FOUND)
-   public ResponseEntity<ErrorExtension> handleProductNotFoundException(ProductNotFoundException ex) {
+   public ResponseEntity<ErrorExtension> handleProductIdNotFoundException(ProductIdNotFoundException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
 
@@ -170,6 +182,21 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
 
       return new ResponseEntity<>(errorExtension, NOT_FOUND);
+   }
+
+   @ExceptionHandler(ProductNotAvailableException.class)
+   @ResponseStatus(CONFLICT)
+   public ResponseEntity<ErrorExtension> handleProductNotAvailableException(ProductNotAvailableException ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+
+      ErrorExtension errorExtension = new ErrorExtension(
+            ex.getMessage(),
+            CONFLICT,
+            additionalInfo
+      );
+
+      return new ResponseEntity<>(errorExtension, CONFLICT);
    }
 
    // ORDER EXCEPTIONS

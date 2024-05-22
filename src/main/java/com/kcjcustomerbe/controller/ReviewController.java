@@ -3,7 +3,7 @@ package com.kcjcustomerbe.controller;
 import com.kcjcustomerbe.annotation.UuidFormatChecker;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.exception.list.IdNotFoundException;
-import com.kcjcustomerbe.service.impl.ReviewServiceImpl;
+import com.kcjcustomerbe.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ReviewController {
 
-   private final ReviewServiceImpl reviewService;
+   private final ReviewService reviewService;
 
    @GetMapping
    public List<ReviewDto> getAllReviews() {

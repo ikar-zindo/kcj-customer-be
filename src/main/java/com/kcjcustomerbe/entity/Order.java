@@ -1,10 +1,11 @@
 package com.kcjcustomerbe.entity;
 
-
 import com.kcjcustomerbe.entity.enums.OrderStatus;
 import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;

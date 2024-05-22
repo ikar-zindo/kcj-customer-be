@@ -50,7 +50,7 @@ public class Customer {
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime createdAt;
 
-   @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+   @Column(name = "updated_at")
    private LocalDateTime updatedAt;
 
    @Enumerated(EnumType.STRING)

@@ -36,6 +36,7 @@ public class ErrorMessage {
    public static final String PRODUCT_NOT_FOUND = "Products not found";
    public static final String PRODUCTS_NOT_FOUND = "Products not found";
    public static final String PRODUCT_ID_NOT_FOUND = "Products not found in database with ID=";
+   public static final String PRODUCT_IS_NOT_AVAILABLE = "Product is not available with ID=";
 
    // ORDER EXCEPTION MASSAGES
    public static final String ORDER_NOT_SAVED = "The order was not saved to the database";
