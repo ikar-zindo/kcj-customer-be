@@ -15,6 +15,13 @@ public class ErrorMessage {
    public static final String CUSTOMER_IS_NULL = "Customer not passed to method";
    public static final String EMAIL_ALREADY_EXISTS = "A client with the same email already exists";
    public static final String USERNAME_ALREADY_EXISTS = "A client with the same username already exists";
+   public static final String INVALID_FIRST_NAME = "Invalid firstname";
+   public static final String INVALID_LASTNAME = "Invalid lastname";
+   public static final String INVALID_USERNAME = "Invalid username";
+   public static final String INVALID_PASSWORD = "Invalid password";
+   public static final String INVALID_EMAIL = "Invalid email";
+   public static final String INVALID_ADDRESS = "Invalid address";
+   public static final String INVALID_POSTAL_CODE = "Invalid postal code";
 
    // CART EXCEPTION MASSAGES
    public static final String CART_NOT_FOUND = "The customer was not found!!";
