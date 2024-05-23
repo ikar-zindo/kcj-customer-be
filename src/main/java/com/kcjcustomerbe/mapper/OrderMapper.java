@@ -31,6 +31,13 @@ public interface OrderMapper {
    OrderDto mapOrderToOrderDto(Order entity);
 
    @Mappings({
+         @Mapping(target = "id", source = "entity.id"),
+         @Mapping(target = "quantity", source = "entity.quantity"),
+         @Mapping(target = "productDto", source = "entity.product"),
+   })
+   OrderProductDto mapOrderProductToOrderProductDto(OrderProduct entity);
+
+   @Mappings({
          @Mapping(target = "id", source = "dto.id"),
          @Mapping(target = "restaurant", source = "dto.restaurantDto"),
          @Mapping(target = "createdAt", source = "dto.createdAt"),
@@ -42,13 +49,6 @@ public interface OrderMapper {
          @Mapping(target = "orderProducts", source = "dto.orderProductsDto")
    })
    Order mapOrderDtoToOrder(OrderDto dto);
-
-   @Mappings({
-         @Mapping(target = "id", source = "entity.id"),
-         @Mapping(target = "quantity", source = "entity.quantity"),
-         @Mapping(target = "productDto", source = "entity.product"),
-   })
-   OrderProductDto mapOrderProductToOrderProductDto(OrderProduct entity);
 
    @Mappings({
          @Mapping(target = "id", source = "dto.id"),
