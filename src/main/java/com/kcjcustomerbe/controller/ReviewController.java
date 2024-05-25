@@ -21,20 +21,27 @@ public class ReviewController {
 
    private final ReviewService reviewService;
 
+   // READ - GET ALL REVIEWS
    @GetMapping
-   public List<ReviewDto> getAllReviews() {
-      return reviewService.getAllReviews();
+   public ResponseEntity<List<ReviewDto>> getAllReviews() {
+      List<ReviewDto> reviewsDto = reviewService.getAllReviews();
+
+      return ResponseEntity.ok(reviewsDto);
    }
 
+   // READ - GET REVIEW BY ID
    @GetMapping("/{id}")
-   public ReviewDto getReviewById(@PathVariable("id") Long reviewId) throws IdNotFoundException {
-      return reviewService.getReviewById(reviewId);
+   public ResponseEntity<ReviewDto> getReviewById(@PathVariable("id") Long reviewId) {
+      ReviewDto reviewDto = reviewService.getReviewById(reviewId);
+
+      return ResponseEntity.ok(reviewDto);
    }
-   
+
+   // READ - ADD NEW REVIEW
    @PostMapping
-   public ResponseEntity<ReviewDto> addReview(@RequestBody @Valid ReviewDto reviewDto,
+   public ResponseEntity<ReviewDto> addReview(@Valid @RequestBody ReviewDto reviewDto,
                                              @UuidFormatChecker @RequestParam String customerId,
-                                             @Valid @RequestParam Long restaurantId) throws IdNotFoundException {
+                                             @Valid @RequestParam Long restaurantId) {
 
       return ResponseEntity.ok(reviewService.addReview(reviewDto, UUID.fromString(customerId), restaurantId));
    }

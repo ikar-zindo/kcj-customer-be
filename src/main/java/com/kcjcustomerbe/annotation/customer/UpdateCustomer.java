@@ -1,7 +1,6 @@
-package com.kcjcustomerbe.annotation;
+package com.kcjcustomerbe.annotation.customer;
 
 import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
-import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

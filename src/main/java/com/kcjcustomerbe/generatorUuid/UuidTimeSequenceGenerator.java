@@ -34,4 +34,3 @@ public class UuidTimeSequenceGenerator implements IdentifierGenerator {
         return UUID.fromString(concatenatedWithDashes);
     }
 }
-

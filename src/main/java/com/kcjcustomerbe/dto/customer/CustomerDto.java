@@ -17,53 +17,39 @@ import java.util.List;
 import java.util.UUID;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomerDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    UUID id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String firstName;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String lastName;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String email;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String username;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String phoneNumber;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String address;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String postalCode;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime createdAt;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime updatedAt;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    Role role;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    Boolean isBlocked;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cart")
    CartDto cartDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("order")
    private List<OrderDto> ordersDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("review")
    private List<ReviewDto> reviewsDto;
 }

@@ -20,20 +20,23 @@ public class RestaurantController {
 
    private final RestaurantService restaurantService;
 
+   // READ - ALL RESTAURANTS
    @GetMapping
    public ResponseEntity<List<RestaurantDto>> getRestaurants() {
       List<RestaurantDto> restaurantsDto = restaurantService.getAll();
       return ResponseEntity.ok(restaurantsDto);
    }
 
+   // READ - GET RESTAURANT BY ID
    @GetMapping("/{id}")
    public ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable("id") Long restaurantId) {
       RestaurantDto restaurantDto = restaurantService.getRestaurantById(restaurantId);
       return ResponseEntity.ok(restaurantDto);
    }
 
+   // READ - GET REVIEWS OF RESTAURANT BY ID
    @GetMapping("/{id}/reviews")
-   public int getNumberOfReviewsByRestaurantId(@PathVariable Long id) {
-      return restaurantService.getNumberOfReviewsByRestaurantId(id);
+   public int getNumberOfReviewsByRestaurantId(@PathVariable("id") Long restaurantId) {
+      return restaurantService.getNumberOfReviewsByRestaurantId(restaurantId);
    }
 }

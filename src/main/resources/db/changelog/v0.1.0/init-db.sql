@@ -229,7 +229,8 @@ ALTER TABLE `kcj`.`employees`
 --
 
 ALTER TABLE `kcj`.`customers`
-    ADD CONSTRAINT unique_nickname UNIQUE (email);
+    ADD CONSTRAINT unique_email UNIQUE (email),
+    ADD CONSTRAINT unique_username UNIQUE (username);
 
 --
 -- Constraints for table carts

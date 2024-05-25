@@ -12,5 +12,5 @@ public interface CustomerService {
 
    CustomerAfterUpdateDto updateCustomerInfo(UUID customerId, CustomerUpdateDto userUpdateDto);
 
-   void deleteCustomerById(UUID customerId);
+   CustomerAfterUpdateDto blockCustomerById(UUID customerId);
 }

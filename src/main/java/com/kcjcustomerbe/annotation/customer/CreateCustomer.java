@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.annotation;
+package com.kcjcustomerbe.annotation.customer;
 
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;

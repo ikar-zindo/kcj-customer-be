@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.annotation;
+package com.kcjcustomerbe.annotation.customer;
 
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
@@ -37,7 +37,15 @@ import java.lang.annotation.Target;
                                 @ExampleObject(
                                         name = "Example request with correct Id",
                                         value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                                )
+                                ),
+                              @ExampleObject(
+                                    name = "Example request with non-exist Id",
+                                    value = "12345678-170e-42f7-b6ae-435ee56f49a1"
+                              ),
+                              @ExampleObject(
+                                    name = "Example request with invalid Id",
+                                    value = "d234d99d-170e-42f7-b6ae-435ee56f49a1!"
+                              )
                         }
                 )
         },

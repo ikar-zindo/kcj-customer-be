@@ -26,8 +26,6 @@ public class CustomerServiceImpl implements CustomerService {
 
    private final CustomerRepository customerRepository;
 
-   private final CartRepository cartRepository;
-
    private final CustomerMapper customerMapper;
 
    private final PasswordEncoder encoder;
@@ -36,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
    @Transactional
    public CustomerAfterCreateDto registrationCustomer(CustomerCreateDto customerCreateDto) throws CustomerNotFoundException {
       Optional<Customer> optionalCustomerByUsername = customerRepository.findByUsername(customerCreateDto.getUsername());
-      Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerCreateDto.getUsername());
+      Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerCreateDto.getEmail());
 
       if (optionalCustomerByUsername.isEmpty()) {
          if (optionalCustomerByEmail.isEmpty()) {
@@ -62,8 +60,13 @@ public class CustomerServiceImpl implements CustomerService {
       Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
       if (customerOptional.isPresent()) {
-         return customerMapper.mapToCustomerDto(customerOptional.get());
+         Customer expextedCustomer = customerOptional.get();
+         if (!expextedCustomer.getIsBlocked()) {
+            return customerMapper.mapToCustomerDto(customerOptional.get());
 
+         } else {
+            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
+         }
       } else {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
       }
@@ -106,11 +109,18 @@ public class CustomerServiceImpl implements CustomerService {
 
    @Override
    @Transactional
-   public void deleteCustomerById(UUID id) throws IdNullException {
-      Optional<Customer> customer = customerRepository.findById(id);
+   public CustomerAfterUpdateDto blockCustomerById(UUID id) throws IdNullException {
+      if (id == null) {
+         throw new IdNullException(ErrorMessage.INVALID_CUSTOMER_ID);
+      }
 
-      if (customer.isPresent()) {
-         customerRepository.deleteById(id);
+      Optional<Customer> optionalCustomer = customerRepository.findById(id);
+
+      if (optionalCustomer.isPresent()) {
+         Customer customer = optionalCustomer.get();
+         customer.setIsBlocked(true);
+
+         return customerMapper.mapToCustomerAfterUpdateDto(customerRepository.save(customer));
       } else {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
       }
