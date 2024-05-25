@@ -8,7 +8,6 @@ import com.kcjcustomerbe.entity.CartProduct;
 import com.kcjcustomerbe.entity.Customer;
 import org.mapstruct.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +18,7 @@ import java.util.Objects;
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
       nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
       uses = {ProductMapper.class, OrderMapper.class},
-      imports = {Objects.class})
+      imports = {Objects.class, MappingUtils.class})
 public interface CustomerMapper {
 
    @Mappings({
@@ -87,16 +86,15 @@ public interface CustomerMapper {
    // ==================================================================================================================
 
    @Mappings({
-      @Mapping(target = "id", ignore = true),
-      @Mapping(target = "firstName", expression = "java(Objects.isNull(dto.getFirstName()) || dto.getFirstName().isEmpty() ? entity.getFirstName() : dto.getFirstName())"),
-      @Mapping(target = "lastName", expression = "java(Objects.isNull(dto.getLastName()) || dto.getLastName().isEmpty() ? entity.getLastName() : dto.getLastName())"),
-//      @Mapping(target = "birthday", source = "birthday", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE),
-      @Mapping(target = "email", expression = "java(Objects.isNull(dto.getEmail()) || dto.getEmail().isEmpty() ? entity.getEmail() : dto.getEmail())"),
-      @Mapping(target = "username", expression = "java(Objects.isNull(dto.getUsername()) || dto.getUsername().isEmpty() ? entity.getUsername() : dto.getUsername())"),
+      @Mapping(target = "firstName", expression = "java(MappingUtils.mapNullOrEmpty(dto.getFirstName(), entity.getFirstName()))"),
+      @Mapping(target = "lastName", expression = "java(MappingUtils.mapNullOrEmpty(dto.getLastName(), entity.getLastName()))"),
+      @Mapping(target = "email", expression = "java(MappingUtils.mapNullOrEmpty(dto.getEmail(), entity.getEmail()))"),
+      @Mapping(target = "username", expression = "java(MappingUtils.mapNullOrEmpty(dto.getUsername(), entity.getUsername()))"),
       @Mapping(target = "password", ignore = true),
-      @Mapping(target = "phoneNumber", expression = "java(Objects.isNull(dto.getPhoneNumber()) || dto.getPhoneNumber().isEmpty() ? entity.getPhoneNumber() : dto.getPhoneNumber())"),
-      @Mapping(target = "address", expression = "java(Objects.isNull(dto.getAddress()) || dto.getAddress().isEmpty() ? entity.getAddress() : dto.getAddress())"),
-      @Mapping(target = "postalCode", expression = "java(Objects.isNull(dto.getPostalCode()) || dto.getPostalCode().isEmpty() ? entity.getPostalCode() : dto.getPostalCode())"),
+      @Mapping(target = "phoneNumber", expression = "java(MappingUtils.mapNullOrEmpty(dto.getPhoneNumber(), entity.getPhoneNumber()))"),
+      @Mapping(target = "address", expression = "java(MappingUtils.mapNullOrEmpty(dto.getAddress(), entity.getAddress()))"),
+      @Mapping(target = "postalCode", expression = "java(MappingUtils.mapNullOrEmpty(dto.getPostalCode(), entity.getPostalCode()))"),
+//      @Mapping(target = "birthday", source = "birthday", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE),
       @Mapping(target = "createdAt", ignore = true),
       @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())"),
       @Mapping(target = "role", ignore = true),

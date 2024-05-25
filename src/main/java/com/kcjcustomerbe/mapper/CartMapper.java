@@ -50,7 +50,7 @@ public interface CartMapper {
    @Mapping(target = "cartDto", ignore = true)
    @Mapping(target = "productDto", source = "product")
    @Mapping(target = "quantity", source = "quantity")
-   @Mapping(target = "cratedAt", source = "cratedAt")
+   @Mapping(target = "createdAt", source = "createdAt")
    CartProductDto mapToCartProductDto(CartProduct entity);
 
    /**
@@ -74,7 +74,7 @@ public interface CartMapper {
    @Mapping(target = "cart", ignore = true)
    @Mapping(target = "product", source = "productDto")
    @Mapping(target = "quantity", source = "quantity")
-   @Mapping(target = "cratedAt", source = "cratedAt")
+   @Mapping(target = "createdAt", source = "createdAt")
    CartProduct mapToCartProduct(CartProductDto dto);
 
    /**

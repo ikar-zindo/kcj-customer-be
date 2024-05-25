@@ -21,5 +21,5 @@ public class CartProductDto {
 
    int quantity;
 
-   LocalDateTime cratedAt;
+   LocalDateTime createdAt;
 }
