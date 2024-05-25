@@ -25,7 +25,7 @@ public class UuidFormatCheckerConstraint implements ConstraintValidator<UuidForm
                     .map(el -> el.matches(UUID_PATTERN))
                     .orElse(false);
         }else {
-            throw new NullPointerException(ErrorMessage.NULL_POINTER );
+            throw new NullPointerException(ErrorMessage.NULL_POINTER);
         }
     }
 }

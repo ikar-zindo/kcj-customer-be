@@ -55,6 +55,18 @@
 			<version>8.2.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.2.224</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
 		<!-- Logger -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -68,12 +80,6 @@
 		</dependency>
 
 		<!-- Mappers -->
-		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>3.1.1</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
@@ -173,6 +179,6 @@
 			</plugin>
 
 		</plugins>
-		<finalName>kcj-customer-be</finalName>
+		<finalName>kcj-customer-be-v1.2.0</finalName>
 	</build>
 </project>

@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: k-curry-jib
+      MYSQL_DATABASE: kcj
     volumes:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     ports:
@@ -18,7 +18,7 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/k-curry-jib
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/kcj
       - SPRING_DATASOURCE_PASSWORD=12345
       - SPRING_DATASOURCE_USERNAME=root
     restart: always
