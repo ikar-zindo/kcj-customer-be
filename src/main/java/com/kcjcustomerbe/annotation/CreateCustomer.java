@@ -37,7 +37,7 @@ import java.lang.annotation.Target;
                                            "firstName": "John",
                                            "lastName": "Snow",
                                            "email": "john@gmail.com",
-                                           "username": "johnsnowuser",
+                                           "username": "johnsnow",
                                            "password": "Snow12345!",
                                            "phoneNumber": "+31950908",
                                            "address": "Alexanderstr. 1",
@@ -56,7 +56,7 @@ import java.lang.annotation.Target;
                                                    "address": "Alexanderstr. 1",
                                                    "postalCode": "12345"
                                                 }
-                                                   """),
+                                                """),
                                 @ExampleObject(name = "Request with existing email",
                                         value = """
                                                 {
@@ -69,7 +69,7 @@ import java.lang.annotation.Target;
                                                    "address": "Alexanderstr. 1",
                                                    "postalCode": "12345"
                                                 }
-                                                   """),
+                                                """),
                                 @ExampleObject(name = "Not validate data",
                                         value = """ 
                                                 {
