@@ -7,19 +7,16 @@ import lombok.*;
 import java.util.UUID;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderProductDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    UUID id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    int quantity;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("order")
    OrderDto orderDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("product")
    ProductDto productDto;
 }

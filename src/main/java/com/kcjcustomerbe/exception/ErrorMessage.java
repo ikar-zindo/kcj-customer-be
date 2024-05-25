@@ -22,6 +22,8 @@ public class ErrorMessage {
    public static final String INVALID_EMAIL = "Invalid email";
    public static final String INVALID_ADDRESS = "Invalid address";
    public static final String INVALID_POSTAL_CODE = "Invalid postal code";
+   public static final String INVALID_CUSTOMER_UPDATE_DTO = "Invalid request: customerUpdateDto cannot be null";
+   public static final String INVALID_CUSTOMER_ID = "Invalid request: customerId cannot be null";
 
    // CART EXCEPTION MASSAGES
    public static final String CART_NOT_FOUND = "The customer was not found!!";

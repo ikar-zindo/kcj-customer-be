@@ -8,22 +8,18 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartProductDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    UUID id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cart")
    CartDto cartDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("product")
    ProductDto productDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    int quantity;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime cratedAt;
 }

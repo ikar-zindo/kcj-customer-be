@@ -9,16 +9,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CartDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    UUID id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("customer")
    CustomerDto customerDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cartProducts")
    List<CartProductDto> cartProductsDto;
 }

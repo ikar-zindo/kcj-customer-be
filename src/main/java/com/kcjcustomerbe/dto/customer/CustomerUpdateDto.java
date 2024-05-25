@@ -30,8 +30,6 @@ public class CustomerUpdateDto {
    @Pattern(regexp = "^[A-Za-z\\s,.-]+\\s\\d+$", message = "{validation.customer.address}")
    String address;
 
-   @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "{validation.customer.postalCode}")
+   @Pattern(regexp = "^\\d{5}$", message = "{validation.customer.postalCode}")
    String postalCode;
-
-   Boolean isBlocked;
 }

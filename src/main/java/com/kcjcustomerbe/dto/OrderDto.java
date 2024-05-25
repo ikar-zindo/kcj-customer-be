@@ -12,38 +12,29 @@ import java.util.List;
 import java.util.UUID;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    UUID id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("customer")
    CustomerDto customerDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("restaurant")
    RestaurantDto restaurantDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime createdAt;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime updateAt;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String deliveryAddress;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String postalCode;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    BigDecimal totalAmount;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    OrderStatus orderStatus;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("orderProducts")
    List<OrderProductDto> orderProductsDto;
 }

@@ -8,9 +8,9 @@ public interface CustomerService {
 
    CustomerAfterCreateDto registrationCustomer(CustomerCreateDto userCreateDto);
 
-   CustomerDto getCustomerById(UUID id);
+   CustomerDto getCustomerById(UUID customerId);
 
-   CustomerAfterUpdateDto updateCustomerInfo(UUID id, CustomerUpdateDto userUpdateDto);
+   CustomerAfterUpdateDto updateCustomerInfo(UUID customerId, CustomerUpdateDto userUpdateDto);
 
-   void deleteCustomerById(UUID id);
+   void deleteCustomerById(UUID customerId);
 }

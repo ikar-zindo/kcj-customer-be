@@ -35,10 +35,10 @@ public class CustomerController {
       return ResponseEntity.ok(customerDto);
    }
 
-   @PutMapping("/{id}")
-   public CustomerAfterUpdateDto updateUser(@UuidFormatChecker @PathVariable("id") String id,
-                                            @RequestBody CustomerUpdateDto customerUpdateDto) {
+   @UpdateCustomer(path = "/{id}")
+   public CustomerAfterUpdateDto updateUser(@UuidFormatChecker @PathVariable("id") String customerId,
+                                            @Valid @RequestBody CustomerUpdateDto customerUpdateDto) {
 
-      return customerService.updateCustomerInfo(UUID.fromString(id), customerUpdateDto);
+      return customerService.updateCustomerInfo(UUID.fromString(customerId), customerUpdateDto);
    }
 }

@@ -7,5 +7,5 @@ public class CustomerAfterUpdateDto {
 
    private String id;
 
-   private String status = "Customer details have been successfully updated";
+   private String status = "The customer details have been successfully updated";
 }

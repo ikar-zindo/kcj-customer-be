@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @RequestMapping(method = RequestMethod.GET)
 @Operation(
-        summary = "Show user by ID",
-        description = "Retrieve an user by its unique identifier",
+        summary = "Show customer by ID",
+        description = "Retrieve an customer by its unique identifier",
         tags = {"CUSTOMER"},
         parameters = {
                 @Parameter(
@@ -37,14 +37,6 @@ import java.lang.annotation.Target;
                                 @ExampleObject(
                                         name = "Example request with correct Id",
                                         value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                                ),
-                                @ExampleObject(
-                                        name = "Example request with non-exist Id",
-                                        value = "12345678-170e-42f7-b6ae-435ee56f49a1"
-                                ),
-                                @ExampleObject(
-                                        name = "Example request with invalid Id",
-                                        value = "d234d99d-170e-42f7-b6ae-435ee56f49a1!"
                                 )
                         }
                 )

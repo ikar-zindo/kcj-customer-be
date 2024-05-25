@@ -15,38 +15,29 @@ import java.util.List;
 import java.util.Objects;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    Long id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String name;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String description;
 
-   @NotNull(message = "{validation.value.null}")
    BigDecimal price;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String imageUrl;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime createdAt;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
-   boolean isAvailable;
+   Boolean isAvailable;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("restaurant")
    RestaurantDto restaurantDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("cartProducts")
    List<CartProductDto> cartProductsDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("orderProducts")
    List<OrderProductDto> orderProductsDto;
 }

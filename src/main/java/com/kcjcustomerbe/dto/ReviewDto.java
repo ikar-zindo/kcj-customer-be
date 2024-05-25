@@ -13,25 +13,20 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Value
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReviewDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    Long id;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("restaurant")
    RestaurantDto restaurantDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    @JsonProperty("customer")
    CustomerDto customerDto;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    BigDecimal rating;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    String comment;
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
    LocalDateTime createdAt;
 }
