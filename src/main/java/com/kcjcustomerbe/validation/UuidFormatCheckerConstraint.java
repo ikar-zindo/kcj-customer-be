@@ -1,6 +1,5 @@
-package com.kcjcustomerbe.constraint;
+package com.kcjcustomerbe.validation;
 
-import com.kcjcustomerbe.annotation.UuidFormatChecker;
 import com.kcjcustomerbe.exception.ErrorMessage;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

@@ -1,20 +1,19 @@
 package com.kcjcustomerbe.exception.handler;
 
-import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.*;
-import com.kcjcustomerbe.exception.list.cart.CartException;
-import com.kcjcustomerbe.exception.list.cart.CartNotFoundException;
-import com.kcjcustomerbe.exception.list.customer.CustomerIdNotFound;
-import com.kcjcustomerbe.exception.list.customer.CustomerIsExistException;
-import com.kcjcustomerbe.exception.list.customer.CustomerNotFoundException;
-import com.kcjcustomerbe.exception.list.order.OrderException;
-import com.kcjcustomerbe.exception.list.order.PaymentException;
-import com.kcjcustomerbe.exception.list.product.ProductIdNotFoundException;
-import com.kcjcustomerbe.exception.list.product.ProductNotAvailableException;
-import com.kcjcustomerbe.exception.list.restaurant.DifferentRestaurantException;
-import com.kcjcustomerbe.exception.list.restaurant.RestaurantNotFoundException;
-import com.kcjcustomerbe.exception.list.review.ReviewEmptyException;
-import com.kcjcustomerbe.exception.list.review.ReviewException;
+import com.kcjcustomerbe.exception.list.CartException;
+import com.kcjcustomerbe.exception.list.CartNotFoundException;
+import com.kcjcustomerbe.exception.list.CustomerIdNotFound;
+import com.kcjcustomerbe.exception.list.CustomerIsExistException;
+import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
+import com.kcjcustomerbe.exception.list.OrderException;
+import com.kcjcustomerbe.exception.list.PaymentException;
+import com.kcjcustomerbe.exception.list.ProductIdNotFoundException;
+import com.kcjcustomerbe.exception.list.ProductNotAvailableException;
+import com.kcjcustomerbe.exception.list.DifferentRestaurantException;
+import com.kcjcustomerbe.exception.list.RestaurantNotFoundException;
+import com.kcjcustomerbe.exception.list.ReviewEmptyException;
+import com.kcjcustomerbe.exception.list.ReviewException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -278,6 +277,22 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
+   @ExceptionHandler(RestaurantsListException.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
+   public ResponseEntity<ErrorResponse> handleRestaurantsListException(RestaurantsListException ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+      additionalInfo.put("detail", NOT_FOUND.value());
+
+      ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            NOT_FOUND,
+            additionalInfo
+      );
+
+      return new ResponseEntity<>(errorResponse, NOT_FOUND);
+   }
+
    // REVIEW EXCEPTIONS
    @ExceptionHandler(ReviewException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
@@ -296,19 +311,19 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    }
 
    @ExceptionHandler(ReviewEmptyException.class)
-   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
+   @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
    public ResponseEntity<ErrorResponse> handleReviewEmptyException(ReviewEmptyException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
-      additionalInfo.put("detail", NOT_FOUND.value());
+      additionalInfo.put("detail", BAD_REQUEST.value());
 
       ErrorResponse errorResponse = new ErrorResponse(
             ex.getMessage(),
-            HttpStatus.NOT_FOUND,
+            BAD_REQUEST,
             additionalInfo
       );
 
-      return new ResponseEntity<>(errorResponse, NOT_FOUND);
+      return new ResponseEntity<>(errorResponse, BAD_REQUEST);
    }
 
    // CATCHING INVALID UUID

@@ -1,15 +1,14 @@
 package com.kcjcustomerbe.controller;
 
-import com.kcjcustomerbe.annotation.*;
 import com.kcjcustomerbe.annotation.BlockCustomer;
 import com.kcjcustomerbe.annotation.CreateCustomer;
 import com.kcjcustomerbe.annotation.GetCustomer;
 import com.kcjcustomerbe.annotation.UpdateCustomer;
 import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.service.impl.CustomerServiceImpl;
+import com.kcjcustomerbe.validation.UuidFormatChecker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ public class CustomerController {
    // CREATE - REGISTRATION NEW CUSTOMER
    @CreateCustomer
    @ResponseStatus(CREATED)
-   public CustomerAfterCreateDto registrationCustomer(
+   public CustomerResponseDto registrationCustomer(
            @Valid @RequestBody CustomerCreateDto customerCreateDto) {
 
       return customerService.registrationCustomer(customerCreateDto);
@@ -46,21 +45,21 @@ public class CustomerController {
 
    // UPDATE - CUSTOMER DETAILS
    @UpdateCustomer(path = "/{id}")
-   public ResponseEntity<CustomerAfterUpdateDto> updateCustomerInfo(@UuidFormatChecker @PathVariable("id") String customerId,
-                                            @Valid @RequestBody CustomerUpdateDto customerUpdateDto) {
+   public ResponseEntity<CustomerResponseDto> updateCustomerInfo(@UuidFormatChecker @PathVariable("id") String customerId,
+                                                                 @Valid @RequestBody CustomerUpdateDto customerUpdateDto) {
 
-      CustomerAfterUpdateDto customerAfterUpdateDto =
+      CustomerResponseDto customerResponseDto =
             customerService.updateCustomerInfo(UUID.fromString(customerId), customerUpdateDto);
 
-      return ResponseEntity.ok(customerAfterUpdateDto);
+      return ResponseEntity.ok(customerResponseDto);
    }
 
    // DELETE - BLOCK CUSTOMER
    @BlockCustomer(path = "/{id}")
-   public ResponseEntity<CustomerAfterUpdateDto> blockCustomerById(@UuidFormatChecker @PathVariable("id") String customerId) {
-      CustomerAfterUpdateDto customerAfterUpdateDto =
+   public ResponseEntity<CustomerResponseDto> blockCustomerById(@UuidFormatChecker @PathVariable("id") String customerId) {
+      CustomerResponseDto customerResponseDto =
             customerService.blockCustomerById(UUID.fromString(customerId));
 
-      return ResponseEntity.ok(customerAfterUpdateDto);
+      return ResponseEntity.ok(customerResponseDto);
    }
 }

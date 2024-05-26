@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.mapper;
 
+import com.kcjcustomerbe.constant.GlobalConstant;
 import com.kcjcustomerbe.dto.CartDto;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.customer.*;
@@ -40,7 +41,7 @@ import java.util.Objects;
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
       nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
       uses = {ProductMapper.class, OrderMapper.class},
-      imports = {Objects.class, MappingUtils.class})
+      imports = {Objects.class, MappingUtils.class, GlobalConstant.class})
 public interface CustomerMapper {
 
    /**
@@ -82,7 +83,8 @@ public interface CustomerMapper {
     * @return The mapped `CustomerAfterCreateDto`. If the source `Customer` entity is null, return null.
     */
    @Mapping(target = "id", source = "id")
-   CustomerAfterCreateDto mapToCustomerAfterCreateDto(Customer entity);
+   @Mapping(target = "status", expression = "java(com.kcjcustomerbe.constant.GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE)")
+   CustomerResponseDto mapToCustomerAfterCreateDto(Customer entity);
 
 // =====================================================================================================================
 
@@ -176,5 +178,10 @@ public interface CustomerMapper {
     * @return The mapped `CustomerAfterUpdateDto`. If the source `Customer` entity is null, return null.
     */
    @Mapping(target = "id", source = "id")
-   CustomerAfterUpdateDto mapToCustomerAfterUpdateDto(Customer entity);
+   @Mapping(target = "status", expression = "java(com.kcjcustomerbe.constant.GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE)")
+   CustomerResponseDto mapToCustomerAfterUpdateDto(Customer entity);
+
+   @Mapping(target = "id", source = "id")
+   @Mapping(target = "status", expression = "java(com.kcjcustomerbe.constant.GlobalConstant.CUSTOMER_BLOCKED_SUCCESS_MESSAGE)")
+   CustomerResponseDto mapToCustomerAfterBlockedDto(Customer entity);
 }

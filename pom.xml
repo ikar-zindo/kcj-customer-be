@@ -216,7 +216,6 @@
 						<exclude>com/kcjcustomerbe/aspect/*</exclude>
 						<exclude>com/kcjcustomerbe/config/*</exclude>
 						<exclude>com/kcjcustomerbe/constant/*</exclude>
-						<exclude>com/kcjcustomerbe/constraint/*</exclude>
 						<exclude>com/kcjcustomerbe/controller/*</exclude>
 						<exclude>com/kcjcustomerbe/dto/*</exclude>
 						<exclude>com/kcjcustomerbe/dto/customer/*</exclude>
@@ -228,6 +227,7 @@
 						<exclude>com/kcjcustomerbe/mapper/*</exclude>
 						<exclude>com/kcjcustomerbe/repo/*</exclude>
 						<exclude>com/kcjcustomerbe/service/*</exclude>
+						<exclude>com/kcjcustomerbe/validation/*</exclude>
 						<exclude>com/kcjcustomerbe/KCJCustomerBEApplication.class</exclude>
 					</excludes>
 				</configuration>

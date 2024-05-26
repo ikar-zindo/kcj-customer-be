@@ -4,12 +4,11 @@ import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.entity.enums.Role;
 import com.kcjcustomerbe.exception.ErrorMessage;
-import com.kcjcustomerbe.exception.list.customer.CustomerIdNotFound;
-import com.kcjcustomerbe.exception.list.customer.CustomerIsExistException;
-import com.kcjcustomerbe.exception.list.customer.CustomerNotFoundException;
+import com.kcjcustomerbe.exception.list.CustomerIdNotFound;
+import com.kcjcustomerbe.exception.list.CustomerIsExistException;
+import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
 import com.kcjcustomerbe.exception.list.IdNullException;
 import com.kcjcustomerbe.mapper.CustomerMapper;
-import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.service.CustomerService;
 import jakarta.transaction.Transactional;
@@ -17,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,26 +32,24 @@ public class CustomerServiceImpl implements CustomerService {
 
    @Override
    @Transactional
-   public CustomerAfterCreateDto registrationCustomer(CustomerCreateDto customerCreateDto) throws CustomerNotFoundException {
+   public CustomerResponseDto registrationCustomer(CustomerCreateDto customerCreateDto) throws CustomerNotFoundException {
       Optional<Customer> optionalCustomerByUsername = customerRepository.findByUsername(customerCreateDto.getUsername());
       Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerCreateDto.getEmail());
 
-      if (optionalCustomerByUsername.isEmpty()) {
-         if (optionalCustomerByEmail.isEmpty()) {
-
-            Customer customer = customerMapper.mapCustomerFromCustomerCreateDto(customerCreateDto);
-            customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
-            customer.setRole(Role.ROLE_CUSTOMER);
-            Customer afterCreate = customerRepository.save(customer);
-
-            return customerMapper.mapToCustomerAfterCreateDto(afterCreate);
-
-         } else {
-            throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
-         }
-      } else {
+      if (optionalCustomerByUsername.isPresent()) {
          throw new CustomerIsExistException(ErrorMessage.USERNAME_ALREADY_EXISTS);
       }
+
+      if (optionalCustomerByEmail.isPresent()) {
+         throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
+      }
+
+      Customer customer = customerMapper.mapCustomerFromCustomerCreateDto(customerCreateDto);
+      customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
+      customer.setRole(Role.ROLE_CUSTOMER);
+      Customer afterCreate = customerRepository.save(customer);
+
+      return customerMapper.mapToCustomerAfterCreateDto(afterCreate);
    }
 
    @Override
@@ -74,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
    @Override
    @Transactional
-   public CustomerAfterUpdateDto updateCustomerInfo(UUID customerId, CustomerUpdateDto customerUpdateDto) {
+   public CustomerResponseDto updateCustomerInfo(UUID customerId, CustomerUpdateDto customerUpdateDto) {
       if (customerId == null) {
          throw new IllegalArgumentException(ErrorMessage.INVALID_CUSTOMER_ID);
       }
@@ -109,20 +107,17 @@ public class CustomerServiceImpl implements CustomerService {
 
    @Override
    @Transactional
-   public CustomerAfterUpdateDto blockCustomerById(UUID id) throws IdNullException {
-      if (id == null) {
+   public CustomerResponseDto blockCustomerById(UUID customerId) throws IdNullException {
+      if (customerId == null) {
          throw new IdNullException(ErrorMessage.INVALID_CUSTOMER_ID);
       }
 
-      Optional<Customer> optionalCustomer = customerRepository.findById(id);
+      Customer existingCustomer = customerRepository.findById(customerId)
+            .orElseThrow(() -> new CustomerIdNotFound(customerId));
 
-      if (optionalCustomer.isPresent()) {
-         Customer customer = optionalCustomer.get();
-         customer.setIsBlocked(true);
+      existingCustomer.setIsBlocked(true);
+      existingCustomer.setUpdatedAt(LocalDateTime.now());
 
-         return customerMapper.mapToCustomerAfterUpdateDto(customerRepository.save(customer));
-      } else {
-         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + id);
-      }
+      return customerMapper.mapToCustomerAfterBlockedDto(customerRepository.save(existingCustomer));
    }
 }

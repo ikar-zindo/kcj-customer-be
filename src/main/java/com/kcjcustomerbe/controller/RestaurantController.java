@@ -1,7 +1,7 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.annotation.CreateReview;
-import com.kcjcustomerbe.annotation.UuidFormatChecker;
+import com.kcjcustomerbe.validation.UuidFormatChecker;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.service.RestaurantService;
@@ -29,8 +29,8 @@ public class RestaurantController {
 
    // READ - ALL RESTAURANTS
    @GetMapping
-   public ResponseEntity<List<RestaurantDto>> getRestaurants() {
-      List<RestaurantDto> restaurantsDto = restaurantService.getAll();
+   public ResponseEntity<List<RestaurantDto>> getAllRestaurants() {
+      List<RestaurantDto> restaurantsDto = restaurantService.getAllRestaurants();
       return ResponseEntity.ok(restaurantsDto);
    }
 
@@ -43,16 +43,16 @@ public class RestaurantController {
 
    // READ - GET REVIEWS OF RESTAURANT BY ID
    @GetMapping("/{id}/reviews")
-   public int getNumberOfReviewsByRestaurantId(@PathVariable("id") Long restaurantId) {
-      return restaurantService.getNumberOfReviewsByRestaurantId(restaurantId);
+   public ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable("id") Long restaurantId) {
+      return ResponseEntity.ok(restaurantService.getAllReviewsByRestaurantId(restaurantId));
    }
 
    // CREATE - ADD A REVIEW FOR THE RESTAURANT
    @CreateReview(path = "/{id}/reviews")
    @ResponseStatus(CREATED)
    public ReviewDto addReview(@Valid @RequestBody ReviewDto reviewDto,
-                                              @UuidFormatChecker @RequestParam String customerId,
-                                              @Valid @PathVariable("id") Long restaurantId) {
+                              @UuidFormatChecker @RequestParam String customerId,
+                              @Valid @PathVariable("id") Long restaurantId) {
 
       return reviewService.addReview(reviewDto, UUID.fromString(customerId), restaurantId);
    }

@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.exception.list.customer;
+package com.kcjcustomerbe.exception.list;
 
 import com.kcjcustomerbe.exception.ErrorMessage;
 

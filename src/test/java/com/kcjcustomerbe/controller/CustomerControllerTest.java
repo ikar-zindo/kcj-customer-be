@@ -3,12 +3,11 @@ package com.kcjcustomerbe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcjcustomerbe.constant.GlobalConstant;
-import com.kcjcustomerbe.dto.customer.CustomerAfterCreateDto;
-import com.kcjcustomerbe.dto.customer.CustomerAfterUpdateDto;
 import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
+import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
 import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
 import com.kcjcustomerbe.exception.ErrorMessage;
-import com.kcjcustomerbe.exception.list.customer.CustomerIsExistException;
+import com.kcjcustomerbe.exception.list.CustomerIsExistException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql("/db/init-db-test.sql")
-@Sql("/db/data-test.sql")
+@Sql({"/db/drop-db.sql", "/db/init-db.sql", "/db/data-test.sql"})
 public class CustomerControllerTest {
 
    @Autowired
@@ -54,21 +50,21 @@ public class CustomerControllerTest {
             false,
             LocalDateTime.now()
       );
-      String json = objectMapper.writeValueAsString(dto);
+      String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .post("/customer")
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(json))
+                  .content(jsonRequest))
             .andReturn();
 
-      String jsonResult = result.getResponse().getContentAsString();
-      CustomerAfterCreateDto customerAfterCreateDto;
-      customerAfterCreateDto = objectMapper.readValue(jsonResult, CustomerAfterCreateDto.class);
+      String jsonResponse = result.getResponse().getContentAsString();
+      CustomerResponseDto customerResponseDto;
+      customerResponseDto = objectMapper.readValue(jsonResponse, CustomerResponseDto.class);
 
       Assertions.assertEquals(201, result.getResponse().getStatus());
-      Assertions.assertNotNull(customerAfterCreateDto.getId());
-      Assertions.assertEquals(GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE, customerAfterCreateDto.status);
+      Assertions.assertNotNull(customerResponseDto.getId());
+      Assertions.assertEquals(GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE, customerResponseDto.status);
    }
 
 
@@ -86,18 +82,18 @@ public class CustomerControllerTest {
             false,
             LocalDateTime.now()
       );
-      String json = objectMapper.writeValueAsString(dto);
+      String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .post("/customer")
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(json))
+                  .content(jsonRequest))
             .andReturn();
 
-      String jsonResult = result.getResponse().getContentAsString();
+      String jsonResponse = result.getResponse().getContentAsString();
 
       Assertions.assertEquals(409, result.getResponse().getStatus());
-      Assertions.assertTrue(jsonResult.contains(ErrorMessage.USERNAME_ALREADY_EXISTS));
+      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.USERNAME_ALREADY_EXISTS));
    }
 
 
@@ -147,21 +143,21 @@ public class CustomerControllerTest {
             LocalDateTime.now(),
             false
       );
-      String jsonData = objectMapper.writeValueAsString(dto);
+      String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .put("/customer/{id}", id.toString(), jsonData)
+                  .put("/customer/{id}", id.toString(), jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonData))
+                  .content(jsonRequest))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      CustomerAfterUpdateDto customerAfterUpdateDto = objectMapper.readValue(jsonResponse, CustomerAfterUpdateDto.class);
+      CustomerResponseDto customerResponseDto = objectMapper.readValue(jsonResponse, CustomerResponseDto.class);
       Assertions.assertEquals(200, result.getResponse().getStatus());
-      Assertions.assertNotNull(customerAfterUpdateDto.getId());
-      Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerAfterUpdateDto.status);
+      Assertions.assertNotNull(customerResponseDto.getId());
+      Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerResponseDto.status);
    }
 
 
@@ -179,12 +175,12 @@ public class CustomerControllerTest {
             LocalDateTime.now(),
             false
       );
-      String jsonData = objectMapper.writeValueAsString(dto);
+      String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .put("/customer/{id}", id.toString(), jsonData)
+                  .put("/customer/{id}", id.toString(), jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonData))
+                  .content(jsonRequest))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
@@ -210,21 +206,21 @@ public class CustomerControllerTest {
             LocalDateTime.now(),
             true
       );
-      String jsonData = objectMapper.writeValueAsString(dto);
+      String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .put("/customer/{id}", id.toString(), jsonData)
+                  .put("/customer/{id}", id.toString(), jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonData))
+                  .content(jsonRequest))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      CustomerAfterUpdateDto customerAfterUpdateDto = objectMapper.readValue(jsonResponse, CustomerAfterUpdateDto.class);
+      CustomerResponseDto customerResponseDto = objectMapper.readValue(jsonResponse, CustomerResponseDto.class);
       Assertions.assertEquals(200, result.getResponse().getStatus());
-      Assertions.assertNotNull(customerAfterUpdateDto.getId());
-      Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerAfterUpdateDto.status);
+      Assertions.assertNotNull(customerResponseDto.getId());
+      Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerResponseDto.status);
    }
 
    @Test

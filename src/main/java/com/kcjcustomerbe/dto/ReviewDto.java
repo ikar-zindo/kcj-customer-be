@@ -21,11 +21,12 @@ public class ReviewDto {
    @JsonProperty("customer")
    CustomerDto customerDto;
 
+   @NotNull(message = "{validation.value.null}")
    @Min(value = 1, message = "{validation.review.rating.min}")
    @Max(value = 5, message = "{validation.review.rating.max}")
    BigDecimal rating;
 
-   @NotBlank(message = "{validation.review.comment.notBlank}")
+   @NotBlank(message = "{validation.length.empty}")
    @Pattern(regexp = "^[\\w\\s.,!\"'()\\-]{1,500}$", message = "{validation.review.comment}")
    String comment;
 

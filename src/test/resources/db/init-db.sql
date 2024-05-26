@@ -1,15 +1,5 @@
-DROP TABLE IF EXISTS `kcj`.`order_products`;
-DROP TABLE IF EXISTS `kcj`.`cart_products`;
-DROP TABLE IF EXISTS `kcj`.`carts`;
-DROP TABLE IF EXISTS `kcj`.`orders`;
-DROP TABLE IF EXISTS `kcj`.`products`;
-DROP TABLE IF EXISTS `kcj`.`reviews`;
-DROP TABLE IF EXISTS `kcj`.`customers`;
-DROP TABLE IF EXISTS `kcj`.`employees`;
-DROP TABLE IF EXISTS `kcj`.`restaurants`;
-
 --
--- Database: `k-curry-jib`
+-- Database: `kcj`
 --
 
 -- --------------------------------------------------------
