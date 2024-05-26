@@ -226,6 +226,22 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, CONFLICT);
    }
 
+   @ExceptionHandler(ProductsNotFoundException.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
+   public ResponseEntity<ErrorResponse> handleProductsNotFoundException(ProductsNotFoundException ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+      additionalInfo.put("detail", NOT_FOUND.value());
+
+      ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            NOT_FOUND,
+            additionalInfo
+      );
+
+      return new ResponseEntity<>(errorResponse, NOT_FOUND);
+   }
+
    // ORDER EXCEPTIONS
    @ExceptionHandler(OrderException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(INTERNAL_SERVER_ERROR)
@@ -311,19 +327,19 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    }
 
    @ExceptionHandler(ReviewEmptyException.class)
-   @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
+   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
    public ResponseEntity<ErrorResponse> handleReviewEmptyException(ReviewEmptyException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
-      additionalInfo.put("detail", BAD_REQUEST.value());
+      additionalInfo.put("detail", NOT_FOUND.value());
 
       ErrorResponse errorResponse = new ErrorResponse(
             ex.getMessage(),
-            BAD_REQUEST,
+            NOT_FOUND,
             additionalInfo
       );
 
-      return new ResponseEntity<>(errorResponse, BAD_REQUEST);
+      return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
    // CATCHING INVALID UUID

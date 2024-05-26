@@ -42,10 +42,14 @@ public class ProductServiceImpl implements ProductService {
 
    @Override
    public List<ProductDto> getAllProducts() {
-      Optional<List<Product>> optionalProducts = productRepository.findByIsAvailableTrue();
 
-      if (optionalProducts.isPresent()) {
-         List<Product> products = optionalProducts.get();
+      Optional<List<Product>> optionalProducts = productRepository.findByIsAvailableTrue();
+      if (optionalProducts.isEmpty()) {
+         throw new ProductsNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
+      }
+
+      List<Product> products = optionalProducts.get();
+      if (!products.isEmpty()) {
          return productMapper.mapToProductsDto(products);
 
       } else {

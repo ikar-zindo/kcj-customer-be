@@ -30,6 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 
    private final PasswordEncoder encoder;
 
+   // CREATE - REGISTRATION NEW CUSTOMER
    @Override
    @Transactional
    public CustomerResponseDto registrationCustomer(CustomerCreateDto customerCreateDto) throws CustomerNotFoundException {
@@ -52,27 +53,31 @@ public class CustomerServiceImpl implements CustomerService {
       return customerMapper.mapToCustomerAfterCreateDto(afterCreate);
    }
 
+   // READ - GET CUSTOMER BY ID
    @Override
    @Transactional
    public CustomerDto getCustomerById(UUID customerId) throws IdNullException {
       Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
-      if (customerOptional.isPresent()) {
-         Customer expextedCustomer = customerOptional.get();
-         if (!expextedCustomer.getIsBlocked()) {
-            return customerMapper.mapToCustomerDto(customerOptional.get());
+      if (customerOptional.isEmpty()) {
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
+      }
 
-         } else {
-            throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
-         }
+      Customer expextedCustomer = customerOptional.get();
+
+      if (!expextedCustomer.getIsBlocked()) {
+         return customerMapper.mapToCustomerDto(customerOptional.get());
+
       } else {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
       }
    }
 
+   // UPDATE - CUSTOMER DETAILS
    @Override
    @Transactional
    public CustomerResponseDto updateCustomerInfo(UUID customerId, CustomerUpdateDto customerUpdateDto) {
+
       if (customerId == null) {
          throw new IllegalArgumentException(ErrorMessage.INVALID_CUSTOMER_ID);
       }
@@ -105,9 +110,11 @@ public class CustomerServiceImpl implements CustomerService {
       return customerMapper.mapToCustomerAfterUpdateDto(afterUpdate);
    }
 
+   // DELETE - BLOCK CUSTOMER
    @Override
    @Transactional
    public CustomerResponseDto blockCustomerById(UUID customerId) throws IdNullException {
+
       if (customerId == null) {
          throw new IdNullException(ErrorMessage.INVALID_CUSTOMER_ID);
       }
