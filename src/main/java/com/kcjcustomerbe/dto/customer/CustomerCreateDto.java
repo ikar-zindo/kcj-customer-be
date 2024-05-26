@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Value;
 
+import java.time.LocalDateTime;
+
 @Value
 public class CustomerCreateDto {
 
@@ -42,4 +44,6 @@ public class CustomerCreateDto {
    String postalCode;
 
    Boolean isBlocked;
+
+   LocalDateTime createdAt;
 }

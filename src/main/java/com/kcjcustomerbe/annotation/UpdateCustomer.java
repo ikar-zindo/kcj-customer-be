@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.annotation.customer;
+package com.kcjcustomerbe.annotation;
 
 import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
@@ -58,56 +58,56 @@ import java.lang.annotation.Target;
                   schema = @Schema(implementation = CustomerUpdateDto.class),
                   examples = {@ExampleObject(name = "Good request",
                         value = """
-                                        {
-                                           "firstName": "John",
-                                           "lastName": "Snow",
-                                           "email": "john@gmail.com",
-                                           "username": "johnsnow",
-                                           "password": "Snow12345!",
-                                           "phoneNumber": "+31950908",
-                                           "address": "Alexanderstr. 1",
-                                           "postalCode": "12345"
-                                        }
-                                        """),
+                              {
+                                 "firstName": "John",
+                                 "lastName": "Snow",
+                                 "email": "john@gmail.com",
+                                 "username": "johnsnow",
+                                 "password": "Snow12345!",
+                                 "phoneNumber": "+31950908",
+                                 "address": "Alexanderstr. 1",
+                                 "postalCode": "12345"
+                              }
+                              """),
                         @ExampleObject(name = "Request with existing email",
                               value = """
-                                                {
-                                                   "firstName": "John",
-                                                   "lastName": "Snow",
-                                                   "email": "john@gmail.com",
-                                                   "username": "johnsnowuser",
-                                                   "password": "Snow12345!",
-                                                   "phoneNumber": "+31950908",
-                                                   "address": "Alexanderstr. 1",
-                                                   "postalCode": "12345"
-                                                }
-                                                """),
+                                    {
+                                       "firstName": "John",
+                                       "lastName": "Snow",
+                                       "email": "john@gmail.com",
+                                       "username": "johnsnowuser",
+                                       "password": "Snow12345!",
+                                       "phoneNumber": "+31950908",
+                                       "address": "Alexanderstr. 1",
+                                       "postalCode": "12345"
+                                    }
+                                    """),
                         @ExampleObject(name = "Request with existing email",
                               value = """
-                                                {
-                                                   "firstName": "John",
-                                                   "lastName": "Snow",
-                                                   "email": "johnsnow@gmail.com",
-                                                   "username": "johnsnowuser",
-                                                   "password": "Snow12345!",
-                                                   "phoneNumber": "+31950908",
-                                                   "address": "Alexanderstr. 1",
-                                                   "postalCode": "12345"
-                                                }
-                                                """),
+                                    {
+                                       "firstName": "John",
+                                       "lastName": "Snow",
+                                       "email": "johnsnow@gmail.com",
+                                       "username": "johnsnowuser",
+                                       "password": "Snow12345!",
+                                       "phoneNumber": "+31950908",
+                                       "address": "Alexanderstr. 1",
+                                       "postalCode": "12345"
+                                    }
+                                    """),
                         @ExampleObject(name = "Not validate data",
                               value = """ 
-                                                {
-                                                   "firstName": "John",
-                                                   "lastName": "Snow",
-                                                   "email": "john@gmail.com",
-                                                   "username": "johnsnowuser",
-                                                   "password": "Snow12345!",
-                                                   "phoneNumber": "+31950908",
-                                                   "address": "Alexanderstr. 1",
-                                                   "postalCode": "12345"
-                                                }
-                                                """)
+                                    {
+                                       "firstName": "John",
+                                       "lastName": "Snow",
+                                       "email": "john@gmail.com",
+                                       "username": "johnsnowuser",
+                                       "password": "Snow12345!",
+                                       "phoneNumber": "+31950908",
+                                       "address": "Alexanderstr. 1",
+                                       "postalCode": "12345"
+                                    }
+                                    """)
                   }
             )
       ),

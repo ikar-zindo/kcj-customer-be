@@ -4,6 +4,7 @@ import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.*;
 import com.kcjcustomerbe.exception.list.cart.CartException;
 import com.kcjcustomerbe.exception.list.cart.CartNotFoundException;
+import com.kcjcustomerbe.exception.list.customer.CustomerIdNotFound;
 import com.kcjcustomerbe.exception.list.customer.CustomerIsExistException;
 import com.kcjcustomerbe.exception.list.customer.CustomerNotFoundException;
 import com.kcjcustomerbe.exception.list.order.OrderException;
@@ -23,6 +24,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -77,13 +79,14 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       Map<String, String> errors = new HashMap<>();
       ex.getBindingResult().getAllErrors().forEach((error) -> {
          String fieldName = ((FieldError) error).getField();
-         String errorMessage = getErrorMessage(fieldName);
+         String errorMessage = error.getDefaultMessage();
          errors.put(fieldName, errorMessage);
       });
 
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
       additionalInfo.put("detail", BAD_REQUEST.value());
+      additionalInfo.put("path", ((ServletWebRequest) request).getRequest().getRequestURI());
 
       ErrorResponse errorResponse = new ErrorResponse(
             errors.toString(),
@@ -124,6 +127,22 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
 
       return new ResponseEntity<>(errorResponse, CONFLICT);
+   }
+
+   @ExceptionHandler(CustomerIdNotFound.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
+   public ResponseEntity<ErrorResponse> handleCustomerIdNotFound(CustomerIdNotFound ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+      additionalInfo.put("detail", NOT_FOUND.value());
+
+      ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            NOT_FOUND,
+            additionalInfo
+      );
+
+      return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
    // CART EXCEPTIONS
@@ -321,19 +340,5 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
 
       return new ResponseEntity<>(errorResponse, BAD_REQUEST);
-   }
-
-   // CUSTOM METHODS
-   private String getErrorMessage(String fieldName) {
-      return switch (fieldName) {
-         case "id" -> ErrorMessage.ID_NOT_FOUND;
-         case "lastname" -> ErrorMessage.INVALID_LASTNAME;
-         case "firstName" -> ErrorMessage.INVALID_FIRST_NAME;
-         case "email" -> ErrorMessage.INVALID_EMAIL;
-         case "password" -> ErrorMessage.INVALID_PASSWORD;
-         case "address" -> ErrorMessage.INVALID_ADDRESS;
-         case "postalCode" -> ErrorMessage.INVALID_POSTAL_CODE;
-         default -> ErrorMessage.INVALID_USERNAME;
-      };
    }
 }

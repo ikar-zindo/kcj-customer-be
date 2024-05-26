@@ -162,7 +162,7 @@ public interface CustomerMapper {
       @Mapping(target = "createdAt", ignore = true),
       @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())"),
       @Mapping(target = "role", ignore = true),
-      @Mapping(target = "isBlocked", ignore = true),
+      @Mapping(target = "entity.isBlocked", source = "dto.isBlocked"),
       @Mapping(target = "cart", ignore = true),
       @Mapping(target = "orders", ignore = true),
       @Mapping(target = "reviews", ignore = true),

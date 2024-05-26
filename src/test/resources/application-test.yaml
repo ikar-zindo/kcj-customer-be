@@ -4,6 +4,8 @@ server:
 spring:
   profiles:
     active: test
+  liquibase:
+    enabled: false
   main:
     banner-mode: off
   datasource:

@@ -43,16 +43,39 @@ public interface ReviewMapper {
          @Mapping(target = "customerDto", source = "customer"),
          @Mapping(target = "rating", source = "rating"),
          @Mapping(target = "comment", source = "comment"),
-         @Mapping(target = "createdAt", source = "createdAt")
+         @Mapping(target = "createdAt", source = "createdAt"),
+         @Mapping(target = "updatedAt", source = "updatedAt")
    })
    ReviewDto mapReviewToReviewDto(Review entity);
 
    /**
-    * Maps a `Review` entity to a `ReviewDto`.
+    * Maps a list of `Review` entities to a list of `ReviewDto`.
     *
-    * @param entity The `Review` entity to be mapped.
-    * @return The mapped `ReviewDto`. If the source `Review` entity is null, return null.
+    * @param reviews The list of `Review` entities to be mapped.
+    * @return The list of mapped `ReviewDto`. If the source list is null or empty, return an empty list.
     */
+   List<ReviewDto> mapReviewsToReviewsDto(List<Review> reviews);
+
+   @Mappings({
+         @Mapping(target = "restaurant",source = "restaurantDto"),
+         @Mapping(target = "customer", source = "customerDto"),
+         @Mapping(target = "rating", source = "rating"),
+         @Mapping(target = "comment", source = "comment"),
+         @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
+   })
+   Review mapReviewToCreateReviewDto(ReviewDto dto);
+
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "restaurant", ignore = true),
+         @Mapping(target = "customer", ignore = true),
+         @Mapping(target = "rating", source = "rating"),
+         @Mapping(target = "comment", source = "comment"),
+         @Mapping(target = "createdAt", source = "createdAt"),
+         @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
+   })
+   Review mapReviewToUpdateReviewDto(ReviewDto dto);
+
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "firstName", source = "firstName"),
@@ -70,28 +93,24 @@ public interface ReviewMapper {
          @Mapping(target = "cartDto", ignore = true),
          @Mapping(target = "reviewsDto", ignore = true)
    })
-   CustomerDto mapToCustomerDto(Customer entity);
+   CustomerDto mapToCustomer(Customer entity);
 
-   /**
-    * Maps a list of `Review` entities to a list of `ReviewDto`.
-    *
-    * @param reviews The list of `Review` entities to be mapped.
-    * @return The list of mapped `ReviewDto`. If the source list is null or empty, return an empty list.
-    */
-   List<ReviewDto> mapReviewsToReviewsDto(List<Review> reviews);
-
-   /**
-    * Maps a `ReviewDto` to a `Review` entity.
-    *
-    * @param dto The `ReviewDto` to be mapped.
-    * @return The mapped `Review` entity. If the source `ReviewDto` is null, return null.
-    */
    @Mappings({
-         @Mapping(target = "customer.id", source = "customerDto.id"),
-         @Mapping(target = "restaurant.id", source = "restaurantDto.id"),
-         @Mapping(target = "rating", source = "rating"),
-         @Mapping(target = "comment", source = "comment"),
-         @Mapping(target = "createdAt", source = "createdAt")
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "firstName", source = "firstName"),
+         @Mapping(target = "lastName", source = "lastName"),
+         @Mapping(target = "email", ignore = true),
+         @Mapping(target = "username", ignore = true),
+         @Mapping(target = "phoneNumber", ignore = true),
+         @Mapping(target = "address", ignore = true),
+         @Mapping(target = "postalCode", ignore = true),
+         @Mapping(target = "createdAt", ignore = true),
+         @Mapping(target = "updatedAt", ignore = true),
+         @Mapping(target = "role", ignore = true),
+         @Mapping(target = "isBlocked", ignore = true),
+         @Mapping(target = "orders", ignore = true),
+         @Mapping(target = "cart", ignore = true),
+         @Mapping(target = "reviews", ignore = true)
    })
-   Review mapRreviewDtoToReview(ReviewDto dto);
+   Customer mapToCustomerDto(CustomerDto dto);
 }

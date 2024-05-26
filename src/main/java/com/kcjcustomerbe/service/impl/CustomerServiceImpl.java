@@ -122,7 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
 
          return customerMapper.mapToCustomerAfterUpdateDto(customerRepository.save(customer));
       } else {
-         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + id);
       }
    }
 }

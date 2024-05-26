@@ -184,6 +184,55 @@
 				<version>2.22.2</version>
 			</plugin>
 
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jcc-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludes>
+						<exclude>com/kcjcustomerbe/annotation/*</exclude>
+						<exclude>com/kcjcustomerbe/aspect/*</exclude>
+						<exclude>com/kcjcustomerbe/config/*</exclude>
+						<exclude>com/kcjcustomerbe/constant/*</exclude>
+						<exclude>com/kcjcustomerbe/constraint/*</exclude>
+						<exclude>com/kcjcustomerbe/controller/*</exclude>
+						<exclude>com/kcjcustomerbe/dto/*</exclude>
+						<exclude>com/kcjcustomerbe/dto/customer/*</exclude>
+						<exclude>com/kcjcustomerbe/entity/*</exclude>
+						<exclude>com/kcjcustomerbe/entity/enums/*</exclude>
+						<exclude>com/kcjcustomerbe/exception/*</exclude>
+						<exclude>com/kcjcustomerbe/exception/handler/*</exclude>
+						<exclude>com/kcjcustomerbe/exception/list/*</exclude>
+						<exclude>com/kcjcustomerbe/mapper/*</exclude>
+						<exclude>com/kcjcustomerbe/repo/*</exclude>
+						<exclude>com/kcjcustomerbe/service/*</exclude>
+						<exclude>com/kcjcustomerbe/KCJCustomerBEApplication.class</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
 		</plugins>
 		<finalName>kcj-customer-be-v1.2.0</finalName>
 	</build>

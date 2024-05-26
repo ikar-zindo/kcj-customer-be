@@ -1,7 +1,7 @@
-package com.kcjcustomerbe.annotation.customer;
+package com.kcjcustomerbe.annotation;
 
 
-import com.kcjcustomerbe.entity.Customer;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -48,7 +48,7 @@ import java.lang.annotation.Target;
                   description = "A customer found and returned",
                   content = @Content(
                         mediaType = "application/json",
-                        schema = @Schema(implementation = Customer.class)
+                        schema = @Schema(implementation = CustomerDto.class)
                   )
             ),
             @ApiResponse(

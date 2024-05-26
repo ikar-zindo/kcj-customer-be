@@ -48,8 +48,8 @@ public class CustomerDto {
    CartDto cartDto;
 
    @JsonProperty("order")
-   private List<OrderDto> ordersDto;
+   List<OrderDto> ordersDto;
 
    @JsonProperty("review")
-   private List<ReviewDto> reviewsDto;
+   List<ReviewDto> reviewsDto;
 }

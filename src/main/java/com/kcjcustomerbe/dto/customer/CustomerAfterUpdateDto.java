@@ -8,5 +8,5 @@ public class CustomerAfterUpdateDto {
 
    private String id;
 
-   private String status = GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE;
+   public String status = GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE;
 }

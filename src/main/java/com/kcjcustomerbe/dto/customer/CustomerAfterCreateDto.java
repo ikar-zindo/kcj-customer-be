@@ -8,5 +8,5 @@ public class CustomerAfterCreateDto {
 
    private String id;
 
-   private String status = GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE;
+   public String status = GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE;
 }

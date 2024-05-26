@@ -36,13 +36,4 @@ public class ReviewController {
 
       return ResponseEntity.ok(reviewDto);
    }
-
-   // READ - ADD NEW REVIEW
-   @PostMapping
-   public ResponseEntity<ReviewDto> addReview(@Valid @RequestBody ReviewDto reviewDto,
-                                             @UuidFormatChecker @RequestParam String customerId,
-                                             @Valid @RequestParam Long restaurantId) {
-
-      return ResponseEntity.ok(reviewService.addReview(reviewDto, UUID.fromString(customerId), restaurantId));
-   }
 }

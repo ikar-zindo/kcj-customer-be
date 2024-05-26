@@ -1,19 +1,22 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.annotation.*;
-import com.kcjcustomerbe.annotation.customer.BlockCustomer;
-import com.kcjcustomerbe.annotation.customer.CreateCustomer;
-import com.kcjcustomerbe.annotation.customer.GetCustomer;
-import com.kcjcustomerbe.annotation.customer.UpdateCustomer;
+import com.kcjcustomerbe.annotation.BlockCustomer;
+import com.kcjcustomerbe.annotation.CreateCustomer;
+import com.kcjcustomerbe.annotation.GetCustomer;
+import com.kcjcustomerbe.annotation.UpdateCustomer;
 import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.service.impl.CustomerServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Validated
 @RestController
@@ -25,13 +28,11 @@ public class CustomerController {
 
    // CREATE - REGISTRATION NEW CUSTOMER
    @CreateCustomer
-   public ResponseEntity<CustomerAfterCreateDto> registrationCustomer(
+   @ResponseStatus(CREATED)
+   public CustomerAfterCreateDto registrationCustomer(
            @Valid @RequestBody CustomerCreateDto customerCreateDto) {
 
-      CustomerAfterCreateDto customerAfterCreateDto =
-            customerService.registrationCustomer(customerCreateDto);
-
-      return ResponseEntity.ok(customerAfterCreateDto);
+      return customerService.registrationCustomer(customerCreateDto);
    }
 
    // READ - GET CUSTOMER BY ID

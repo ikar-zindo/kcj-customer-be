@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Value;
 
+import java.time.LocalDateTime;
+
 @Value
 public class CustomerUpdateDto {
 
@@ -32,4 +34,8 @@ public class CustomerUpdateDto {
 
    @Pattern(regexp = "^\\d{5}$", message = "{validation.customer.postalCode}")
    String postalCode;
+
+   LocalDateTime updatedAt;
+
+   Boolean isBlocked;
 }

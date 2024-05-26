@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
             .orElseThrow(() -> new RestaurantNotFoundException(ErrorMessage.RESTAURANT_ID_NOT_FOUND + restaurantId));
 
       if (reviewDto != null) {
-      Review review = reviewMapper.mapRreviewDtoToReview(reviewDto);
+      Review review = reviewMapper.mapReviewToCreateReviewDto(reviewDto);
 
       review.setCustomer(customer);
       review.setRestaurant(restaurant);
@@ -80,7 +80,7 @@ public class ReviewServiceImpl implements ReviewService {
    // UPDATE
    @Override
    public ReviewDto updateReview(ReviewDto reviewDto) {
-      Review review = reviewMapper.mapRreviewDtoToReview(reviewDto);
+      Review review = reviewMapper.mapReviewToUpdateReviewDto(reviewDto);
       Review updatedReview = reviewRepository.save(review);
       return reviewMapper.mapReviewToReviewDto(updatedReview);
    }
