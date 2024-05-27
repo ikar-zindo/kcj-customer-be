@@ -160,7 +160,6 @@ public interface CustomerMapper {
       @Mapping(target = "phoneNumber", expression = "java(MappingUtils.mapNullOrEmpty(dto.getPhoneNumber(), entity.getPhoneNumber()))"),
       @Mapping(target = "address", expression = "java(MappingUtils.mapNullOrEmpty(dto.getAddress(), entity.getAddress()))"),
       @Mapping(target = "postalCode", expression = "java(MappingUtils.mapNullOrEmpty(dto.getPostalCode(), entity.getPostalCode()))"),
-//      @Mapping(target = "birthday", source = "birthday", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE),
       @Mapping(target = "createdAt", ignore = true),
       @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())"),
       @Mapping(target = "role", ignore = true),

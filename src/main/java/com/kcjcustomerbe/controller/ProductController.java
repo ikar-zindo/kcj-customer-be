@@ -1,10 +1,10 @@
 package com.kcjcustomerbe.controller;
 
+import com.kcjcustomerbe.controller.interfaces.ProductControllerInterface;
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,23 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Validated
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController implements ProductControllerInterface {
 
    private final ProductService productService;
 
    // READ - GET ALL AVAILABLE PRODUCTS
    @GetMapping
-   public ResponseEntity<List<ProductDto>> getAllProduct() {
+   public ResponseEntity<List<ProductDto>> getAllProductsDto() {
       return ResponseEntity.ok(productService.getAllProducts());
    }
 
    // READ - GET AVAILABLE PRODUCT BY ID
    @GetMapping("/{id}")
-   public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long productId) {
+   public ResponseEntity<ProductDto> getProductDtoById(@PathVariable("id") Long productId) {
       ProductDto productDto = productService.getProductById(productId);
       return ResponseEntity.ok(productDto);
    }

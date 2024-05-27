@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset kcj:v0.1.0-init-ddl
+--changeset root:v0.1.0-init-ddl
 --comment initial db
 
 SET AUTOCOMMIT = 0;

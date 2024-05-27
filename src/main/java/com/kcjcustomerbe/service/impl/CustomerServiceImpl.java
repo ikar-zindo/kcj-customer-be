@@ -94,12 +94,12 @@ public class CustomerServiceImpl implements CustomerService {
          throw new CustomerIsExistException(ErrorMessage.USERNAME_ALREADY_EXISTS);
       }
 
-      Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerUpdateDto.getUsername());
+      Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerUpdateDto.getEmail());
       if (optionalCustomerByEmail.isPresent() && !optionalCustomerByEmail.get().getId().equals(customerId)) {
          throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
       }
 
-      customerMapper.mapCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
+      existingCustomer = customerMapper.mapCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
 
       if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
          existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));

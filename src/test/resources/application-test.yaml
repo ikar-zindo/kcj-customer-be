@@ -27,16 +27,3 @@ spring:
   h2:
     console:
       enabled: true
-
-#  datasource-options:
-#    read_only: false
-
-
-
-
-
-
-
-
-
-

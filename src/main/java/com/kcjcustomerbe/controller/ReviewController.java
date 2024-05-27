@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.controller;
 
+import com.kcjcustomerbe.controller.interfaces.ReviewControllerInterface;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor
-public class ReviewController {
+public class ReviewController implements ReviewControllerInterface {
 
    private final ReviewService reviewService;
 
    // READ - GET ALL REVIEWS
    @GetMapping
-   public ResponseEntity<List<ReviewDto>> getAllReviews() {
+   public ResponseEntity<List<ReviewDto>> getAllReviewsDto() {
       List<ReviewDto> reviewsDto = reviewService.getAllReviews();
 
       return ResponseEntity.ok(reviewsDto);
@@ -27,7 +28,7 @@ public class ReviewController {
 
    // READ - GET REVIEW BY ID
    @GetMapping("/{id}")
-   public ResponseEntity<ReviewDto> getReviewById(@PathVariable("id") Long reviewId) {
+   public ResponseEntity<ReviewDto> getReviewDtoById(@PathVariable("id") Long reviewId) {
       ReviewDto reviewDto = reviewService.getReviewById(reviewId);
 
       return ResponseEntity.ok(reviewDto);

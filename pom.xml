@@ -147,13 +147,34 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>6.2.0</version>
+			<version>6.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.5</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mindrot</groupId>
 			<artifactId>jbcrypt</artifactId>
 			<version>0.4</version>
+		</dependency>
+
+		<!-- JSON JWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.5</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
@@ -246,6 +267,7 @@
 					<driver>com.mysql.cj.jdbc.Driver</driver>
 				</configuration>
 			</plugin>
+
 		</plugins>
 		<finalName>kcj-customer-be-v1.2.0</finalName>
 	</build>
