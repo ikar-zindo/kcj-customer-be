@@ -1,7 +1,7 @@
 package com.kcjcustomerbe.entity;
 
-import com.kcjcustomerbe.entity.enums.Role;
-import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
+import com.kcjcustomerbe.entity.enums.RolesName;
+import com.kcjcustomerbe.util.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,9 +32,6 @@ public class Customer {
    @Column(name = "email")
    private String email;
 
-   @Column(name = "username")
-   private String username;
-
    @Column(name = "password")
    private String password;
 
@@ -55,7 +52,7 @@ public class Customer {
 
    @Enumerated(EnumType.STRING)
    @Column(name = "role")
-   private Role role;
+   private RolesName role;
 
    @Column(name = "is_blocked")
    private Boolean isBlocked;

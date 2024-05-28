@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: 12345
       MYSQL_DATABASE: kcj
     volumes:
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - "3308:3306"
 

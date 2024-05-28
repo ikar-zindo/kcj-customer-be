@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset root:v0.2.0-data-test
---comment data test
+--comment add test data
 
 --
 -- Dumping data for tables
@@ -18,17 +18,17 @@ INSERT INTO `kcj`.`restaurants` (`name`, `address`, `phone_number`, `opening_hou
 -- Dumping data for table customers
 --
 
-INSERT INTO `kcj`.`customers` (`customer_id`, `first_name`, `last_name`, `email`, `password`, `username`, `phone_number`, `address`, `postal_code`, `role`) VALUES
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a1'), 'Maria', 'Anders',	'maria@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', 'maria', '+49 123 456 789', 'Obere Str. 57', '12209', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a2'), 'Ana', 'Trujillo',	'ana@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', 'ana', '+49 123 456 789', 'Minerstrasse 33', '10115', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a3'), 'Antonio', 'Moreno', 'antonio@mail.com', '$2a$10$fBZ/JeO6EOWLfx4CaPDqQe92VWrYJTPl0D0znpMBg1R2hMwp3C.m.', 'antonio', '+49 123 456 789', 'Alexanderplatz 3', '10178', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a4'), 'Thomas', 'Hardy',	'thomas@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', 'thomas', '+49 123 456 789', 'Friedrichstrasse 123', '10117', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a5'), 'Christina', 'Berglund', 'christina@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', 'christina', '+49 123 456 789', 'Karl-Liebknecht-Strasse 29', '10178', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a6'), 'Hanna', 'Moos', 'hanna@mail.com', '$2a$10$fBZ/JeO6EOWLfx4CaPDqQe92VWrYJTPl0D0znpMBg1R2hMwp3C.m.', 'hanna', '+49 123 456 789', 'Potsdamer Platz 1', '10785', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a7'), 'Frederique', 'Citeaux', 'frederique@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', 'frederique', '+49 123 456 789', 'Stralauer Strasse 34', '10243', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a8'), 'Martin', 'Sommer', 'martin@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', 'martin', '+49 123 456 789', 'Lichtenberger Strasse 11', '10179', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a9'), 'Laurence', 'Lebihans', 'laurence@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', 'laurence', '+49 123 456 789', 'Charlottenstrasse 22', '10117', 'ROLE_CUSTOMER'),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a0'), 'Elizabeth', 'Lincoln', 'elizabeth@mail.com', '$2a$10$fBZ/JeO6EOWLfx4CaPDqQe92VWrYJTPl0D0znpMBg1R2hMwp3C.m.', 'elizabeth', '+49 123 456 789', 'Pariser Platz 7', '10117', 'ROLE_CUSTOMER');
+INSERT INTO `kcj`.`customers` (`customer_id`, `first_name`, `last_name`, `email`, `password`, `phone_number`, `address`, `postal_code`, `role`) VALUES
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a1'), 'Maria', 'Anders',	'maria@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', '+49 123 456 789', 'Obere Str. 57', '12209', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a2'), 'Ana', 'Trujillo',	'ana@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', '+49 123 456 789', 'Minerstrasse 33', '10115', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a3'), 'Antonio', 'Moreno', 'antonio@mail.com', '$2a$10$fBZ/JeO6EOWLfx4CaPDqQe92VWrYJTPl0D0znpMBg1R2hMwp3C.m.', '+49 123 456 789', 'Alexanderplatz 3', '10178', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a4'), 'Thomas', 'Hardy',	'thomas@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', '+49 123 456 789', 'Friedrichstrasse 123', '10117', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a5'), 'Christina', 'Berglund', 'christina@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', '+49 123 456 789', 'Karl-Liebknecht-Strasse 29', '10178', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a6'), 'Hanna', 'Moos', 'hanna@mail.com', '$2a$10$fBZ/JeO6EOWLfx4CaPDqQe92VWrYJTPl0D0znpMBg1R2hMwp3C.m.', '+49 123 456 789', 'Potsdamer Platz 1', '10785', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a7'), 'Frederique', 'Citeaux', 'frederique@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', '+49 123 456 789', 'Stralauer Strasse 34', '10243', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a8'), 'Martin', 'Sommer', 'martin@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', '+49 123 456 789', 'Lichtenberger Strasse 11', '10179', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a9'), 'Laurence', 'Lebihans', 'laurence@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', '+49 123 456 789', 'Charlottenstrasse 22', '10117', 'ROLE_CUSTOMER'),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49a0'), 'Elizabeth', 'Lincoln', 'elizabeth@mail.com', '$2a$10$fBZ/JeO6EOWLfx4CaPDqQe92VWrYJTPl0D0znpMBg1R2hMwp3C.m.', '+49 123 456 789', 'Pariser Platz 7', '10117', 'ROLE_CUSTOMER');
 
 --
 -- Dumping data for table carts
@@ -50,17 +50,17 @@ INSERT INTO `kcj`.`carts` (`cart_id`, `customer_id`) VALUES
 -- Dumping data for table employees
 --
 
-INSERT INTO `kcj`.`employees` (`employee_id`, `last_name`, `first_name`,  `email`, `nickname`, `password`, `phone_number`, `role`, `restaurant_id`) VALUES
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c1'), 'Davolio', 'Nancy', 'davolio@mail.com', 'nancy', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 'ROLE_USER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c2'), 'Fuller', 'Ewa', 'fuller@mail.com', 'ewa', '$2a$10$rmQi5Z5O1HzHsV.6lM8.D..6gAf5vWQPtYwnlNzwWbfq4Ww8ZMDV.', '+49 123 456 789', 'ROLE_USER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c3'), 'Leverling', 'Janet', 'leverling@mail.com', 'janet', '$2a$10$T4Ti17zkvQMube2OlAcuNepOKNp6QE8vDFk18p51ZwbHNk1jbyOoy', '+49 123 456 789', 'ROLE_USER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c4'), 'Peacock', 'Margaret', 'peacock@mail.com', 'margaret', '$2a$10$T4Ti17zkvQMube2OlAcuNepOKNp6QE8vDFk18p51ZwbHNk1jbyOoy', '+49 123 456 789', 'ROLE_USER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c5'), 'Buchanan', 'Steven', 'buchanan@mail.com', 'steven', '$2a$10$T4Ti17zkvQMube2OlAcuNepOKNp6QE8vDFk18p51ZwbHNk1jbyOoy', '+49 123 456 789', 'ROLE_USER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c6'), 'Suyama', 'Michael', 'suyama@mail.com', 'manager', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 'ROLE_MANAGER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c7'), 'King', 'Robert', 'king@mail.com', 'robert', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 'ROLE_MANAGER', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c8'), 'Callahan', 'Laura', 'callahan@mail.com', 'admin', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 'ROLE_ADMIN', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c9'), 'Dodsworth', 'Anne', 'dodsworth@mail.com', 'anne', '$2a$10$rmQi5Z5O1HzHsV.6lM8.D..6gAf5vWQPtYwnlNzwWbfq4Ww8ZMDV.', '+49 123 456 789', 'ROLE_ADMIN', 1),
-    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c0'), 'West', 'Adam', 'west@mail.com', 'adam', '$2a$10$rmQi5Z5O1HzHsV.6lM8.D..6gAf5vWQPtYwnlNzwWbfq4Ww8ZMDV.', '+49 123 456 789', 'ROLE_ADMIN', 1);
+INSERT INTO `kcj`.`employees` (`employee_id`, `last_name`, `first_name`,  `email`, `nickname`, `password`, `phone_number`, `restaurant_id`) VALUES
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c1'), 'Davolio', 'Nancy', 'davolio@mail.com', 'nancy', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c2'), 'Fuller', 'Ewa', 'fuller@mail.com', 'ewa', '$2a$10$rmQi5Z5O1HzHsV.6lM8.D..6gAf5vWQPtYwnlNzwWbfq4Ww8ZMDV.', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c3'), 'Leverling', 'Janet', 'leverling@mail.com', 'janet', '$2a$10$T4Ti17zkvQMube2OlAcuNepOKNp6QE8vDFk18p51ZwbHNk1jbyOoy', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c4'), 'Peacock', 'Margaret', 'peacock@mail.com', 'margaret', '$2a$10$T4Ti17zkvQMube2OlAcuNepOKNp6QE8vDFk18p51ZwbHNk1jbyOoy', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c5'), 'Buchanan', 'Steven', 'buchanan@mail.com', 'steven', '$2a$10$T4Ti17zkvQMube2OlAcuNepOKNp6QE8vDFk18p51ZwbHNk1jbyOoy', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c6'), 'Suyama', 'Michael', 'suyama@mail.com', 'manager', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c7'), 'King', 'Robert', 'king@mail.com', 'robert', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c8'), 'Callahan', 'Laura', 'callahan@mail.com', 'admin', '$2a$10$OebBU653Mokfh/uRVu9CCexVAN3LBrkHpAtHZP6iMdZj8JmldwNqW', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c9'), 'Dodsworth', 'Anne', 'dodsworth@mail.com', 'anne', '$2a$10$rmQi5Z5O1HzHsV.6lM8.D..6gAf5vWQPtYwnlNzwWbfq4Ww8ZMDV.', '+49 123 456 789', 1),
+    (UUID_TO_BIN('d234d99d-170e-42f7-b6ae-435ee56f49c0'), 'West', 'Adam', 'west@mail.com', 'adam', '$2a$10$rmQi5Z5O1HzHsV.6lM8.D..6gAf5vWQPtYwnlNzwWbfq4Ww8ZMDV.', '+49 123 456 789', 1);
 
 --
 -- Dumping data for table products

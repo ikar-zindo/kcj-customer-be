@@ -1,11 +1,10 @@
 --liquibase formatted sql
 
---changeset root:v0.1.0-init-ddl
---comment initial db
+--changeset root:v0.1.0-schema
+--comment initial schema db
 
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+01:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,16 +27,15 @@ CREATE TABLE IF NOT EXISTS `kcj`.`customers`
     `first_name`   VARCHAR(30),
     `last_name`    VARCHAR(30),
     `email`        VARCHAR(60),
-    `username`     VARCHAR(60),
     `password`     VARCHAR(60),
     `phone_number` VARCHAR(15),
     `address`      VARCHAR(120),
     `postal_code`  VARCHAR(5),
     `created_at`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`   TIMESTAMP,
-    `role`         ENUM('ROLE_CUSTOMER'),
+    `role`         ENUM('ROLE_CUSTOMER') DEFAULT 'ROLE_CUSTOMER',
     `is_blocked`   BOOL      DEFAULT FALSE
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_unicode_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table carts
@@ -61,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`cart_products`
     `quantity`        INT,
     `created_at`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`      TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table orders
@@ -79,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`orders`
     `postal_code`      VARCHAR(5),
     `total_amount`     DECIMAL(8, 2),
     `order_status`     ENUM('CREATED', 'COOKING', 'DELIVERING', 'COMPLETED', 'CANCELLED')
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table order_products
@@ -91,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`order_products`
     `order_id`         BINARY(16) NOT NULL,
     `product_id`       BIGINT,
     `quantity`         INT
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table products
@@ -107,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`products`
     `image_url`     VARCHAR(200),
     `created_at`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `is_available`  BOOL      DEFAULT TRUE
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table restaurants
@@ -124,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`restaurants`
     `description`        TEXT,
     `social_media_links` VARCHAR(200),
     `is_open`            BOOL DEFAULT TRUE
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table reviews
@@ -139,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`reviews`
     `comment`       TEXT,
     `created_at`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at`    TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table employees
@@ -154,11 +152,10 @@ CREATE TABLE IF NOT EXISTS `kcj`.`employees`
     `nickname`      VARCHAR(60),
     `password`      VARCHAR(60),
     `phone_number`  VARCHAR(20),
-    `role`          ENUM('ROLE_USER', 'ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_DEALER', 'ROLE_DRIVER'),
     `restaurant_id` BIGINT,
     `created_at`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `is_active`     BOOL      DEFAULT TRUE
-    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE = utf8mb4_0900_ai_ci;
+    ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -229,8 +226,7 @@ ALTER TABLE `kcj`.`employees`
 --
 
 ALTER TABLE `kcj`.`customers`
-    ADD CONSTRAINT unique_email UNIQUE (email),
-    ADD CONSTRAINT unique_username UNIQUE (username);
+    ADD CONSTRAINT unique_customer_email UNIQUE (email);
 
 --
 -- Constraints for table carts
@@ -286,7 +282,6 @@ ALTER TABLE `kcj`.`reviews`
 ALTER TABLE `kcj`.`employees`
     ADD CONSTRAINT `employees_fk_restaurants` FOREIGN KEY (`restaurant_id`) REFERENCES restaurants (`restaurant_id`),
     ADD CONSTRAINT unique_nickname UNIQUE (nickname);
-
 
 COMMIT;
 

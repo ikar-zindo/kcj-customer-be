@@ -5,12 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kcjcustomerbe.dto.CartDto;
 import com.kcjcustomerbe.dto.OrderDto;
 import com.kcjcustomerbe.dto.ReviewDto;
-import com.kcjcustomerbe.entity.enums.Role;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
+import com.kcjcustomerbe.entity.enums.RolesName;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +24,6 @@ public class CustomerDto {
 
    String email;
 
-   String username;
-
    String phoneNumber;
 
    String address;
@@ -40,7 +34,7 @@ public class CustomerDto {
 
    LocalDateTime updatedAt;
 
-   Role role;
+   RolesName role;
 
    Boolean isBlocked;
 

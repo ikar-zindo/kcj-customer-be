@@ -24,10 +24,6 @@ public class CustomerCreateDto {
    String email;
 
    @NotEmpty(message = "{validation.length.empty}")
-   @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "{validation.customer.username}")
-   String username;
-
-   @NotEmpty(message = "{validation.length.empty}")
    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).{8,}$", message = "{validation.customer.password}")
    String password;
 

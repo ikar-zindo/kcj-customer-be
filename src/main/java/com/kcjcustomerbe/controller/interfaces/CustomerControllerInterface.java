@@ -27,7 +27,7 @@ public interface CustomerControllerInterface {
    // CREATE - REGISTRATION NEW CUSTOMER
    @Operation(
          summary = "Create a new customer",
-         description = "Create new customer and return him",
+         description = "Create a new customer and return him",
          requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                description = "The unique identifier of the customer",
                required = true,
@@ -40,7 +40,6 @@ public interface CustomerControllerInterface {
                                     "firstName": "John",
                                     "lastName": "Snow",
                                     "email": "john@gmail.com",
-                                    "username": "johnsnow",
                                     "password": "Snow12345!",
                                     "phoneNumber": "+31950908",
                                     "address": "Alexanderstr. 1",
@@ -53,7 +52,6 @@ public interface CustomerControllerInterface {
                                           "firstName": "John",
                                           "lastName": "Snow",
                                           "email": "john@gmail.com",
-                                          "username": "johnsnowuser",
                                           "password": "Snow12345!",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",
@@ -66,7 +64,6 @@ public interface CustomerControllerInterface {
                                           "firstName": "John",
                                           "lastName": "Snow",
                                           "email": "johnsnow@gmail.com",
-                                          "username": "johnsnowuser",
                                           "password": "Snow12345!",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",
@@ -79,7 +76,6 @@ public interface CustomerControllerInterface {
                                           "firstName": "John",
                                           "lastName": "Snow",
                                           "email": "john@gmail.com",
-                                          "username": "johnsnowuser",
                                           "password": "Snow12345!",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",
@@ -230,7 +226,6 @@ public interface CustomerControllerInterface {
                                     "firstName": "John",
                                     "lastName": "Snow",
                                     "email": "john@gmail.com",
-                                    "username": "johnsnow",
                                     "password": "Snow12345!",
                                     "phoneNumber": "+31950908",
                                     "address": "Alexanderstr. 1",
@@ -240,40 +235,13 @@ public interface CustomerControllerInterface {
                            @ExampleObject(name = "Request with existing email",
                                  value = """
                                        {
-                                          "firstName": "John",
-                                          "lastName": "Snow",
-                                          "email": "john@gmail.com",
-                                          "username": "johnsnowuser",
-                                          "password": "Snow12345!",
-                                          "phoneNumber": "+31950908",
-                                          "address": "Alexanderstr. 1",
-                                          "postalCode": "12345"
+                                          "email": "john@gmail.com"
                                        }
                                        """),
-                           @ExampleObject(name = "Request with existing email",
-                                 value = """
-                                       {
-                                          "firstName": "John",
-                                          "lastName": "Snow",
-                                          "email": "johnsnow@gmail.com",
-                                          "username": "johnsnowuser",
-                                          "password": "Snow12345!",
-                                          "phoneNumber": "+31950908",
-                                          "address": "Alexanderstr. 1",
-                                          "postalCode": "12345"
-                                       }
-                                       """),
-                           @ExampleObject(name = "Not validate data",
+                           @ExampleObject(name = "Invalidate password",
                                  value = """ 
                                        {
-                                          "firstName": "John",
-                                          "lastName": "Snow",
-                                          "email": "john@gmail.com",
-                                          "username": "johnsnowuser",
-                                          "password": "Snow12345!",
-                                          "phoneNumber": "+31950908",
-                                          "address": "Alexanderstr. 1",
-                                          "postalCode": "12345"
+                                          "password": "Snow12345"
                                        }
                                        """)
                      }

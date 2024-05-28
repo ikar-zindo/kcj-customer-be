@@ -1,7 +1,7 @@
 package com.kcjcustomerbe.entity;
 
 import com.kcjcustomerbe.entity.enums.OrderStatus;
-import com.kcjcustomerbe.generatorUuid.UuidTimeSequenceGenerator;
+import com.kcjcustomerbe.util.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

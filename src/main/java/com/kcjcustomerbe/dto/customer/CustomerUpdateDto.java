@@ -20,9 +20,6 @@ public class CustomerUpdateDto {
    @Email(message = "{validation.customer.email}")
    String email;
 
-   @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "{validation.customer.username}")
-   String username;
-
    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).{8,}$", message = "{validation.customer.password}")
    String password;
 

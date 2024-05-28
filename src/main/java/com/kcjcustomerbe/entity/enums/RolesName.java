@@ -1,13 +1,13 @@
 package com.kcjcustomerbe.entity.enums;
 
 
-public enum Role {
+public enum RolesName {
 
    ROLE_CUSTOMER("ROLE_CUSTOMER");
 
    private final String value;
 
-   Role(String value) {
+   RolesName(String value) {
       this.value = value;
    }
 }

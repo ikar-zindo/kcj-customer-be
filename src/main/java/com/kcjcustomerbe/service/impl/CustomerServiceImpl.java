@@ -2,7 +2,7 @@ package com.kcjcustomerbe.service.impl;
 
 import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.entity.Customer;
-import com.kcjcustomerbe.entity.enums.Role;
+import com.kcjcustomerbe.entity.enums.RolesName;
 import com.kcjcustomerbe.exception.ErrorMessage;
 import com.kcjcustomerbe.exception.list.CustomerIdNotFound;
 import com.kcjcustomerbe.exception.list.CustomerIsExistException;
@@ -13,7 +13,6 @@ import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.service.CustomerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,26 +27,21 @@ public class CustomerServiceImpl implements CustomerService {
 
    private final CustomerMapper customerMapper;
 
-   private final PasswordEncoder encoder;
+//   private final PasswordEncoder encoder;
 
    // CREATE - REGISTRATION NEW CUSTOMER
    @Override
    @Transactional
    public CustomerResponseDto registrationCustomer(CustomerCreateDto customerCreateDto) throws CustomerNotFoundException {
-      Optional<Customer> optionalCustomerByUsername = customerRepository.findByUsername(customerCreateDto.getUsername());
       Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerCreateDto.getEmail());
-
-      if (optionalCustomerByUsername.isPresent()) {
-         throw new CustomerIsExistException(ErrorMessage.USERNAME_ALREADY_EXISTS);
-      }
 
       if (optionalCustomerByEmail.isPresent()) {
          throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
       }
 
       Customer customer = customerMapper.mapCustomerFromCustomerCreateDto(customerCreateDto);
-      customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
-      customer.setRole(Role.ROLE_CUSTOMER);
+//      customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
+      customer.setRole(RolesName.ROLE_CUSTOMER);
       Customer afterCreate = customerRepository.save(customer);
 
       return customerMapper.mapToCustomerAfterCreateDto(afterCreate);
@@ -89,11 +83,6 @@ public class CustomerServiceImpl implements CustomerService {
       Customer existingCustomer = customerRepository.findById(customerId)
             .orElseThrow(() -> new CustomerIdNotFound(customerId));
 
-      Optional<Customer> optionalCustomerByUsername = customerRepository.findByUsername(customerUpdateDto.getUsername());
-      if (optionalCustomerByUsername.isPresent() && !optionalCustomerByUsername.get().getId().equals(customerId)) {
-         throw new CustomerIsExistException(ErrorMessage.USERNAME_ALREADY_EXISTS);
-      }
-
       Optional<Customer> optionalCustomerByEmail = customerRepository.findByEmail(customerUpdateDto.getEmail());
       if (optionalCustomerByEmail.isPresent() && !optionalCustomerByEmail.get().getId().equals(customerId)) {
          throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
@@ -102,7 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
       existingCustomer = customerMapper.mapCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
 
       if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
-         existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));
+//         existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));
       }
 
       Customer afterUpdate = customerRepository.save(existingCustomer);
