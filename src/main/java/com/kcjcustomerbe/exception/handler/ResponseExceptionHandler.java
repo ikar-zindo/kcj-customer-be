@@ -1,22 +1,8 @@
 package com.kcjcustomerbe.exception.handler;
 
 import com.kcjcustomerbe.exception.list.*;
-import com.kcjcustomerbe.exception.list.CartException;
-import com.kcjcustomerbe.exception.list.CartNotFoundException;
-import com.kcjcustomerbe.exception.list.CustomerIdNotFound;
-import com.kcjcustomerbe.exception.list.CustomerIsExistException;
-import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
-import com.kcjcustomerbe.exception.list.OrderException;
-import com.kcjcustomerbe.exception.list.PaymentException;
-import com.kcjcustomerbe.exception.list.ProductIdNotFoundException;
-import com.kcjcustomerbe.exception.list.ProductNotAvailableException;
-import com.kcjcustomerbe.exception.list.DifferentRestaurantException;
-import com.kcjcustomerbe.exception.list.RestaurantNotFoundException;
-import com.kcjcustomerbe.exception.list.ReviewEmptyException;
-import com.kcjcustomerbe.exception.list.ReviewException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -108,7 +94,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             NOT_FOUND,
             additionalInfo
       );
-
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
@@ -148,6 +133,22 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    @ExceptionHandler(CartNotFoundException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
    public ResponseEntity<ErrorResponse> handleCartNotFoundException(CartNotFoundException ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+      additionalInfo.put("detail", NOT_FOUND.value());
+
+      ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            NOT_FOUND,
+            additionalInfo
+      );
+
+      return new ResponseEntity<>(errorResponse, NOT_FOUND);
+   }
+
+   @ExceptionHandler(CartIdNotFoundException.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
+   public ResponseEntity<ErrorResponse> handleCartIdNotFoundException(CartIdNotFoundException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
       additionalInfo.put("detail", NOT_FOUND.value());
@@ -206,7 +207,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             NOT_FOUND,
             additionalInfo
       );
-
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
@@ -222,7 +222,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             CONFLICT,
             additionalInfo
       );
-
       return new ResponseEntity<>(errorResponse, CONFLICT);
    }
 
@@ -257,6 +256,21 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
 
       return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
+   }
+
+   @ExceptionHandler(ProductsFromDifferentRestaurantsException.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
+   public ResponseEntity<ErrorResponse> handleProductsFromDifferentRestaurantsException(ProductsFromDifferentRestaurantsException ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+      additionalInfo.put("detail", BAD_REQUEST.value());
+
+      ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            BAD_REQUEST,
+            additionalInfo
+      );
+      return new ResponseEntity<>(errorResponse, BAD_REQUEST);
    }
 
    // PAYMENT EXCEPTIONS
@@ -313,6 +327,22 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    @ExceptionHandler(ReviewException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
    public ResponseEntity<ErrorResponse> handleReviewException(ReviewException ex) {
+      Map<String, Object> additionalInfo = new LinkedHashMap<>();
+      additionalInfo.put("timestamp", LocalDateTime.now());
+      additionalInfo.put("detail", BAD_REQUEST.value());
+
+      ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            BAD_REQUEST,
+            additionalInfo
+      );
+
+      return new ResponseEntity<>(errorResponse, BAD_REQUEST);
+   }
+
+   @ExceptionHandler(ReviewNotFoundException.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
+   public ResponseEntity<ErrorResponse> handleReviewNotFoundException(ReviewNotFoundException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
       additionalInfo.put("detail", BAD_REQUEST.value());

@@ -10,7 +10,7 @@ START TRANSACTION;
 -- Table structure for table roles
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`roles`
+CREATE TABLE IF NOT EXISTS `roles`
 (
     `role_id`   BINARY(16) PRIMARY KEY,
     `role_name` ENUM ('ROLE_USER',
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`roles`
 -- Table structure for table authorities
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`authorities`
+CREATE TABLE IF NOT EXISTS `authorities`
 (
     `auth_id`   BINARY(16) PRIMARY KEY,
     `authority` ENUM ('MANAGE_ORDERS',
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`authorities`
 -- Table structure for table role_authorities
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`employee_roles`
+CREATE TABLE IF NOT EXISTS `employee_roles`
 (
     employee_id BINARY(16) NOT NULL,
     role_id      BINARY(16) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`employee_roles`
 -- Table structure for table role_authorities
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`role_authorities`
+CREATE TABLE IF NOT EXISTS `role_authorities`
 (
     role_id BINARY(16),
     auth_id BINARY(16),

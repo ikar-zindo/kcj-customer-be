@@ -58,13 +58,10 @@ public class CustomerServiceImpl implements CustomerService {
       }
 
       Customer expextedCustomer = customerOptional.get();
-
-      if (!expextedCustomer.getIsBlocked()) {
-         return customerMapper.mapToCustomerDto(customerOptional.get());
-
-      } else {
+      if (expextedCustomer.getIsBlocked()) {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
       }
+      return customerMapper.mapToCustomerDto(customerOptional.get());
    }
 
    // UPDATE - CUSTOMER DETAILS
@@ -90,12 +87,11 @@ public class CustomerServiceImpl implements CustomerService {
 
       existingCustomer = customerMapper.mapCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
 
-      if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
+//      if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
 //         existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));
-      }
+//      }
 
       Customer afterUpdate = customerRepository.save(existingCustomer);
-
       return customerMapper.mapToCustomerAfterUpdateDto(afterUpdate);
    }
 

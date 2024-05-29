@@ -10,8 +10,8 @@ import com.kcjcustomerbe.mapper.ReviewMapper;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.repo.RestaurantRepository;
 import com.kcjcustomerbe.repo.ReviewRepository;
-import com.kcjcustomerbe.service.RestaurantService;
 import com.kcjcustomerbe.service.ReviewService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +22,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-   public final ReviewRepository reviewRepository;
+   private final ReviewRepository reviewRepository;
 
-   public final CustomerRepository customerRepository;
+   private final CustomerRepository customerRepository;
 
-   public final RestaurantRepository restaurantRepository;
+   private final RestaurantRepository restaurantRepository;
 
-   public final ReviewMapper reviewMapper;
+   private final ReviewMapper reviewMapper;
 
    // CREATE
    @Override
+   @Transactional
    public ReviewDto addReview(ReviewDto reviewDto, UUID customerId, Long restaurantId) {
       Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId));
@@ -46,7 +47,7 @@ public class ReviewServiceImpl implements ReviewService {
          review.setRestaurant(restaurant);
 
          Review savedReview = reviewRepository.save(review);
-         return reviewMapper.mapReviewToReviewDto(savedReview);
+         return reviewMapper.mapToReviewDto(savedReview);
 
       } else {
          throw new ReviewEmptyException(ErrorMessage.REVIEW_BODY_IS_EMPTY);
@@ -59,7 +60,7 @@ public class ReviewServiceImpl implements ReviewService {
       Review review = reviewRepository.findById(reviewId)
             .orElseThrow(() -> new IdNotFoundException(ErrorMessage.REVIEW_ID_NOT_FOUND + reviewId));
 
-      return reviewMapper.mapReviewToReviewDto(review);
+      return reviewMapper.mapToReviewDto(review);
    }
 
    // READ
@@ -68,7 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
       List<Review> reviews = reviewRepository.findAll();
 
       if (!reviews.isEmpty()) {
-         return reviewMapper.mapReviewsToReviewsDto(reviews);
+         return reviewMapper.mapToReviewsDto(reviews);
       } else {
          throw new ReviewEmptyException(ErrorMessage.REVIEWS_NOT_FOUND);
       }
@@ -76,20 +77,22 @@ public class ReviewServiceImpl implements ReviewService {
 
    // UPDATE
    @Override
+   @Transactional
    public ReviewDto updateReview(ReviewDto reviewDto) {
       Review review = reviewMapper.mapReviewToUpdateReviewDto(reviewDto);
       Review updatedReview = reviewRepository.save(review);
-      return reviewMapper.mapReviewToReviewDto(updatedReview);
+      return reviewMapper.mapToReviewDto(updatedReview);
    }
 
    // DELETE
    @Override
+   @Transactional
    public void deleteReview(Long reviewId) {
 
-      if (reviewId == null) {
-         throw new ReviewNotFoundException(null);
+      if (reviewId != null) {
+         reviewRepository.deleteById(reviewId);
+      } else {
+         throw new ReviewNotFoundException(ErrorMessage.REVIEW_NOT_FOUND);
       }
-
-      reviewRepository.deleteById(reviewId);
    }
 }

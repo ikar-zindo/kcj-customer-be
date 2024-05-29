@@ -48,7 +48,22 @@ public interface RestaurantMapper {
          @Mapping(target = "productsDto", source = "products"),
          @Mapping(target = "reviewsDto", source = "reviews"),
    })
-   RestaurantDto mapRestaurantToRestaurantDto(Restaurant entity);
+   RestaurantDto mapToRestaurantDto(Restaurant entity);
+
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "name", source = "name"),
+         @Mapping(target = "address", source = "address"),
+         @Mapping(target = "phoneNumber", source = "phoneNumber"),
+         @Mapping(target = "openingHours", source = "openingHours"),
+         @Mapping(target = "cuisineType", source = "cuisineType"),
+         @Mapping(target = "description", source = "description"),
+         @Mapping(target = "socialMediaLinks", source = "socialMediaLinks"),
+         @Mapping(target = "isOpen", source = "isOpen"),
+         @Mapping(target = "products", source = "productsDto"),
+         @Mapping(target = "reviews", source = "reviewsDto"),
+   })
+   Restaurant mapToRestaurant(RestaurantDto dto);
 
    /**
     * Maps a list of `Restaurant` entities to a list of `RestaurantDto`.

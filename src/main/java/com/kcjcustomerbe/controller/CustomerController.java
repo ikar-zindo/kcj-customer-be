@@ -5,7 +5,7 @@ import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
 import com.kcjcustomerbe.dto.customer.CustomerDto;
 import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
 import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
-import com.kcjcustomerbe.service.impl.CustomerServiceImpl;
+import com.kcjcustomerbe.service.CustomerService;
 import com.kcjcustomerbe.validation.UuidFormatChecker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequestMapping("/customer")
 public class CustomerController implements CustomerControllerInterface {
 
-   private final CustomerServiceImpl customerService;
+   private final CustomerService customerService;
 
    // CREATE - REGISTRATION NEW CUSTOMER
    @PostMapping
@@ -30,7 +30,6 @@ public class CustomerController implements CustomerControllerInterface {
            @Valid @RequestBody CustomerCreateDto customerCreateDto) {
 
       CustomerResponseDto dto = customerService.registrationCustomer(customerCreateDto);
-
       return ResponseEntity.created(URI.create("customer/" + dto.getId())).body(dto);
    }
 

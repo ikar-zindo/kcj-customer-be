@@ -30,9 +30,11 @@ import java.util.Objects;
  *
  * Additionally, `MappingUtils` is used to handle specific mapping logic for null or empty fields.
  *
- * @see ProductMapper
+ * @see CartMapper
  * @see OrderMapper
+ * @see Objects
  * @see MappingUtils
+ * @see GlobalConstant
  *
  * @author Ivan Bukrieiev
  * @since v1.0.0
@@ -40,7 +42,7 @@ import java.util.Objects;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
       nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-      uses = {ProductMapper.class, OrderMapper.class},
+      uses = {OrderMapper.class, CartMapper.class},
       imports = {Objects.class, MappingUtils.class, GlobalConstant.class})
 public interface CustomerMapper {
 
@@ -106,39 +108,30 @@ public interface CustomerMapper {
       @Mapping(target = "updatedAt", ignore = true),
       @Mapping(target = "role", source = "role"),
       @Mapping(target = "isBlocked", source = "isBlocked"),
-      @Mapping(target = "cartDto", source = "cart"),
+      @Mapping(target = "cartDto", source = "cart", qualifiedByName = "mapToCartDto"),
       @Mapping(target = "ordersDto", source = "orders"),
       @Mapping(target = "reviewsDto", source = "reviews")
    })
    CustomerDto mapToCustomerDto(Customer entity);
 
-   /**
-    * Maps a `Cart` entity to a `CartDto`.
-    *
-    * @param entity The `Cart` entity to be mapped.
-    * @return The mapped `CartDto`. If the source `Cart` entity is null, return null.
-    */
    @Mappings({
-      @Mapping(target = "id", source = "id"),
-      @Mapping(target = "customerDto", ignore = true),
-      @Mapping(target = "cartProductsDto", source = "cartProducts")
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "firstName", source = "firstName"),
+         @Mapping(target = "lastName", source = "lastName"),
+         @Mapping(target = "email", source = "email"),
+         @Mapping(target = "password", ignore = true),
+         @Mapping(target = "phoneNumber", source = "phoneNumber"),
+         @Mapping(target = "address", source = "address"),
+         @Mapping(target = "postalCode", source = "postalCode"),
+         @Mapping(target = "createdAt", ignore = true),
+         @Mapping(target = "updatedAt", ignore = true),
+         @Mapping(target = "role", source = "role"),
+         @Mapping(target = "isBlocked", source = "isBlocked"),
+         @Mapping(target = "cart", source = "cartDto"),
+         @Mapping(target = "orders", source = "ordersDto"),
+         @Mapping(target = "reviews", source = "reviewsDto")
    })
-   CartDto mapToCartDto(Cart entity);
-
-   /**
-    * Maps a list of `CartProduct` entities to a list of `CartProductDto`.
-    *
-    * @param entities The list of `CartProduct` entities to be mapped.
-    * @return The list of mapped `CartProductDto`. If the source list is null or empty, return an empty list.
-    */
-   @Mappings({
-      @Mapping(target = "id", source = "id"),
-      @Mapping(target = "cartDto", ignore = true),
-      @Mapping(target = "quantity", source = "quantity"),
-      @Mapping(target = "productDto", source = "product"),
-      @Mapping(target = "cratedAt", source = "cratedAt")
-   })
-   List<CartProductDto> mapToCartProductsDto(List<CartProduct> entities);
+   Customer mapToCustomer(CustomerDto dto);
 
    // ==================================================================================================================
 

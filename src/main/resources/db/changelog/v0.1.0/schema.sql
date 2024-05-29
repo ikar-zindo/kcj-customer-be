@@ -12,7 +12,7 @@ START TRANSACTION;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `k-curry-jib`
+-- Database: k-curry-jib
 --
 
 -- --------------------------------------------------------
@@ -21,7 +21,7 @@ START TRANSACTION;
 -- Table structure for table customers
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`customers`
+CREATE TABLE IF NOT EXISTS `customers`
 (
     `customer_id`  BINARY(16) PRIMARY KEY,
     `first_name`   VARCHAR(30),
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`customers`
 -- Table structure for table carts
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`carts`
+CREATE TABLE IF NOT EXISTS `carts`
 (
     `cart_id`     BINARY(16) PRIMARY KEY,
     `customer_id` BINARY(16) NOT NULL
@@ -51,21 +51,20 @@ CREATE TABLE IF NOT EXISTS `kcj`.`carts`
 -- Table structure for table cart_products
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`cart_products`
+CREATE TABLE IF NOT EXISTS `cart_products`
 (
     `cart_product_id` BINARY(16) PRIMARY KEY,
     `cart_id`         BINARY(16) NOT NULL,
     `product_id`      BIGINT,
     `quantity`        INT,
-    `created_at`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at`      TIMESTAMP
+    `created_at`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Table structure for table orders
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`orders`
+CREATE TABLE IF NOT EXISTS `orders`
 (
     `order_id`         BINARY(16) PRIMARY KEY,
     `customer_id`      BINARY(16) NOT NULL,
@@ -83,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`orders`
 -- Table structure for table order_products
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`order_products`
+CREATE TABLE IF NOT EXISTS `order_products`
 (
     `order_product_id` BINARY(16) PRIMARY KEY,
     `order_id`         BINARY(16) NOT NULL,
@@ -95,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`order_products`
 -- Table structure for table products
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`products`
+CREATE TABLE IF NOT EXISTS `products`
 (
     `product_id`    BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name`          VARCHAR(60),
@@ -111,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`products`
 -- Table structure for table restaurants
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`restaurants`
+CREATE TABLE IF NOT EXISTS `restaurants`
 (
     `restaurant_id`      BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name`               VARCHAR(60),
@@ -128,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`restaurants`
 -- Table structure for table reviews
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`reviews`
+CREATE TABLE IF NOT EXISTS `reviews`
 (
     `review_id`     BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `restaurant_id` BIGINT,
@@ -143,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `kcj`.`reviews`
 -- Table structure for table employees
 --
 
-CREATE TABLE IF NOT EXISTS `kcj`.`employees`
+CREATE TABLE IF NOT EXISTS `employees`
 (
     `employee_id`   BINARY(16) PRIMARY KEY,
     `first_name`    VARCHAR(30),
@@ -167,21 +166,21 @@ CREATE TABLE IF NOT EXISTS `kcj`.`employees`
 -- Indexes for table carts
 --
 
-ALTER TABLE `kcj`.`carts`
+ALTER TABLE `carts`
     ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table cart_products
 --
 
-ALTER TABLE `kcj`.`cart_products`
+ALTER TABLE `cart_products`
     ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table orders
 --
 
-ALTER TABLE `kcj`.`orders`
+ALTER TABLE `orders`
     ADD KEY `customer_id` (`customer_id`),
     ADD KEY `restaurant_id` (`restaurant_id`);
 
@@ -189,7 +188,7 @@ ALTER TABLE `kcj`.`orders`
 -- Indexes for table order_products
 --
 
-ALTER TABLE `kcj`.`order_products`
+ALTER TABLE `order_products`
     ADD KEY `order_id` (`order_id`),
     ADD KEY `product_id` (`product_id`);
 
@@ -197,14 +196,14 @@ ALTER TABLE `kcj`.`order_products`
 -- Indexes for table products
 --
 
-ALTER TABLE `kcj`.`products`
+ALTER TABLE `products`
     ADD KEY `restaurant_id` (`restaurant_id`);
 
 --
 -- Indexes for table reviews
 --
 
-ALTER TABLE `kcj`.`reviews`
+ALTER TABLE `reviews`
     ADD KEY `restaurant_id` (`restaurant_id`),
     ADD KEY `customer_id` (`customer_id`);
 
@@ -212,7 +211,7 @@ ALTER TABLE `kcj`.`reviews`
 -- Indexes for table employees
 --
 
-ALTER TABLE `kcj`.`employees`
+ALTER TABLE `employees`
     ADD KEY `employee_id` (`employee_id`);
 
 -- --------------------------------------------------------
@@ -225,21 +224,21 @@ ALTER TABLE `kcj`.`employees`
 -- Constraints for table customers
 --
 
-ALTER TABLE `kcj`.`customers`
+ALTER TABLE `customers`
     ADD CONSTRAINT unique_customer_email UNIQUE (email);
 
 --
 -- Constraints for table carts
 --
 
-ALTER TABLE `kcj`.`carts`
+ALTER TABLE `carts`
     ADD CONSTRAINT `carts_fk_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`);
 
 --
 -- Constraints for table cart_products
 --
 
-ALTER TABLE kcj.`cart_products`
+ALTER TABLE `cart_products`
     ADD CONSTRAINT `cart_products_fk_carts` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`),
 	ADD CONSTRAINT `cart_products_fk_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
 
@@ -247,7 +246,7 @@ ALTER TABLE kcj.`cart_products`
 -- Constraints for table orders
 --
 
-ALTER TABLE `kcj`.`orders`
+ALTER TABLE `orders`
     ADD CONSTRAINT `orders_fk_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
   ADD CONSTRAINT `orders_fk_restaurants` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`restaurant_id`),
   ADD CONSTRAINT `orders_fk_employees` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`);
@@ -256,7 +255,7 @@ ALTER TABLE `kcj`.`orders`
 -- Constraints for table order_products
 --
 
-ALTER TABLE `kcj`.`order_products`
+ALTER TABLE `order_products`
     ADD CONSTRAINT `order_products_fk_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
 	ADD CONSTRAINT `order_products_fk_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
 
@@ -264,14 +263,14 @@ ALTER TABLE `kcj`.`order_products`
 -- Constraints for table products
 --
 
-ALTER TABLE `kcj`.`products`
+ALTER TABLE `products`
     ADD CONSTRAINT `products_fk_restaurants` FOREIGN KEY (`restaurant_id`) REFERENCES restaurants (`restaurant_id`);
 
 --
 -- Constraints for table reviews
 --
 
-ALTER TABLE `kcj`.`reviews`
+ALTER TABLE `reviews`
     ADD CONSTRAINT `review_fk_restaurants` FOREIGN KEY (`restaurant_id`) REFERENCES restaurants (`restaurant_id`),
 	ADD CONSTRAINT `reviews_fk_customers` FOREIGN KEY (`customer_id`) REFERENCES customers (`customer_id`);
 
@@ -279,7 +278,7 @@ ALTER TABLE `kcj`.`reviews`
 -- Constraints for table employees
 --
 
-ALTER TABLE `kcj`.`employees`
+ALTER TABLE `employees`
     ADD CONSTRAINT `employees_fk_restaurants` FOREIGN KEY (`restaurant_id`) REFERENCES restaurants (`restaurant_id`),
     ADD CONSTRAINT unique_nickname UNIQUE (nickname);
 

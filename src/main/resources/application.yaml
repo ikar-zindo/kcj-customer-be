@@ -4,11 +4,15 @@ server:
 spring:
   main:
     banner-mode: off
+  messages:
+    basename: ValidationMessages
+
   datasource:
     url: jdbc:mysql://${DATASOURCE_DATABASE_HOST}:${DATASOURCE_DATABASE_PORT}/${DATASOURCE_DATABASE_NAME}?createDatabaseIfNotExist=true
     username: ${DATASOURCE_DATABASE_USERNAME}
     password: ${DATASOURCE_DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     generate-ddl: false
     show-sql: false
@@ -17,14 +21,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-  messages:
-    basename: ValidationMessages
 
   liquibase:
     enabled: true
 #    drop-first: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
-
+  security:
+    user:
+      password: pass
 #logging:
 #  level:
 #    root: debug

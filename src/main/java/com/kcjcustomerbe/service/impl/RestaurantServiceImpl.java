@@ -59,7 +59,7 @@ public class RestaurantServiceImpl implements RestaurantService {
       Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
 
       if (restaurantOptional.isPresent()) {
-         restaurantDto = restaurantMapper.mapRestaurantToRestaurantDto((restaurantOptional.get()));
+         restaurantDto = restaurantMapper.mapToRestaurantDto((restaurantOptional.get()));
          return restaurantDto;
 
       } else {
@@ -79,7 +79,7 @@ public class RestaurantServiceImpl implements RestaurantService {
          throw new ReviewNotFoundException(ErrorMessage.REVIEWS_NOT_FOUND);
       }
 
-      return reviewMapper.mapReviewsToReviewsDto(reviews.get());
+      return reviewMapper.mapToReviewsDto(reviews.get());
    }
 
    // AGGREGATION - GET NUMBER OF RESTAURANT BY RESTAURANT ID

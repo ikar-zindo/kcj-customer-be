@@ -36,7 +36,4 @@ public class CartProduct {
 
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime createdAt;
-
-   @Column(name = "updated_at")
-   private LocalDateTime updatedAt;
 }

@@ -38,17 +38,18 @@ public interface OrderMapper {
     * @return The mapped `OrderDto`. If the source `Order` entity is null, return null.
     */
    @Mappings({
-         @Mapping(target = "id", source = "entity.id"),
-         @Mapping(target = "restaurantDto", source = "entity.restaurant"),
-         @Mapping(target = "createdAt", source = "entity.createdAt"),
-         @Mapping(target = "updateAt", source = "entity.updateAt"),
-         @Mapping(target = "deliveryAddress", source = "entity.deliveryAddress"),
-         @Mapping(target = "postalCode", source = "entity.postalCode"),
-         @Mapping(target = "totalAmount", source = "entity.totalAmount"),
-         @Mapping(target = "orderStatus", source = "entity.orderStatus"),
-         @Mapping(target = "orderProductsDto", source = "entity.orderProducts")
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "customerDto", ignore = true),
+         @Mapping(target = "restaurantDto", source = "restaurant"),
+         @Mapping(target = "createdAt", source = "createdAt"),
+         @Mapping(target = "updateAt", source = "updateAt"),
+         @Mapping(target = "deliveryAddress", source = "deliveryAddress"),
+         @Mapping(target = "postalCode", source = "postalCode"),
+         @Mapping(target = "totalAmount", source = "totalAmount"),
+         @Mapping(target = "orderStatus", source = "orderStatus"),
+         @Mapping(target = "orderProductsDto", source = "orderProducts")
    })
-   OrderDto mapOrderToOrderDto(Order entity);
+   OrderDto mapToOrderDto(Order entity);
 
    /**
     * Maps an `Order` entity to an `OrderDto`.
@@ -57,11 +58,12 @@ public interface OrderMapper {
     * @return The mapped `OrderDto`. If the source `Order` entity is null, return null.
     */
    @Mappings({
-         @Mapping(target = "id", source = "entity.id"),
-         @Mapping(target = "quantity", source = "entity.quantity"),
-         @Mapping(target = "productDto", source = "entity.product"),
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "quantity", source = "quantity"),
+         @Mapping(target = "orderDto", ignore = true),
+         @Mapping(target = "productDto", source = "product")
    })
-   OrderProductDto mapOrderProductToOrderProductDto(OrderProduct entity);
+   OrderProductDto mapToOrderProductDto(OrderProduct entity);
 
    /**
     * Maps an `OrderDto` to an `Order` entity.
@@ -70,17 +72,18 @@ public interface OrderMapper {
     * @return The mapped `Order` entity. If the source `OrderDto` is null, return null.
     */
    @Mappings({
-         @Mapping(target = "id", source = "dto.id"),
-         @Mapping(target = "restaurant", source = "dto.restaurantDto"),
-         @Mapping(target = "createdAt", source = "dto.createdAt"),
-         @Mapping(target = "updateAt", source = "dto.updateAt"),
-         @Mapping(target = "deliveryAddress", source = "dto.deliveryAddress"),
-         @Mapping(target = "postalCode", source = "dto.postalCode"),
-         @Mapping(target = "totalAmount", source = "dto.totalAmount"),
-         @Mapping(target = "orderStatus", source = "dto.orderStatus"),
-         @Mapping(target = "orderProducts", source = "dto.orderProductsDto")
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "customer", source = "customerDto"),
+         @Mapping(target = "restaurant", source = "restaurantDto"),
+         @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())"),
+         @Mapping(target = "updateAt", source = "updateAt"),
+         @Mapping(target = "deliveryAddress", source = "deliveryAddress"),
+         @Mapping(target = "postalCode", source = "postalCode"),
+         @Mapping(target = "totalAmount", source = "totalAmount"),
+         @Mapping(target = "orderStatus", source = "orderStatus"),
+         @Mapping(target = "orderProducts", source = "orderProductsDto")
    })
-   Order mapOrderDtoToOrder(OrderDto dto);
+   Order mapToOrder(OrderDto dto);
 
    /**
     * Maps an `OrderProductDto` to an `OrderProduct` entity.
@@ -89,11 +92,12 @@ public interface OrderMapper {
     * @return The mapped `OrderProduct` entity. If the source `OrderProductDto` is null, return null.
     */
    @Mappings({
-         @Mapping(target = "id", source = "dto.id"),
-         @Mapping(target = "quantity", source = "dto.quantity"),
-         @Mapping(target = "product", source = "dto.productDto"),
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "order", ignore = true),
+         @Mapping(target = "quantity", source = "quantity"),
+         @Mapping(target = "product", source = "productDto")
    })
-   OrderProduct mapOrderProductDtoToOrderProduct(OrderProductDto dto);
+   OrderProduct mapToOrderProduct(OrderProductDto dto);
 
    /**
     * Maps a list of `Order` entities to a list of `OrderDto`.
@@ -101,7 +105,7 @@ public interface OrderMapper {
     * @param entities The list of `Order` entities to be mapped.
     * @return The list of mapped `OrderDto`. If the source list is null or empty, return an empty list.
     */
-   List<OrderDto> mapOrdersToOrdersDto(List<Order> entities);
+   List<OrderDto> mapToOrdersDto(List<Order> entities);
 
    /**
     * Maps a list of `OrderDto` to a list of `Order` entities.
@@ -109,7 +113,7 @@ public interface OrderMapper {
     * @param dtos The list of `OrderDto` to be mapped.
     * @return The list of mapped `Order` entities. If the source list is null or empty, return an empty list.
     */
-   List<Order> mapOrdersDtoToOrders(List<OrderDto> dtos);
+   List<Order> mapDtoToOrders(List<OrderDto> dtos);
 
    /**
     * Maps a list of `OrderProduct` entities to a list of `OrderProductDto`.
@@ -117,7 +121,7 @@ public interface OrderMapper {
     * @param entities The list of `OrderProduct` entities to be mapped.
     * @return The list of mapped `OrderProductDto`. If the source list is null or empty, return an empty list.
     */
-   List<OrderProductDto> mapOrderProductsToOrderProductsDto(List<OrderProduct> entities);
+   List<OrderProductDto> mapToOrderProductsDto(List<OrderProduct> entities);
 
    /**
     * Maps a list of `OrderProductDto` to a list of `OrderProduct` entities.
@@ -125,5 +129,5 @@ public interface OrderMapper {
     * @param dtos The list of `OrderProductDto` to be mapped.
     * @return The list of mapped `OrderProduct` entities. If the source list is null or empty, return an empty list.
     */
-   List<OrderProduct> mapOrderProductsDtoToOrderProducts(List<OrderProductDto> dtos);
+   List<OrderProduct> mapToOrderProducts(List<OrderProductDto> dtos);
 }

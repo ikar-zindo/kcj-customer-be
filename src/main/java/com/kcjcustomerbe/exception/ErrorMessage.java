@@ -33,6 +33,7 @@ public class ErrorMessage {
    public static final String CUSTOMER_CART_NOT_FOUND = "CUSTOMER_WAS_NOT_FOUND_IN_BD_WITH_CART_ID=";
    public static final String PRODUCTS_CANNOT_BE_ADD_TO_CART =
            "CART CONTAINS PRODUCTS FROM DIFFERENT RESTAURANTS. PLACE AN ORDER FROM 1 RESTAURANT.";
+   public static final String PRODUCT_WAS_NOT_ADDED_TO_YOUR_CART = "PRODUCT_WAS_NOT_ADDED_TO_YOUR_CART=";
 
    // PRODUCTS EXCEPTION MASSAGES
    public static final String PRODUCT_NOT_FOUND = "PRODUCT_NOT_FOUND";
@@ -42,6 +43,7 @@ public class ErrorMessage {
 
    // ORDER EXCEPTION MASSAGES
    public static final String ORDER_NOT_SAVED = "ORDER_WAS_NOT_SAVED_ID_DB";
+   public static final String ORDER_DIFFERENT_RESTAURANT = "Cart contains products from different restaurants.\nPlace an order from 1 restaurant";
 
    // RESTAURANT EXCEPTION MASSAGES
    public static final String RESTAURANT_NOT_FOUND = "RESTAURANT_WAS_NOT_FOUND";
@@ -56,5 +58,5 @@ public class ErrorMessage {
    public static final String REVIEW_BODY_IS_EMPTY = "REVIEW_BODY_IS_EMPTY";
 
    // PAYMENT EXCEPTION MASSAGES
-   public static final String PAYMENT_NOT_THROUGH = "PAYMENT FOR THE ORDER DID NOT GO THROUGH";
+   public static final String PAYMENT_NOT_THROUGH = "PAYMENT_FOR_THE_ORDER_DID_NOT_GO_THROUGH";
 }

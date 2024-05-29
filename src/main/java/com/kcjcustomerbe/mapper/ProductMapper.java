@@ -71,4 +71,18 @@ public interface ProductMapper {
     * @return The list of mapped `ProductDto`. If the source list is null or empty, return an empty list.
     */
    List<ProductDto> mapToProductsDto(List<Product> products);
+
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "name", source = "name"),
+         @Mapping(target = "description", source = "description"),
+         @Mapping(target = "price", source = "price"),
+         @Mapping(target = "imageUrl", source = "imageUrl"),
+         @Mapping(target = "isAvailable", source = "isAvailable"),
+         @Mapping(target = "restaurant", source = "restaurantDto")
+   })
+   Product mapToProduct(ProductDto productDto);
+
+   List<Product> mapToProducts(List<ProductDto> dtos);
+
 }

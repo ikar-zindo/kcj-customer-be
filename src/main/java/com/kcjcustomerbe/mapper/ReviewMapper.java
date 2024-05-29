@@ -31,31 +31,6 @@ public interface ReviewMapper {
 
    ReviewMapper INSTANCE = Mappers.getMapper(ReviewMapper.class);
 
-   /**
-    * Maps a `Review` entity to a `ReviewDto`.
-    *
-    * @param entity The `Review` entity to be mapped.
-    * @return The mapped `ReviewDto`. If the source `Review` entity is null, return null.
-    */
-   @Mappings({
-         @Mapping(target = "id", source = "id"),
-         @Mapping(target = "restaurantDto", ignore = true),
-         @Mapping(target = "customerDto", source = "customer"),
-         @Mapping(target = "rating", source = "rating"),
-         @Mapping(target = "comment", source = "comment"),
-         @Mapping(target = "createdAt", source = "createdAt"),
-         @Mapping(target = "updatedAt", source = "updatedAt")
-   })
-   ReviewDto mapReviewToReviewDto(Review entity);
-
-   /**
-    * Maps a list of `Review` entities to a list of `ReviewDto`.
-    *
-    * @param reviews The list of `Review` entities to be mapped.
-    * @return The list of mapped `ReviewDto`. If the source list is null or empty, return an empty list.
-    */
-   List<ReviewDto> mapReviewsToReviewsDto(List<Review> reviews);
-
    @Mappings({
          @Mapping(target = "restaurant",source = "restaurantDto"),
          @Mapping(target = "customer", source = "customerDto"),
@@ -75,6 +50,55 @@ public interface ReviewMapper {
          @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
    })
    Review mapReviewToUpdateReviewDto(ReviewDto dto);
+
+   /**
+    * Maps a `Review` entity to a `ReviewDto`.
+    *
+    * @param entity The `Review` entity to be mapped.
+    * @return The mapped `ReviewDto`. If the source `Review` entity is null, return null.
+    */
+   @Named("mapToReviewDto")
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "restaurantDto", ignore = true),
+         @Mapping(target = "customerDto", source = "customer"),
+         @Mapping(target = "rating", source = "rating"),
+         @Mapping(target = "comment", source = "comment"),
+         @Mapping(target = "createdAt", source = "createdAt"),
+         @Mapping(target = "updatedAt", source = "updatedAt")
+   })
+   ReviewDto mapToReviewDto(Review entity);
+
+   @Named("mapToReview")
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "restaurant", ignore = true),
+         @Mapping(target = "customer", source = "customerDto"),
+         @Mapping(target = "rating", source = "rating"),
+         @Mapping(target = "comment", source = "comment"),
+         @Mapping(target = "createdAt", source = "createdAt"),
+         @Mapping(target = "updatedAt", source = "updatedAt")
+   })
+   Review mapToReview(ReviewDto dto);
+
+   /**
+    * Maps a list of `Review` entities to a list of `ReviewDto`.
+    *
+    * @param entities The list of `Review` entities to be mapped.
+    * @return The list of mapped `ReviewDto`. If the source list is null or empty, return an empty list.
+    */
+   @Named("mapToReviewsDto")
+   @IterableMapping(qualifiedByName = "mapToReviewDto")
+   List<ReviewDto> mapToReviewsDto(List<Review> entities);
+
+   /**
+    * Maps a list of `Review` entities to a list of `ReviewDto`.
+    *
+    * @param dtos The list of `ReviewDto` dto to be mapped.
+    * @return The list of mapped `Review`. If the source list is null or empty, return an empty list.
+    */
+   @IterableMapping(qualifiedByName = "mapToReview")
+   List<Review> mapToReviews(List<ReviewDto> dtos);
 
    @Mappings({
          @Mapping(target = "id", source = "id"),

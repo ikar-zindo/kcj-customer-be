@@ -2,8 +2,10 @@ package com.kcjcustomerbe.mapper;
 
 import com.kcjcustomerbe.dto.CartDto;
 import com.kcjcustomerbe.dto.CartProductDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
 import com.kcjcustomerbe.entity.Cart;
 import com.kcjcustomerbe.entity.CartProduct;
+import com.kcjcustomerbe.entity.Customer;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -37,10 +39,43 @@ public interface CartMapper {
     * @param entity The `Cart` entity to be mapped.
     * @return The mapped `CartDto`. If the source `Cart` entity is null, return null.
     */
+   @Named("mapToCartDto")
    @Mapping(target = "id", source = "id")
    @Mapping(target = "customerDto", ignore = true)
    @Mapping(target = "cartProductsDto", source = "cartProducts")
    CartDto mapToCartDto(Cart entity);
+
+
+   /**
+    * Maps a `Cart` entity to a `CartDto`.
+    *
+    * @param entity The `Cart` entity to be mapped.
+    * @return The mapped `CartDto`. If the source `Cart` entity is null, return null.
+    */
+   @Named("mapToCartDtoWithCustomer")
+   @Mapping(target = "id", source = "id")
+   @Mapping(target = "customerDto", source = "customer")
+   @Mapping(target = "cartProductsDto", source = "cartProducts")
+   CartDto mapToCartDtoWithCustomer(Cart entity);
+
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "firstName", ignore = true),
+         @Mapping(target = "lastName",ignore = true),
+         @Mapping(target = "email", ignore = true),
+//      @Mapping(target = "password", ignore = true),
+         @Mapping(target = "phoneNumber", ignore = true),
+         @Mapping(target = "address", ignore = true),
+         @Mapping(target = "postalCode", ignore = true),
+         @Mapping(target = "createdAt", ignore = true),
+         @Mapping(target = "updatedAt", ignore = true),
+         @Mapping(target = "role",ignore = true),
+         @Mapping(target = "isBlocked", ignore = true),
+         @Mapping(target = "cartDto", ignore = true),
+         @Mapping(target = "ordersDto", ignore = true),
+         @Mapping(target = "reviewsDto", ignore = true)
+   })
+   CustomerDto mapTuCustomerCart(Customer customer);
 
    /**
     * Maps a `CartProduct` entity to a `CartProductDto`.
@@ -61,7 +96,8 @@ public interface CartMapper {
     * @param dto The `CartDto` to be mapped.
     * @return The mapped `Cart` entity. If the source `CartDto` is null, return null.
     */
-   @Mapping(target = "id", ignore = true)
+   @Named("mapToCart")
+   @Mapping(target = "id", source = "id")
    @Mapping(target = "customer", ignore = true)
    @Mapping(target = "cartProducts", source = "cartProductsDto")
    Cart mapToCart(CartDto dto);
@@ -73,7 +109,7 @@ public interface CartMapper {
     * @return The mapped `CartProduct` entity. If the source `CartProductDto` is null, return null.
     */
    @Mapping(target = "id", source = "id")
-   @Mapping(target = "cart", ignore = true)
+   @Mapping(target = "cart", source = "cartDto")
    @Mapping(target = "product", source = "productDto")
    @Mapping(target = "quantity", source = "quantity")
    @Mapping(target = "createdAt", source = "createdAt")
