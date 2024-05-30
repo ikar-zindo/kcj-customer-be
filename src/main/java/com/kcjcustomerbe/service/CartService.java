@@ -25,7 +25,5 @@ public interface CartService {
 
    OrderDto createOrder(UUID cartId);
 
-   Boolean isPay(UUID customerId, UUID cartId);
-
    void clearCart(UUID cartId);
 }

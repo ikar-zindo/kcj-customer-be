@@ -95,12 +95,12 @@ public interface CustomerMapper {
     * @param entity The `Customer` entity to be mapped.
     * @return The mapped `CustomerDto`. If the source `Customer` entity is null, return null.
     */
+   @Named("mapToCustomerDto")
    @Mappings({
       @Mapping(target = "id", source = "id"),
       @Mapping(target = "firstName", source = "firstName"),
       @Mapping(target = "lastName", source = "lastName"),
       @Mapping(target = "email", source = "email"),
-//      @Mapping(target = "password", ignore = true),
       @Mapping(target = "phoneNumber", source = "phoneNumber"),
       @Mapping(target = "address", source = "address"),
       @Mapping(target = "postalCode", source = "postalCode"),
@@ -113,6 +113,25 @@ public interface CustomerMapper {
       @Mapping(target = "reviewsDto", source = "reviews")
    })
    CustomerDto mapToCustomerDto(Customer entity);
+
+   @Named("mapToCustomerDtoWithoutCart")
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "firstName", source = "firstName"),
+         @Mapping(target = "lastName", source = "lastName"),
+         @Mapping(target = "email", source = "email"),
+         @Mapping(target = "phoneNumber", source = "phoneNumber"),
+         @Mapping(target = "address", source = "address"),
+         @Mapping(target = "postalCode", source = "postalCode"),
+         @Mapping(target = "createdAt", ignore = true),
+         @Mapping(target = "updatedAt", ignore = true),
+         @Mapping(target = "role", source = "role"),
+         @Mapping(target = "isBlocked", source = "isBlocked"),
+         @Mapping(target = "cartDto", source = "cart", qualifiedByName = "mapToCartDto"),
+         @Mapping(target = "ordersDto", source = "orders"),
+         @Mapping(target = "reviewsDto", source = "reviews")
+   })
+   CustomerDto mapToCustomerDtoWithoutCart(Customer entity);
 
    @Mappings({
          @Mapping(target = "id", source = "id"),

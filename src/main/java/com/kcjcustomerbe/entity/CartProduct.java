@@ -2,6 +2,7 @@ package com.kcjcustomerbe.entity;
 
 import com.kcjcustomerbe.util.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,13 +26,16 @@ public class CartProduct {
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "cart_id")
+   @NotNull(message = "{validation.cart.cart.null}")
    private Cart cart;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "product_id")
+   @NotNull(message = "{validation.cart.product.null}")
    private Product product;
 
    @Column(name = "quantity")
+   @NotNull(message = "{validation.cart.quantity.null}")
    private int quantity;
 
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

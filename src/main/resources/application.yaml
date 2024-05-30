@@ -29,6 +29,7 @@ spring:
   security:
     user:
       password: pass
+
 #logging:
 #  level:
 #    root: debug

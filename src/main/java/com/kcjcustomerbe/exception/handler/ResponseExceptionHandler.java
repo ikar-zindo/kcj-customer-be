@@ -83,18 +83,18 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
    // CUSTOMER EXCEPTIONS
    @ExceptionHandler(CustomerNotFoundException.class)
-   @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
+   @org.springframework.web.bind.annotation.ResponseStatus(INTERNAL_SERVER_ERROR)
    public ResponseEntity<ErrorResponse> handleCustomerNotFoundException(CustomerNotFoundException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
-      additionalInfo.put("detail", NOT_FOUND.value());
+      additionalInfo.put("detail", INTERNAL_SERVER_ERROR.value());
 
       ErrorResponse errorResponse = new ErrorResponse(
             ex.getMessage(),
-            NOT_FOUND,
+            INTERNAL_SERVER_ERROR,
             additionalInfo
       );
-      return new ResponseEntity<>(errorResponse, NOT_FOUND);
+      return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
    }
 
    @ExceptionHandler(CustomerIsExistException.class)
@@ -179,19 +179,19 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    }
 
    @ExceptionHandler(CartException.class)
-   @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
+   @org.springframework.web.bind.annotation.ResponseStatus(INTERNAL_SERVER_ERROR)
    public ResponseEntity<ErrorResponse> handleCartException(CartException ex) {
       Map<String, Object> additionalInfo = new LinkedHashMap<>();
       additionalInfo.put("timestamp", LocalDateTime.now());
-      additionalInfo.put("detail", BAD_REQUEST.value());
+      additionalInfo.put("detail", INTERNAL_SERVER_ERROR.value());
 
       ErrorResponse errorResponse = new ErrorResponse(
             ex.getMessage(),
-            BAD_REQUEST,
+            INTERNAL_SERVER_ERROR,
             additionalInfo
       );
 
-      return new ResponseEntity<>(errorResponse, BAD_REQUEST);
+      return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
    }
 
    // PRODUCT EXCEPTIONS

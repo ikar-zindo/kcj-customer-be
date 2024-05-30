@@ -15,7 +15,6 @@ import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.OrderProductRepository;
 import com.kcjcustomerbe.repo.OrderRepository;
 import com.kcjcustomerbe.service.CartService;
-import com.kcjcustomerbe.service.CustomerService;
 import com.kcjcustomerbe.service.ProductService;
 import com.kcjcustomerbe.service.RestaurantService;
 import jakarta.transaction.Transactional;
@@ -51,8 +50,6 @@ public class CartServiceImpl implements CartService {
 
    private final OrderMapper orderMapper;
 
-   private final CustomerService customerService;
-
    private final ProductService productService;
 
    private final RestaurantService restaurantService;
@@ -75,7 +72,12 @@ public class CartServiceImpl implements CartService {
    // READ - CUSTOMER BY CART ID
    @Override
    public CustomerDto getCustomerByCartId(UUID cartId) {
-      return getCartById(cartId).getCustomerDto();
+      CustomerDto customerDto = getCartById(cartId).getCustomerDto();
+
+      if (customerDto == null) {
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND);
+      }
+      return customerDto;
    }
 
    // GET - ALL PRODUCTS IN CART
@@ -133,21 +135,12 @@ public class CartServiceImpl implements CartService {
       CartDto cartDto = getCartById(cartId);
       ProductDto productDto = productService.getProductById(productId);
 
-      Optional<CartProduct> cartProductDtoOptional = cartProductRepository
-            .findByCartIdAndProductId(cartId, productId);
+      CartProduct cartProduct =
+            cartProductRepository.findByCartIdAndProductId(cartId, productId)
+                  .orElseGet(() -> buildCartProduct(cartDto, productDto));
 
-      CartProduct cartProduct;
-      if (cartProductDtoOptional.isPresent()) {
-         cartProduct = cartProductDtoOptional.get();
-
+      if (cartProduct.getId() != null) {
          cartProduct.setQuantity(cartProduct.getQuantity() + 1);
-      } else {
-         cartProduct = new CartProduct();
-
-         cartProduct.setCart(cartMapper.mapToCart(cartDto));
-         cartProduct.setProduct(productMapper.mapToProduct(productDto));
-         cartProduct.setQuantity(1);
-         cartProduct.setCreatedAt(LocalDateTime.now());
       }
 
       CartProduct cartProductResponse = cartProductRepository.save(cartProduct);
@@ -156,7 +149,19 @@ public class CartServiceImpl implements CartService {
       if (idResponse == null) {
          throw new CartException(ErrorMessage.PRODUCT_WAS_NOT_ADDED_TO_YOUR_CART);
       }
-      return cartMapper.mapToCartProductDto(cartProductResponse);
+      return cartMapper.mapToCartProductDto(cartProduct);
+   }
+
+   // BUILD - CART PRODUCT
+   private CartProduct buildCartProduct(CartDto cartDto, ProductDto productDto) {
+      CartProduct cartProduct = new CartProduct();
+
+      cartProduct.setCart(cartMapper.mapToCart(cartDto));
+      cartProduct.setProduct(productMapper.mapToProduct(productDto));
+      cartProduct.setQuantity(1);
+      cartProduct.setCreatedAt(LocalDateTime.now());
+
+      return cartProduct;
    }
 
    // CREATE - ORDER
@@ -182,14 +187,7 @@ public class CartServiceImpl implements CartService {
       if (!isPay(getCustomerByCartId(cartId).getId(), cartId)) {
          throw new OrderException(ErrorMessage.PAYMENT_NOT_THROUGH);
       }
-      Order order = new Order();
-
-      order.setCustomer(customerMapper.mapToCustomer(customerDto));
-      order.setRestaurant(restaurantMapper.mapToRestaurant(restaurantDto));
-      order.setDeliveryAddress(customerDto.getAddress());
-      order.setPostalCode(customerDto.getPostalCode());
-      order.setTotalAmount(getTotalCartById(cartId));
-      order.setOrderStatus(OrderStatus.CREATED);
+      Order order = buildOrderFromCart(cartDto, customerDto, restaurantDto);
 
       Order orderResponse = orderRepository.save(order);
       UUID orderResponseId = orderResponse.getId();
@@ -198,25 +196,45 @@ public class CartServiceImpl implements CartService {
          throw new OrderException(ErrorMessage.ORDER_NOT_SAVED);
       }
 
-      List<CartProduct> cartProducts = cartMapper.mapToCartProductList(cartProductsDto);
-      List<OrderProduct> orderProducts = new ArrayList<>();
-      for (CartProduct cartProduct : cartProducts) {
-         OrderProduct orderProduct = new OrderProduct();
-
-         orderProduct.setOrder(order);
-         orderProduct.setQuantity(cartProduct.getQuantity());
-
-         if (cartProduct.getProduct() == null) {
-            throw new ProductsNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
-         }
-
-         orderProduct.setProduct(cartProduct.getProduct());
-         orderProducts.add(orderProduct);
-      }
+      List<OrderProduct> orderProducts = buildOrderProductsFromCartProducts(order, cartProductsDto);
+      orderProductRepository.saveAll(orderProducts);
 
       clearCart(cartId);
-      orderProductRepository.saveAll(orderProducts);
       return orderMapper.mapToOrderDto(orderResponse);
+   }
+
+   // BUILD - ORDER FROM CART DATA
+   private Order buildOrderFromCart(CartDto cartDto, CustomerDto customerDto, RestaurantDto restaurantDto) {
+      Order order = new Order();
+
+      order.setCustomer(customerMapper.mapToCustomer(customerDto));
+      order.setRestaurant(restaurantMapper.mapToRestaurant(restaurantDto));
+      order.setCreatedAt(LocalDateTime.now());
+      order.setDeliveryAddress(customerDto.getAddress());
+      order.setPostalCode(customerDto.getPostalCode());
+      order.setTotalAmount(getTotalCartById(cartDto.getId()));
+      order.setOrderStatus(OrderStatus.CREATED);
+
+      return order;
+   }
+
+   // BUILD - ORDER PRODUCT LIST FROM CART PRODUCT DATA
+   private List<OrderProduct> buildOrderProductsFromCartProducts(Order order, List<CartProductDto> cartProductsDto) {
+      List<OrderProduct> orderProducts = new ArrayList<>();
+
+      for (CartProductDto cartProductDto : cartProductsDto) {
+         OrderProduct orderProduct = new OrderProduct();
+         orderProduct.setOrder(order);
+         orderProduct.setQuantity(cartProductDto.getQuantity());
+
+         ProductDto productDto = cartProductDto.getProductDto();
+         if (productDto == null) {
+            throw new ProductsNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
+         }
+         orderProduct.setProduct(productMapper.mapToProduct(productDto));
+         orderProducts.add(orderProduct);
+      }
+      return orderProducts;
    }
 
    // VALIDATION - ALL PRODUCTS ARE FROM THE SAME RESTAURANT
@@ -235,7 +253,7 @@ public class CartServiceImpl implements CartService {
          }
          if (restaurantId == null) {
             restaurantId = cartProductDto.getProductDto().getRestaurantDto().getId();
-         } else if (!restaurantId.equals(productDto.getRestaurantDto().getId())){
+         } else if (!restaurantId.equals(productDto.getRestaurantDto().getId())) {
             throw new ProductsFromDifferentRestaurantsException(ErrorMessage.ORDER_DIFFERENT_RESTAURANT);
          }
       }
@@ -247,8 +265,10 @@ public class CartServiceImpl implements CartService {
    }
 
    // VALIDATION - PAY
-   @Override
-   public Boolean isPay(UUID customerId, UUID cartId) {
+   private Boolean isPay(UUID customerId, UUID cartId) {
+      if (customerId == null || cartId == null) {
+         throw new PaymentException(ErrorMessage.PAYMENT_NOT_THROUGH);
+      }
       return true;
    }
 

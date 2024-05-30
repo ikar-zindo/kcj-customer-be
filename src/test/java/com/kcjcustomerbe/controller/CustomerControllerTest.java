@@ -218,6 +218,7 @@ public class CustomerControllerTest {
       Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerResponseDto.status);
    }
 
+
    @Test
    void blockCustomerNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders

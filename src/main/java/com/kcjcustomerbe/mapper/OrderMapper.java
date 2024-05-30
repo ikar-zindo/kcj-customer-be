@@ -4,6 +4,7 @@ import com.kcjcustomerbe.dto.OrderDto;
 import com.kcjcustomerbe.dto.OrderProductDto;
 import com.kcjcustomerbe.entity.Order;
 import com.kcjcustomerbe.entity.OrderProduct;
+import com.kcjcustomerbe.entity.enums.OrderStatus;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public interface OrderMapper {
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "customerDto", ignore = true),
          @Mapping(target = "restaurantDto", source = "restaurant"),
-         @Mapping(target = "createdAt", source = "createdAt"),
+         @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())"),
          @Mapping(target = "updateAt", source = "updateAt"),
          @Mapping(target = "deliveryAddress", source = "deliveryAddress"),
          @Mapping(target = "postalCode", source = "postalCode"),
