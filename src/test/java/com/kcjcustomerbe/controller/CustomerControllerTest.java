@@ -21,9 +21,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+//@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql({"/db/drop-db.sql", "/db/init-db.sql", "/db/data-test.sql"})
+@Sql({"/db/drop.sql", "/db/schema.sql", "/db/data-test.sql"})
 public class CustomerControllerTest {
 
    @Autowired
@@ -41,7 +42,6 @@ public class CustomerControllerTest {
             "John",
             "Snow",
             "john@gmail.com",
-            "johnname",
             "QwErTy123!",
             "+490134567899",
             "Alexanderplz. 1",
@@ -72,8 +72,7 @@ public class CustomerControllerTest {
       CustomerCreateDto dto = new CustomerCreateDto(
             "Maria",
             "Anders",
-            "janifer@mail.com",
-            "maria",
+            "maria@mail.com",
             "QwErTy123!",
             "+490134567899",
             "Obere Str. 57",
@@ -92,7 +91,7 @@ public class CustomerControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
 
       Assertions.assertEquals(409, result.getResponse().getStatus());
-      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.USERNAME_ALREADY_EXISTS));
+      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.EMAIL_ALREADY_EXISTS));
    }
 
 
@@ -134,7 +133,6 @@ public class CustomerControllerTest {
             "Maria",
             "Anders",
             "janifer@mail.com",
-            "maria",
             "QwErTy123!",
             "+490134567899",
             "Obere Str. 57",
@@ -166,7 +164,6 @@ public class CustomerControllerTest {
             "Maria",
             "Anders",
             "janifer@mail.com",
-            "maria",
             "QwErTy123!",
             "+490134567899",
             "Obere Str. 57",
@@ -194,7 +191,6 @@ public class CustomerControllerTest {
    void blockCustomerPositiveTest() throws Exception {
       UUID id = UUID.fromString("d234d99d-170e-42f7-b6ae-435ee56f49a1");
       CustomerUpdateDto dto = new CustomerUpdateDto(
-            null,
             null,
             null,
             null,

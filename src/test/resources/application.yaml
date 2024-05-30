@@ -27,3 +27,8 @@ spring:
   h2:
     console:
       enabled: true
+
+#logging:
+#  level:
+#    root: debug
+#    root: info

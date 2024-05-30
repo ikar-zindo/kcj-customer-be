@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql({"/db/drop-db.sql", "/db/init-db.sql", "/db/data-test.sql"})
+@Sql({"/db/drop.sql", "/db/schema.sql", "/db/data-test.sql"})
 public class ReviewControllerTest {
 
    @Autowired
@@ -94,7 +94,7 @@ public class ReviewControllerTest {
 
 
    @Test
-   @Sql("/db/clear-db.sql")
+   @Sql("/db/clear.sql")
    void getAllReviewsNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/review")

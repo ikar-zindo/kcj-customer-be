@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class UuidFormatCheckerConstraint implements ConstraintValidator<UuidFormatChecker, String> {
 
@@ -12,7 +13,6 @@ public class UuidFormatCheckerConstraint implements ConstraintValidator<UuidForm
 
     @Override
     public void initialize(UuidFormatChecker constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class UuidFormatCheckerConstraint implements ConstraintValidator<UuidForm
 
             return Optional.of(uuid)
                     .filter(i -> !i.isBlank())
-                    .map(el -> el.matches(UUID_PATTERN))
+                    .map(el -> Pattern.compile(UUID_PATTERN).matcher(el).matches())
                     .orElse(false);
         }else {
             throw new NullPointerException(ErrorMessage.NULL_POINTER);
