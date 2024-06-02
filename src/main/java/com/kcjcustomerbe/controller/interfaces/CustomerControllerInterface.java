@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.controller.interfaces;
 
+import com.kcjcustomerbe.config.SwaggerConfig;
 import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
 import com.kcjcustomerbe.dto.customer.CustomerDto;
 import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
@@ -21,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "customer controller", description = "allows you to receive information about customer")
+@Tag(name = SwaggerConfig.CUSTOMER, description = "allows you to receive information about customer")
 public interface CustomerControllerInterface {
 
    // CREATE - REGISTRATION NEW CUSTOMER

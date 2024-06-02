@@ -1,15 +1,12 @@
 package com.kcjcustomerbe.mapper;
 
 import com.kcjcustomerbe.constant.GlobalConstant;
-import com.kcjcustomerbe.dto.CartDto;
-import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.customer.*;
 import com.kcjcustomerbe.entity.Cart;
-import com.kcjcustomerbe.entity.CartProduct;
 import com.kcjcustomerbe.entity.Customer;
+import com.kcjcustomerbe.util.MappingUtils;
 import org.mapstruct.*;
 
-import java.util.List;
 import java.util.Objects;
 
 /**

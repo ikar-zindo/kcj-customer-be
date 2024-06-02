@@ -7,8 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 12345
       MYSQL_DATABASE: kcj
-    volumes:
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - "3308:3306"
 
@@ -18,9 +16,11 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/kcj
-      - SPRING_DATASOURCE_PASSWORD=12345
-      - SPRING_DATASOURCE_USERNAME=root
+      - DATASOURCE_DATABASE_HOST=db
+      - DATASOURCE_DATABASE_PORT=3306
+      - DATASOURCE_DATABASE_NAME=kcj
+      - DATASOURCE_DATABASE_USERNAME=root
+      - DATASOURCE_DATABASE_PASSWORD=12345
     restart: always
     ports:
       - "8889:8889"

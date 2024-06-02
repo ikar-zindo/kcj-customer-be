@@ -1,7 +1,7 @@
---liquibase formatted sql
+-- liquibase formatted sql
 
---changeset root:v0.2.0-data-test
---comment add test data
+-- changeset root:v0.2.0-data-test
+-- comment add test data
 
 --
 -- Dumping data for tables

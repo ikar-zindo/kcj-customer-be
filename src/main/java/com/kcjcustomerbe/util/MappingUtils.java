@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.mapper;
+package com.kcjcustomerbe.util;
 
 import java.util.Objects;
 

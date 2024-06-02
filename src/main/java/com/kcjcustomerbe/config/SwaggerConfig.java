@@ -1,6 +1,5 @@
 package com.kcjcustomerbe.config;
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -29,14 +28,14 @@ public class SwaggerConfig {
    @Value("${swagger.packageName:com.kcjcustomerbe}")
 
    private String PACKAGE_NAME;
-   public static final String CART = "cart service";
-   public static final String CART_PRODUCT = "cartProduct service";
-   public static final String CUSTOMER = "customer service";
-   public static final String ORDER = "order service";
-   public static final String ORDER_PRODUCT = "orderProduct info service";
-   public static final String PRODUCT = "product info service";
-   public static final String RESTAURANT = "restaurant info service";
-   public static final String REVIEW = "review info service";
+   public static final String CART = "cart controller";
+   public static final String CART_PRODUCT = "cartProduct controller";
+   public static final String CUSTOMER = "customer controller";
+   public static final String ORDER = "order controller";
+   public static final String ORDER_PRODUCT = "orderProduct controller";
+   public static final String PRODUCT = "product controller";
+   public static final String RESTAURANT = "restaurant controller";
+   public static final String REVIEW = "review controller";
 
    @Bean
    public Docket api() {
@@ -57,7 +56,6 @@ public class SwaggerConfig {
 }
 
 
-//
 //import io.swagger.v3.oas.models.Components;
 //import io.swagger.v3.oas.models.OpenAPI;
 //import io.swagger.v3.oas.models.info.Contact;

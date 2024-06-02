@@ -161,7 +161,7 @@
 <!--            <version>0.4</version>-->
 <!--        </dependency>-->
 
-        <!-- JSON JWT -->
+        <!-- Java JSON Web Token -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -274,6 +274,6 @@
             </plugin>
 
         </plugins>
-        <finalName>kcj-customer-be-v1.2.0</finalName>
+        <finalName>kcj-customer-be</finalName>
     </build>
 </project>

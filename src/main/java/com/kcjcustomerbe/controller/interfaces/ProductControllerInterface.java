@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.controller.interfaces;
 
+import com.kcjcustomerbe.config.SwaggerConfig;
 import com.kcjcustomerbe.dto.ProductDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@Tag(name = "product controller", description = "allows you to receive information about products")
+@Tag(name = SwaggerConfig.PRODUCT, description = "allows you to receive information about products")
 public interface ProductControllerInterface {
 
    // READ - GET ALL AVAILABLE PRODUCTS

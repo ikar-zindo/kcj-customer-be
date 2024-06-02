@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.controller.interfaces;
 
+import com.kcjcustomerbe.config.SwaggerConfig;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name = "restaurant controller", description = "allows you to receive information about restaurants adn his reviews")
+@Tag(name = SwaggerConfig.RESTAURANT, description = "allows you to receive information about restaurants adn his reviews")
 public interface RestaurantControllerInterface {
 
    // READ - ALL RESTAURANTS

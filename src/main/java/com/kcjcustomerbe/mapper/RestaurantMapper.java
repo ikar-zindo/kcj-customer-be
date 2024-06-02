@@ -50,6 +50,12 @@ public interface RestaurantMapper {
    })
    RestaurantDto mapToRestaurantDto(Restaurant entity);
 
+   /**
+    * Maps an `RestaurantDto` to an `Restaurant` entity.
+    *
+    * @param dto The `RestaurantDto` to be mapped.
+    * @return The mapped `Restaurant` entity. If the source `RestaurantDto` is null, return null.
+    */
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "name", source = "name"),
