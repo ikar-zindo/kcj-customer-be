@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: data.sql
+      file: deactivated-tokens.sql
       relativeToChangelogFile: true

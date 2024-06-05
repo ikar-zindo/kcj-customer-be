@@ -1,5 +1,14 @@
 server:
   port: 8889
+  http2:
+    enabled: true
+  ssl:
+    key-store: classpath:key/localhost.p12
+    key-store-password: password
+    key-alias: localhost
+
+jwt:
+  cookie-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
 
 spring:
   main:
@@ -26,10 +35,8 @@ spring:
     enabled: true
 #    drop-first: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
-  security:
-    user:
-      password: pass
 
-#logging:
-#  level:
+logging:
+  level:
+    org.springframework.security: trace
 #    root: debug
