@@ -1,35 +1,17 @@
 package com.kcjcustomerbe.config;
 
-import io.swagger.models.auth.In;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.tags.Tag;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.RequestParameterBuilder;
-import springfox.documentation.schema.ScalarType;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @OpenAPIDefinition(
       info = @Info(
@@ -42,10 +24,10 @@ import java.util.List;
             )
       )
 )
-//@EnableSwagger2
 @Configuration
 public class SwaggerConfig {
-   @Value("${swagger.packageName:com.kcjcustomerbe}") private String PACKAGE_NAME;
+   @Value("${swagger.packageName:com.kcjcustomerbe}")
+   private String PACKAGE_NAME;
 
    public static final String CART = "cart controller";
    public static final String CART_PRODUCT = "cartProduct controller";
@@ -57,23 +39,21 @@ public class SwaggerConfig {
    public static final String REVIEW = "review controller";
 
    @Bean
-   public Docket api() {
-      return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors.basePackage(PACKAGE_NAME))
-//            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
-            .build()
-//            .securitySchemes(Collections.singletonList(apiKey()))
-//            .securityContexts(Collections.singletonList(securityContext()))
-            .tags(new Tag(CART, "API for working with cart service"))
-            .tags(new Tag(CART_PRODUCT, "API for working with cartProduct service"))
-            .tags(new Tag(CUSTOMER, "API for working with customer service"))
-            .tags(new Tag(ORDER, "API for working with order service"))
-            .tags(new Tag(ORDER_PRODUCT, "API for working with orderProduct service"))
-            .tags(new Tag(PRODUCT, "API for working with product service"))
-            .tags(new Tag(RESTAURANT, "API for working with restaurant service"))
-            .tags(new Tag(REVIEW, "API for working with review service"));
+   public GroupedOpenApi publicApi() {
+      return GroupedOpenApi.builder()
+            .group("public")
+            .packagesToScan(PACKAGE_NAME)
+            .addOpenApiCustomiser(openApi -> {
+               openApi.addTagsItem(new Tag().name(CART).description("API for working with cart service"));
+               openApi.addTagsItem(new Tag().name(CART_PRODUCT).description("API for working with cart products service"));
+               openApi.addTagsItem(new Tag().name(CUSTOMER).description("API for working with customers service"));
+               openApi.addTagsItem(new Tag().name(ORDER).description("API for working with orders service"));
+               openApi.addTagsItem(new Tag().name(ORDER_PRODUCT).description("API for working with order products service"));
+               openApi.addTagsItem(new Tag().name(PRODUCT).description("API for working with products service"));
+               openApi.addTagsItem(new Tag().name(RESTAURANT).description("API for working with user restaurants service"));
+               openApi.addTagsItem(new Tag().name(REVIEW).description("API for working with reviews service"));
+            })
+            .build();
    }
 
    @Bean
@@ -94,6 +74,16 @@ public class SwaggerConfig {
             .in(SecurityScheme.In.COOKIE)
             .name("__Host-auth-token");
    }
+
+//   @Bean
+//   public OpenAPI customOpenAPI() {
+//      return new OpenAPI()
+//            .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
+//            .components(new io.swagger.v3.oas.models.Components()
+//                  .addSecuritySchemes("basicAuth", new SecurityScheme()
+//                        .type(SecurityScheme.Type.HTTP)
+//                        .scheme("basic")));
+//   }
 
 //   private ApiKey apiKey() {
 //      return new ApiKey("apiKey", "api_key", "header");

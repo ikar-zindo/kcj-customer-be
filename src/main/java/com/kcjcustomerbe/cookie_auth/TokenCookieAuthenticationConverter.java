@@ -8,6 +8,21 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+/**
+ * @see TokenCookieAuthenticationConverter
+ * Извлекает из запроса текущую сессионную Cookie ->
+ * Преобразует её в Token
+ * А из Token получает запрос на аутентификацию ->
+ * @see PreAuthenticatedAuthenticationToken
+ * Который в дальнейшем при помощи ->
+ * @see org.springframework.security.authentication.AuthenticationManager ->
+ * Будет передан провайдеру аутентификации ->
+ * @see org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider
+ * Который уже в процессе обработки запроса потребует компонент который будет преобразовывать ->
+ * @see PreAuthenticatedAuthenticationToken ->
+ * в информацию о пользователи, которая находится в ->
+ * @see TokenAuthenticationUserDetailsService
+ */
 public class TokenCookieAuthenticationConverter implements AuthenticationConverter {
 
     private final Function<String, Token> tokenCookieStringDeserializer;

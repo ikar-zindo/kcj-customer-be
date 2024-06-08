@@ -29,14 +29,14 @@ public interface RestaurantControllerInterface {
          summary = "Information about all restaurants",
          description = "Allows you to get information about all active restaurants, not require authorization."
    )
-   ResponseEntity<List<RestaurantDto>> getAllRestaurantsDto();
+   ResponseEntity<List<RestaurantDto>> getAllRestaurants();
 
    // READ - GET RESTAURANT BY ID
    @Operation(
          summary = "Information about restaurant with selected id",
          description = "Allows you to get information about restaurant with selected id, not require authorization."
    )
-   ResponseEntity<RestaurantDto> getRestaurantDtoById(@PathVariable(name = "restaurantId") Long restaurantId);
+   ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable(name = "restaurantId") Long restaurantId);
 
    // READ - GET REVIEWS OF RESTAURANT BY ID
    @Operation(

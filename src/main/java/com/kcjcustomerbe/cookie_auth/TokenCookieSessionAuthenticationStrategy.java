@@ -13,6 +13,21 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.function.Function;
 
+/**
+ * Для реализации single-page-app и progressive-page-app
+ * потребуеться стратегия которая будет сохранять аутентификацию в Cookie.
+ * По умолчанию она сохраняется в Http Session.
+ * <p>
+ * Так как в данной ситуации Http Session - отключены, мы должны сохранять сессии в Cookie
+ * Соотвественно, генерируем Token и сохраняем его в Cookie.
+ * <p>
+ * После того, как в Cookie сохранена в Http сессию
+ * Необходимо чтоб приложение могло эту самую сессию вычитать
+ * и соответственно использовать для дальнейших запросов
+ * Для этого существует ->
+ *
+ * @see TokenCookieAuthenticationConverter
+ */
 public class TokenCookieSessionAuthenticationStrategy implements SessionAuthenticationStrategy {
 
     private Function<Authentication, Token> tokenCookieFactory = new DefaultTokenCookieFactory();

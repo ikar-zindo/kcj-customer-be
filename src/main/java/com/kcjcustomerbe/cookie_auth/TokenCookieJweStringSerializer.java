@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.function.Function;
 
+/**
+ *
+ */
 public class TokenCookieJweStringSerializer implements Function<Token, String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenCookieJweStringSerializer.class);

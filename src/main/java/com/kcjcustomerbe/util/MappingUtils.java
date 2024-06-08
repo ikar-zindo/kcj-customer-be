@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.util;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Objects;
  * @since v1.0.0
  */
 public class MappingUtils {
+
    public static String mapNullOrEmpty(String newValue, String existingValue) {
       return Objects.isNull(newValue) || newValue.isEmpty() ? existingValue : newValue;
    }

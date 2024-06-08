@@ -17,6 +17,10 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.function.Function;
 
+/**
+ * При Logout происходить блокировка Token доступа.
+ * А заодно удаляет аутентификационную Cookie
+ */
 public class TokenCookieAuthenticationConfigurer
         extends AbstractHttpConfigurer<TokenCookieAuthenticationConfigurer, HttpSecurity> {
 

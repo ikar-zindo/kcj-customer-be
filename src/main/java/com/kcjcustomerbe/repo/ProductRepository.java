@@ -11,5 +11,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
    Optional<Product> findByIdAndIsAvailableTrue(Long productId);
 
-   Optional<List<Product>> findByIsAvailableTrue();
+   Optional<List<Product>> findAllByIsAvailableTrue();
 }

@@ -28,14 +28,14 @@ public class RestaurantController implements RestaurantControllerInterface {
 
    // READ - ALL RESTAURANTS
    @GetMapping
-   public ResponseEntity<List<RestaurantDto>> getAllRestaurantsDto() {
+   public ResponseEntity<List<RestaurantDto>> getAllRestaurants() {
       List<RestaurantDto> restaurantsDto = restaurantService.getAllRestaurants();
       return ResponseEntity.ok(restaurantsDto);
    }
 
    // READ - GET RESTAURANT BY ID
    @GetMapping("/{restaurantId}")
-   public ResponseEntity<RestaurantDto> getRestaurantDtoById(@PathVariable("restaurantId") Long restaurantId) {
+   public ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable("restaurantId") Long restaurantId) {
       RestaurantDto restaurantDto = restaurantService.getRestaurantById(restaurantId);
       return ResponseEntity.ok(restaurantDto);
    }

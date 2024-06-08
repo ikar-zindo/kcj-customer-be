@@ -70,16 +70,19 @@ public class SecurityConfig {
       tokenCookieSessionAuthenticationStrategy.setTokenStringSerializer(tokenCookieJweStringSerializer);
 
       http.httpBasic(Customizer.withDefaults())
-//            .formLogin(Customizer.withDefaults())
+            .formLogin(Customizer.withDefaults())
             .addFilterAfter(new GetCsrfTokenFilter(), ExceptionTranslationFilter.class)
             .authorizeHttpRequests(authorizeHttpRequests ->
                   authorizeHttpRequests
-                        .requestMatchers(HttpMethod.POST, "/auth/login").anonymous()
+                        .requestMatchers(HttpMethod.POST,
+                              "/auth/login",
+                              "/registration").anonymous()
                         .requestMatchers(
                               "/customer/**",
                               "/cart/**").hasRole("CUSTOMER")
                         .requestMatchers(
                               "/",
+                              "/**",
                               "index.html",
 //                              "/auth/**",
                               "/v2/api-docs/**",

@@ -10,6 +10,10 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import java.time.Instant;
 import java.util.List;
 
+
+/**
+ * Здесь заоодно проверятся, что Token не заблокирован
+ */
 public class TokenAuthenticationUserDetailsService
         implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
 

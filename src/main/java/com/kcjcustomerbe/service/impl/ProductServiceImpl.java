@@ -25,25 +25,20 @@ public class ProductServiceImpl implements ProductService {
 
    @Override
    public ProductDto getProductById(Long productId) {
-      Optional<Product> productOptional = productRepository.findById(productId);
+      Optional<Product> productOptional = productRepository.findByIdAndIsAvailableTrue(productId);
 
-      if (productOptional.isPresent()) {
-         Product product = productOptional.get();
-
-         if (product.getIsAvailable()) {
-            return productMapper.mapToProductDto(product);
-         } else {
-            throw new ProductNotAvailableException(productId);
-         }
-      } else {
-         throw new ProductIdNotFoundException(productId);
+      if (productOptional.isEmpty()) {
+         throw new ProductNotAvailableException(productId);
       }
+
+      Product product = productOptional.get();
+      return productMapper.mapToProductDto(product);
    }
 
    @Override
    public List<ProductDto> getAllProducts() {
 
-      Optional<List<Product>> optionalProducts = productRepository.findByIsAvailableTrue();
+      Optional<List<Product>> optionalProducts = productRepository.findAllByIsAvailableTrue();
       if (optionalProducts.isEmpty()) {
          throw new ProductsNotFoundException(ErrorMessage.PRODUCTS_NOT_FOUND);
       }

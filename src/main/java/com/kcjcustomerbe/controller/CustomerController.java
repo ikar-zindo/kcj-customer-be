@@ -24,15 +24,6 @@ public class CustomerController implements CustomerControllerInterface {
 
    private final CustomerService customerService;
 
-   // CREATE - REGISTRATION NEW CUSTOMER
-   @PostMapping
-   public ResponseEntity<CustomerResponseDto> registrationCustomer(
-           @Valid @RequestBody CustomerCreateDto customerCreateDto) {
-
-      CustomerResponseDto dto = customerService.registrationCustomer(customerCreateDto);
-      return ResponseEntity.created(URI.create("customer/" + dto.getId())).body(dto);
-   }
-
    // READ - GET CUSTOMER BY ID
    @GetMapping("/{id}")
    public ResponseEntity<CustomerDto> getCustomerById(@UuidFormatChecker @PathVariable("id") String customerId) {
