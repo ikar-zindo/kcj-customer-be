@@ -34,23 +34,23 @@ public class RestaurantController implements RestaurantControllerInterface {
    }
 
    // READ - GET RESTAURANT BY ID
-   @GetMapping("/{id}")
-   public ResponseEntity<RestaurantDto> getRestaurantDtoById(@PathVariable("id") Long restaurantId) {
+   @GetMapping("/{restaurantId}")
+   public ResponseEntity<RestaurantDto> getRestaurantDtoById(@PathVariable("restaurantId") Long restaurantId) {
       RestaurantDto restaurantDto = restaurantService.getRestaurantById(restaurantId);
       return ResponseEntity.ok(restaurantDto);
    }
 
    // READ - GET REVIEWS OF RESTAURANT BY ID
-   @GetMapping("/{id}/reviews")
-   public ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable("id") Long restaurantId) {
+   @GetMapping("/{restaurantId}/reviews")
+   public ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
       return ResponseEntity.ok(restaurantService.getAllReviewsByRestaurantId(restaurantId));
    }
 
    // CREATE - ADD A REVIEW FOR THE RESTAURANT
-   @PostMapping("/{id}/reviews")
+   @PostMapping("/{restaurantId}/reviews")
    public ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
                                                  @UuidFormatChecker @RequestParam String customerId,
-                                                 @Valid @PathVariable("id") Long restaurantId) {
+                                                 @Valid @PathVariable("restaurantId") Long restaurantId) {
 
       ReviewDto dto = reviewService.addReview(reviewDto, UUID.fromString(customerId), restaurantId);
       return ResponseEntity.created(URI.create("/restaurant/" + restaurantId + "/reviews")).body(dto);

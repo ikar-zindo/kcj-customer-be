@@ -1,6 +1,6 @@
 # Web application for food delivery K-Curry Jib
 
-### Clone the repository
+### 1. Clone the repository
 
 ```
 git clone git@github.com:ikar-zindo/kcj-customer-be.git
@@ -8,19 +8,19 @@ git clone git@github.com:ikar-zindo/kcj-customer-be.git
 
 ---
 
-### Launch jar archive
+### 2. Launch jar archive
 
-###### You need to make sure that the DB exists and is connected correctly.
+###### The driver for the *MySQL* database must be installed on the computer. For example *Workbench*. When you first launch the application, a database will be created, and *Liquibase* will create all the necessary tables for the application to work properly.
 
 *At the root of the project*
 
 ```
-java -jar kcj-customer-be-v1.2.0.jar
+java -jar kcj-customer-be.jar
 ```
 
 ---
 
-### [The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
+### [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
 
 ###### At the 1st launch, a DB will be created.
 
@@ -33,12 +33,12 @@ docker-compose up
 
 ---
 
-### [View](http://localhost:8889)
+### [4. View](https://localhost:8889)
 
 *Copy to browser address bar*
 
 ```
-http://localhost:8889
+https://localhost:8889
 ```
 
 pass for all: `1qaz`
@@ -56,7 +56,7 @@ pass for all: `1qaz`
 - Spring Security
 - MySQL
 - JPA
-- Model Mapper
+- Mapstruct
 
 ---
 
@@ -67,5 +67,3 @@ pass for all: `1qaz`
 ---
 
 - WebMVC
-- Thymeleaf
-- Bootstrap

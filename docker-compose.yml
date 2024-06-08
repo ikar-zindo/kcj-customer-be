@@ -11,8 +11,7 @@ services:
       - "3308:3306"
 
   customer-be:
-    build:
-      context: ./
+    image: ikarzindo/kcj-customer-be:latest
     depends_on:
       - db
     environment:
@@ -24,3 +23,12 @@ services:
     restart: always
     ports:
       - "8889:8889"
+
+  watchtower:
+    image: containrrr/watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=30

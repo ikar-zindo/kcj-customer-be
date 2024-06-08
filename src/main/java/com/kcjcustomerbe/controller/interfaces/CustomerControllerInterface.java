@@ -72,7 +72,7 @@ public interface CustomerControllerInterface {
                                        }
                                        """),
                            @ExampleObject(name = "Not validate data",
-                                 value = """ 
+                                 value = """
                                        {
                                           "firstName": "John",
                                           "lastName": "Snow",
@@ -120,9 +120,6 @@ public interface CustomerControllerInterface {
                      )
                )
 
-         },
-         security = {
-               @SecurityRequirement(name = "safety requirements")
          }
    )
    ResponseEntity<CustomerResponseDto> registrationCustomer(
@@ -180,9 +177,6 @@ public interface CustomerControllerInterface {
                            schema = @Schema(implementation = ResponseExceptionHandler.class)
                      )
                )
-         },
-         security = {
-               @SecurityRequirement(name = "safety requirements")
          }
    )
    ResponseEntity<CustomerDto> getCustomerById(@UuidFormatChecker @PathVariable("id") String customerId);
@@ -240,7 +234,7 @@ public interface CustomerControllerInterface {
                                        }
                                        """),
                            @ExampleObject(name = "Invalidate password",
-                                 value = """ 
+                                 value = """
                                        {
                                           "password": "Snow12345"
                                        }
@@ -282,9 +276,6 @@ public interface CustomerControllerInterface {
                      )
                )
 
-         },
-         security = {
-               @SecurityRequirement(name = "safety requirements")
          }
    )
    ResponseEntity<CustomerResponseDto> updateCustomerInfo(@UuidFormatChecker @PathVariable("id") String customerId,
@@ -335,9 +326,6 @@ public interface CustomerControllerInterface {
                            schema = @Schema(implementation = ResponseExceptionHandler.class)
                      )
                )
-         },
-         security = {
-               @SecurityRequirement(name = "safety requirements")
          }
    )
    ResponseEntity<CustomerResponseDto> blockCustomerById(@UuidFormatChecker @PathVariable("id") String customerId);

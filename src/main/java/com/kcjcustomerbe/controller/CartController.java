@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.controller;
 
+import com.kcjcustomerbe.controller.interfaces.CartControllerInterface;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.OrderDto;
 import com.kcjcustomerbe.service.CartService;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/cart")
 @RequiredArgsConstructor
-public class CartController {
+public class CartController implements CartControllerInterface {
 
    private final CartService cartService;
 

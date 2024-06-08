@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset root:v0.1.0-schema-roles
+-- changeset root:v1.0.0-schema-roles
 -- comment initial tables roles and authorities
 
 SET AUTOCOMMIT = 0;

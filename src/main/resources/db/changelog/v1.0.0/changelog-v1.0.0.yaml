@@ -3,5 +3,5 @@ databaseChangeLog:
       file: schema.sql
       relativeToChangelogFile: true
   - include:
-      file: schema-roles-v0.1.0.sql
+      file: schema-roles.sql
       relativeToChangelogFile: true

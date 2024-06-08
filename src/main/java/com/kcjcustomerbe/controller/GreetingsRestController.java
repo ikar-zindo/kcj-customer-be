@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.cookie_auth;
+package com.kcjcustomerbe.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

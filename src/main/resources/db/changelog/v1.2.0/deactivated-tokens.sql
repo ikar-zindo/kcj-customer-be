@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset root:v0.3.0-data-test
+-- changeset root:v1.2.0-data-test
 -- comment add deactivated-tokens
 
 CREATE TABLE IF NOT EXISTS `deactivated_tokens`

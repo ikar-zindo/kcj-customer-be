@@ -26,47 +26,47 @@ public interface RestaurantControllerInterface {
 
    // READ - ALL RESTAURANTS
    @Operation(
-         summary = "information about all restaurants",
-         description = "allows you to get information about all active restaurants, not require authorization"
+         summary = "Information about all restaurants",
+         description = "Allows you to get information about all active restaurants, not require authorization."
    )
    ResponseEntity<List<RestaurantDto>> getAllRestaurantsDto();
 
    // READ - GET RESTAURANT BY ID
    @Operation(
-         summary = "information about restaurant with selected id",
-         description = "allows you to get information about restaurant with selected id, not require authorization"
+         summary = "Information about restaurant with selected id",
+         description = "Allows you to get information about restaurant with selected id, not require authorization."
    )
-   ResponseEntity<RestaurantDto> getRestaurantDtoById(@PathVariable(name = "id") Long restaurantId);
+   ResponseEntity<RestaurantDto> getRestaurantDtoById(@PathVariable(name = "restaurantId") Long restaurantId);
 
    // READ - GET REVIEWS OF RESTAURANT BY ID
    @Operation(
-         summary = "information about reviews with selected id by restaurant",
-         description = "allows you to get information about reviews with selected id by restaurant, not require authorization"
+         summary = "Information about reviews with selected id by restaurant",
+         description = "Allows you to get information about reviews with selected id by restaurant, not require authorization."
    )
-   ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable(name = "id") Long restaurantId);
+   ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable(name = "restaurantId") Long restaurantId);
 
    // CREATE - ADD A REVIEW FOR THE RESTAURANT
    @Operation(
          summary = "Add a review for a restaurant",
-         description = "allows you to create a new product, requires the role of customer",
+         description = "Allows you to create a new product, requires the role of customer.",
          parameters = {
                @Parameter(
-                     name = "id",
+                     name = "restaurantId",
                      description = "The ID of the restaurant",
                      required = true,
                      in = ParameterIn.PATH,
                      schema = @Schema(type = "integer", format = "int64"),
                      examples = {
                            @ExampleObject(
-                                 name = "Example request with correct Id",
+                                 name = "Example request with correct ID",
                                  value = "1"
                            ),
                            @ExampleObject(
-                                 name = "Example request with non-existent Id",
+                                 name = "Example request with non-existent ID",
                                  value = "999"
                            ),
                            @ExampleObject(
-                                 name = "Example request with invalid Id",
+                                 name = "Example request with invalid ID",
                                  value = "abc"
                            )
                      }
@@ -79,11 +79,11 @@ public interface RestaurantControllerInterface {
                      schema = @Schema(type = "string", format = "string"),
                      examples = {
                            @ExampleObject(
-                                 name = "Example request with correct Id",
+                                 name = "Example request with correct ID",
                                  value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
                            ),
                            @ExampleObject(
-                                 name = "Example request with invalid Id",
+                                 name = "Example request with invalid ID",
                                  value = "d234d99d-170e-42f7-b6ae-435ee56f49a1!"
                            )
                      }
@@ -127,7 +127,7 @@ public interface RestaurantControllerInterface {
          ),
          responses = {
                @ApiResponse(
-                     responseCode = "200",
+                     responseCode = "201",
                      description = "Review added successfully",
                      content = @Content(
                            mediaType = "application/json",
@@ -154,5 +154,5 @@ public interface RestaurantControllerInterface {
    )
    ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
                                           @UuidFormatChecker @RequestParam String customerId,
-                                          @Valid @PathVariable("id") Long restaurantId);
+                                          @Valid @PathVariable("restaurantId") Long restaurantId);
 }

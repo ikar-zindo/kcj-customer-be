@@ -7,9 +7,14 @@ import com.nimbusds.jose.jwk.OctetSequenceKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,7 +29,8 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import java.util.Collections;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
    @Bean
@@ -68,15 +74,28 @@ public class SecurityConfig {
             .addFilterAfter(new GetCsrfTokenFilter(), ExceptionTranslationFilter.class)
             .authorizeHttpRequests(authorizeHttpRequests ->
                   authorizeHttpRequests
+                        .requestMatchers(HttpMethod.POST, "/auth/login").anonymous()
                         .requestMatchers(
                               "/customer/**",
                               "/cart/**").hasRole("CUSTOMER")
                         .requestMatchers(
                               "/",
+                              "index.html",
+//                              "/auth/**",
+                              "/v2/api-docs/**",
+                              "/configuration/ui",
+                              "/swagger-resources/",
+                              "/configuration/security",
+                              "/webjars/",
+                              "/v3/api-docs/**",
+                              "/swagger-ui.html",
+                              "/api/v1/auth/",
+                              "/swagger-ui/**",
                               "/product/**",
-                              "/restaurant/**",
-                              "/swagger-ui/**").permitAll()
-                        .anyRequest().authenticated())
+                              "/restaurant/**").permitAll()
+                        .anyRequest()
+                        .authenticated()
+            )
             .sessionManagement(sessionManagement -> sessionManagement
                   .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .sessionAuthenticationStrategy(tokenCookieSessionAuthenticationStrategy))
@@ -101,5 +120,11 @@ public class SecurityConfig {
                   .password(rs.getString("password"))
                   .authorities(Collections.singleton(new SimpleGrantedAuthority(rs.getString("role"))))
                   .build(), username).stream().findFirst().orElse(null);
+   }
+
+   @Bean
+   public AuthenticationManager authenticationManager(
+         AuthenticationConfiguration authenticationConfiguration) throws Exception {
+      return authenticationConfiguration.getAuthenticationManager();
    }
 }

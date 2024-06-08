@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 
--- changeset root:v0.1.0-schema
+-- changeset root:v1.0.0-schema
 -- comment initial schema db
 
 SET AUTOCOMMIT = 0;
