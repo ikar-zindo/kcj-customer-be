@@ -1,35 +1,16 @@
 package com.kcjcustomerbe.config;
 
-import io.swagger.models.auth.In;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.RequestParameterBuilder;
-import springfox.documentation.schema.ScalarType;
-import springfox.documentation.service.*;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @OpenAPIDefinition(
       info = @Info(
@@ -42,8 +23,8 @@ import java.util.List;
             )
       )
 )
-//@EnableSwagger2
-@Configuration
+@EnableSwagger2
+//@Configuration
 public class SwaggerConfig {
    @Value("${swagger.packageName:com.kcjcustomerbe}") private String PACKAGE_NAME;
 
@@ -61,11 +42,8 @@ public class SwaggerConfig {
       return new Docket(DocumentationType.SWAGGER_2)
             .select()
             .apis(RequestHandlerSelectors.basePackage(PACKAGE_NAME))
-//            .apis(RequestHandlerSelectors.any())
             .paths(PathSelectors.any())
             .build()
-//            .securitySchemes(Collections.singletonList(apiKey()))
-//            .securityContexts(Collections.singletonList(securityContext()))
             .tags(new Tag(CART, "API for working with cart service"))
             .tags(new Tag(CART_PRODUCT, "API for working with cartProduct service"))
             .tags(new Tag(CUSTOMER, "API for working with customer service"))
@@ -75,63 +53,7 @@ public class SwaggerConfig {
             .tags(new Tag(RESTAURANT, "API for working with restaurant service"))
             .tags(new Tag(REVIEW, "API for working with review service"));
    }
-
-   @Bean
-   public OpenAPI openAPI() {
-      return new OpenAPI()
-            .addSecurityItem(new SecurityRequirement().addList("Cookie Authentication"))
-            .components(new Components().addSecuritySchemes("Cookie Authentication", createCookieAuthScheme()));
-//            .info(new io.swagger.v3.oas.models.info.Info().title("My REST API")
-//                  .description("Some custom description of API.")
-//                  .version("1.0")
-//                  .contact(new io.swagger.v3.oas.models.info.Contact().name("Ivan Bukrieiev").url("https://github.com/ikar-zindo?tab=repositories"))
-//                  .license(new io.swagger.v3.oas.models.info.License().name("License of API").url("API license URL")));
-   }
-
-   private SecurityScheme createCookieAuthScheme() {
-      return new SecurityScheme()
-            .type(SecurityScheme.Type.APIKEY)
-            .in(SecurityScheme.In.COOKIE)
-            .name("__Host-auth-token");
-   }
-
-//   private ApiKey apiKey() {
-//      return new ApiKey("apiKey", "api_key", "header");
-//   }
-//
-//   private SecurityContext securityContext() {
-//      return SecurityContext.builder()
-//            .securityReferences(defaultAuth())
-//            .forPaths(PathSelectors.regex("/auth.*")) // Указываем путь, для которого применяется аутентификация
-//            .build();
-//   }
-//
-//   List<SecurityReference> defaultAuth() {
-//      AuthorizationScope authorizationScope
-//            = new AuthorizationScope("global", "accessEverything");
-//      AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//      authorizationScopes[0] = authorizationScope;
-//      return Arrays.asList(
-//            new SecurityReference("apiKey", authorizationScopes));
-//   }
 }
-
-
-//   @Bean
-//   public RequestInterRequestInterceptor cookieAuthInterceptor() {
-//      return requestTemplate -> {
-//         // Извлекаем куку из HttpServletRequest
-//         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//         String cookieValue = servletRequest.getHeader(HttpHeaders.COOKIE);
-//
-//         // Добавляем куку в HttpHeaders
-//         if (cookieValue != null && !cookieValue.isEmpty()) {
-//            requestTemplate.header(HttpHeaders.COOKIE, cookieValue);
-//         }
-//      };
-//   }
-//}
-
 
 //import io.swagger.v3.oas.models.Components;
 //import io.swagger.v3.oas.models.OpenAPI;
