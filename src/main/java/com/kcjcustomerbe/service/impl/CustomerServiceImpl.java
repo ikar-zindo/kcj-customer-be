@@ -13,6 +13,7 @@ import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.service.CustomerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
 
    private final CustomerMapper customerMapper;
 
-//   private final PasswordEncoder encoder;
+   private final PasswordEncoder encoder;
 
    // CREATE - REGISTRATION NEW CUSTOMER
    @Override
@@ -40,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
       }
 
       Customer customer = customerMapper.mapCustomerFromCustomerCreateDto(customerCreateDto);
-//      customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
+      customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
       customer.setRole(RolesName.ROLE_CUSTOMER);
       Customer afterCreate = customerRepository.save(customer);
 
@@ -60,6 +61,23 @@ public class CustomerServiceImpl implements CustomerService {
       Customer expextedCustomer = customerOptional.get();
       if (expextedCustomer.getIsBlocked()) {
          throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_ID_NOT_FOUND + customerId);
+      }
+      return customerMapper.mapToCustomerDto(customerOptional.get());
+   }
+
+   // READ - GET CUSTOMER BY EMAIL
+   @Override
+   @Transactional
+   public CustomerDto getCustomerByEmail(String email) throws IdNullException {
+      Optional<Customer> customerOptional = customerRepository.findByEmail(email);
+
+      if (customerOptional.isEmpty()) {
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND_WITH_EMAIL + email);
+      }
+
+      Customer expextedCustomer = customerOptional.get();
+      if (expextedCustomer.getIsBlocked()) {
+         throw new CustomerNotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND_WITH_EMAIL + email);
       }
       return customerMapper.mapToCustomerDto(customerOptional.get());
    }
@@ -87,9 +105,9 @@ public class CustomerServiceImpl implements CustomerService {
 
       existingCustomer = customerMapper.mapCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
 
-//      if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
-//         existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));
-//      }
+      if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
+         existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));
+      }
 
       Customer afterUpdate = customerRepository.save(existingCustomer);
       return customerMapper.mapToCustomerAfterUpdateDto(afterUpdate);

@@ -70,23 +70,6 @@ public interface RestaurantControllerInterface {
                                  value = "abc"
                            )
                      }
-               ),
-               @Parameter(
-                     name = "customerId",
-                     description = "The ID of the customer",
-                     required = true,
-                     in = ParameterIn.QUERY,
-                     schema = @Schema(type = "string", format = "string"),
-                     examples = {
-                           @ExampleObject(
-                                 name = "Example request with correct ID",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with invalid ID",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1!"
-                           )
-                     }
                )
          },
          requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -144,7 +127,7 @@ public interface RestaurantControllerInterface {
                ),
                @ApiResponse(
                      responseCode = "404",
-                     description = "Customer or restaurant not found",
+                     description = "Restaurant not found",
                      content = @Content(
                            mediaType = "application/json",
                            schema = @Schema(implementation = ResponseExceptionHandler.class)
@@ -153,6 +136,5 @@ public interface RestaurantControllerInterface {
          }
    )
    ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
-                                          @UuidFormatChecker @RequestParam String customerId,
                                           @Valid @PathVariable("restaurantId") Long restaurantId);
 }

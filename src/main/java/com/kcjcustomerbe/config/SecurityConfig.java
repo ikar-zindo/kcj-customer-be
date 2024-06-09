@@ -76,6 +76,7 @@ public class SecurityConfig {
                   authorizeHttpRequests
                         .requestMatchers(HttpMethod.POST,
                               "/auth/login",
+                              "/login",
                               "/registration").anonymous()
                         .requestMatchers(
                               "/customer/**",

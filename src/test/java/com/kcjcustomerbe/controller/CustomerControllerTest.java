@@ -3,6 +3,7 @@ package com.kcjcustomerbe.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcjcustomerbe.constant.GlobalConstant;
 import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
 import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
 import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
 import com.kcjcustomerbe.exception.ErrorMessage;
@@ -12,7 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -21,7 +25,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-//@ActiveProfiles("test")
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 @Sql({"/db/drop.sql", "/db/schema.sql", "/db/data-test.sql"})
@@ -37,7 +43,7 @@ public class CustomerControllerTest {
 
 
    @Test
-   void createCustomerPositiveTest() throws Exception, CustomerIsExistException {
+   void create_customer_positive_test() throws Exception, CustomerIsExistException {
       CustomerCreateDto dto = new CustomerCreateDto(
             "John",
             "Snow",
@@ -52,9 +58,10 @@ public class CustomerControllerTest {
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .post("/customer")
+                  .post("/registration")
+                  .content(jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonRequest))
+                  .with(csrf()))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
@@ -68,7 +75,7 @@ public class CustomerControllerTest {
 
 
    @Test
-   void createCustomerNegativeTest() throws Exception, CustomerIsExistException {
+   void create_customer_negative_test() throws Exception, CustomerIsExistException {
       CustomerCreateDto dto = new CustomerCreateDto(
             "Maria",
             "Anders",
@@ -83,9 +90,10 @@ public class CustomerControllerTest {
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .post("/customer")
+                  .post("/registration")
+                  .content(jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonRequest))
+                  .with(csrf()))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
@@ -96,39 +104,41 @@ public class CustomerControllerTest {
 
 
    @Test
-   void getCustomerPositiveTest() throws Exception {
-      UUID id = UUID.fromString("d234d99d-170e-42f7-b6ae-435ee56f49a1");
+   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   void get_customer_positive_test() throws Exception {
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .get("/customer/{id}", id.toString())
+                  .get("/customer")
+                  .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON))
             .andReturn();
+
 
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
       Assertions.assertEquals(200, result.getResponse().getStatus());
-      Assertions.assertTrue(jsonResponse.contains(id.toString()));
    }
 
 
    @Test
-   void getCustomerNegativeTest() throws Exception {
+   void get_customer_negative_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .get("/customer/{id}", id.toString())
+                  .get("/customer")
+                  .with(csrf())
                   .contentType(MediaType.APPLICATION_JSON))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
-      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.CUSTOMER_ID_NOT_FOUND + id));
+      Assertions.assertEquals(401, result.getResponse().getStatus());
+      Assertions.assertTrue(jsonResponse.isEmpty());
    }
 
 
    @Test
-   void updateCustomerInfoPositiveTest() throws Exception {
-      UUID id = UUID.fromString("d234d99d-170e-42f7-b6ae-435ee56f49a1");
+   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   void update_customer_info_positive_test() throws Exception {
       CustomerUpdateDto dto = new CustomerUpdateDto(
             "Maria",
             "Anders",
@@ -143,8 +153,9 @@ public class CustomerControllerTest {
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .put("/customer/{id}", id.toString(), jsonRequest)
+                  .put("/customer", jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
+                  .with(csrf())
                   .content(jsonRequest))
             .andReturn();
 
@@ -159,11 +170,11 @@ public class CustomerControllerTest {
 
 
    @Test
-   void updateCustomerInfoNegativeTest() throws Exception {
+   void update_customer_info_unauthorized_negative_test() throws Exception {
       CustomerUpdateDto dto = new CustomerUpdateDto(
             "Maria",
             "Anders",
-            "janifer@mail.com",
+            "ana@mail.com",
             "QwErTy123!",
             "+490134567899",
             "Obere Str. 57",
@@ -174,61 +185,75 @@ public class CustomerControllerTest {
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .put("/customer/{id}", id.toString(), jsonRequest)
+                  .put("/customer", jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonRequest))
+                  .content(jsonRequest)
+                  .with(csrf()))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
-      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.CUSTOMER_ID_NOT_FOUND + id));
+      Assertions.assertEquals(401, result.getResponse().getStatus());
+      Assertions.assertTrue(jsonResponse.isEmpty());
    }
 
 
    @Test
-   void blockCustomerPositiveTest() throws Exception {
-      UUID id = UUID.fromString("d234d99d-170e-42f7-b6ae-435ee56f49a1");
+   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   void update_customer_info_email_exists_negative_test() throws Exception {
       CustomerUpdateDto dto = new CustomerUpdateDto(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
+            "Maria",
+            "Anders",
+            "ana@mail.com",
+            "QwErTy123!",
+            "+490134567899",
+            "Obere Str. 57",
+            "09874",
             LocalDateTime.now(),
-            true
+            false
       );
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .put("/customer/{id}", id.toString(), jsonRequest)
+                  .put("/customer", jsonRequest)
                   .contentType(MediaType.APPLICATION_JSON)
-                  .content(jsonRequest))
+                  .content(jsonRequest)
+                  .with(csrf()))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      CustomerResponseDto customerResponseDto = objectMapper.readValue(jsonResponse, CustomerResponseDto.class);
-      Assertions.assertEquals(200, result.getResponse().getStatus());
-      Assertions.assertNotNull(customerResponseDto.getId());
-      Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerResponseDto.status);
+      Assertions.assertEquals(409, result.getResponse().getStatus());
+      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.EMAIL_ALREADY_EXISTS));
    }
 
 
    @Test
-   void blockCustomerNegativeTest() throws Exception {
+   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   void block_customer_positive_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .delete("/customer/{id}", id.toString())
-                  .accept(MediaType.APPLICATION_JSON))
+                  .delete("/customer")
+                  .contentType("application/x-www-form-urlencoded")
+                  .with(csrf()))
+            .andReturn();
+
+      Assertions.assertEquals(200, result.getResponse().getStatus());
+   }
+
+
+   @Test
+   void block_customer_unauthorized_negative_test() throws Exception {
+      MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                  .delete("/customer")
+                  .accept("application/x-www-form-urlencoded")
+                  .with(csrf()))
             .andReturn();
 
       String jsonResponse = result.getResponse().getContentAsString();
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
-      Assertions.assertTrue(jsonResponse.contains(ErrorMessage.CUSTOMER_ID_NOT_FOUND + id));
+      Assertions.assertEquals(401, result.getResponse().getStatus());
+      Assertions.assertTrue(jsonResponse.isEmpty());
    }
 }

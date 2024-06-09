@@ -14,7 +14,8 @@ INSERT INTO restaurants (name, address, phone_number, opening_hours, cuisine_typ
 --
 
 INSERT INTO customers (customer_id, first_name, last_name, email, password, phone_number, address, postal_code, role) VALUES
-    (CAST('d234d99d-170e-42f7-b6ae-435ee56f49a1' AS BINARY(16)), 'Maria', 'Anders',	'maria@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', '+49 123 456 789', 'Obere Str. 57', '12209', 'ROLE_CUSTOMER');
+    (CAST('d234d99d-170e-42f7-b6ae-435ee56f49a1' AS BINARY(16)), 'Maria', 'Anders',	'maria@mail.com', '$2a$10$xJCiY3.jw5qjxdggiFGtrOQyyX0P62KAO/uqtbYwiEWBZ1iFTr1mm', '+49 123 456 789', 'Obere Str. 57', '12209', 'ROLE_CUSTOMER'),
+    (CAST('d234d98d-170e-42f7-b6ae-435ee56f49a2' AS BINARY(16)), 'Ana', 'Trujillo',	'ana@mail.com', '$2a$10$lKwjA8yqzzackBa2SjUkJOocYJqNy6SP/ntOuh4wnOuxmFcVvQC62', '+49 123 456 789', 'Minerstrasse 33', '10115', 'ROLE_CUSTOMER');
 
 --
 -- Dumping data for table carts
@@ -56,4 +57,5 @@ INSERT INTO order_products (order_product_id, order_id, product_id, quantity) VA
 --
 
 INSERT INTO reviews (restaurant_id, customer_id, rating, comment) VALUES
+    ('1', CAST('d234d99d-170e-42f7-b6ae-435ee56f49a1' AS BINARY(16)), '5', 'good food'),
     ('1', CAST('d234d99d-170e-42f7-b6ae-435ee56f49a1' AS BINARY(16)), '5', 'good food');

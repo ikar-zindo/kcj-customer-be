@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 @Sql({"/db/drop.sql", "/db/schema.sql", "/db/data-test.sql"})
@@ -41,7 +43,7 @@ public class ReviewControllerTest {
 
 
    @Test
-   void getReviewByIdPositiveTest() throws Exception {
+   void get_review_by_id_positive_test() throws Exception {
       reviewId = 1L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -58,7 +60,7 @@ public class ReviewControllerTest {
 
 
    @Test
-   void getReviewByIdNegativeTest() throws Exception {
+   void get_review_by_id_negative_test() throws Exception {
       reviewId = 0L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -75,7 +77,7 @@ public class ReviewControllerTest {
 
 
    @Test
-   void getAllReviewsPositiveTest() throws Exception {
+   void get_all_reviews_positive_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/review")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -95,7 +97,7 @@ public class ReviewControllerTest {
 
    @Test
    @Sql("/db/clear.sql")
-   void getAllReviewsNegativeTest() throws Exception {
+   void get_all_reviews_negative_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/review")
                   .contentType(MediaType.APPLICATION_JSON))

@@ -44,7 +44,7 @@ public class ProductControllerTest {
 
 
    @Test
-   void getProductByIdPositiveTest() throws Exception {
+   void get_product_by_id_positive_test() throws Exception {
       productId = 1L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -61,7 +61,7 @@ public class ProductControllerTest {
 
 
    @Test
-   void getProductByIdNegativeTest() throws Exception {
+   void get_product_by_id_negative_test() throws Exception {
       productId = 0L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -78,7 +78,7 @@ public class ProductControllerTest {
 
 
    @Test
-   void getAllProductsPositiveTest() throws Exception {
+   void get_all_products_positive_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/product")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -98,7 +98,7 @@ public class ProductControllerTest {
 
    @Test
    @Sql("/db/clear.sql")
-   void getAllProductsNegativeTest() throws Exception {
+   void get_all_products_negative_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/product")
                   .contentType(MediaType.APPLICATION_JSON))

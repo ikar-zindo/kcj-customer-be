@@ -3,11 +3,16 @@ package com.kcjcustomerbe.controller;
 import com.kcjcustomerbe.controller.interfaces.CartControllerInterface;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.OrderDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.service.CartService;
+import com.kcjcustomerbe.service.CustomerService;
 import com.kcjcustomerbe.validation.UuidFormatChecker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +27,8 @@ public class CartController implements CartControllerInterface {
 
    private final CartService cartService;
 
+   private final CustomerService customerService;
+
    // READ - CUSTOMER
    @GetMapping
    public String getCustomerCart() {
@@ -30,24 +37,52 @@ public class CartController implements CartControllerInterface {
 
    // CREATE - ADD PRODUCT TO CART
    @PutMapping("/addToCart")
-   public ResponseEntity<CartProductDto> addProductToCart(@UuidFormatChecker @RequestParam String cartId,
-                                                          @RequestParam Long productId) {
+   public ResponseEntity<CartProductDto> addProductToCart(@RequestParam Long productId) {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-      return ResponseEntity.ok(cartService.addProductToCart(UUID.fromString(cartId), productId));
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         return ResponseEntity.ok(cartService.addProductToCart(cartId, productId));
+      }
+
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // CREATE NEW ORDER
    @PostMapping("/payCart")
-   public ResponseEntity<OrderDto> payCart(@UuidFormatChecker @RequestParam String cartId) {
-      OrderDto dto = cartService.createOrder(UUID.fromString(cartId));
-      cartService.clearCart(UUID.fromString(cartId));
-      return ResponseEntity.created(URI.create("/cart")).body(dto);
+   public ResponseEntity<OrderDto> payCart() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         OrderDto dto = cartService.createOrder((cartId));
+         cartService.clearCart((cartId));
+         return ResponseEntity.created(URI.create("/cart")).body(dto);
+      }
+
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // DELETE - CLEAR CART
    @DeleteMapping("/clearCart")
-   public ResponseEntity<HttpStatus> clearCart(@UuidFormatChecker @RequestParam String cartId) {
-      cartService.clearCart(UUID.fromString(cartId));
-      return ResponseEntity.ok(HttpStatus.OK);
+   public ResponseEntity<HttpStatus> clearCart() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         cartService.clearCart((cartId));
+         return ResponseEntity.ok(HttpStatus.OK);
+      }
+
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

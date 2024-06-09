@@ -29,29 +29,6 @@ public interface CustomerControllerInterface {
    @Operation(
          summary = "Show customer by ID",
          description = "Retrieve an customer by its unique identifier",
-         parameters = {
-               @Parameter(
-                     name = "id",
-                     description = "The unique identifier of the customer",
-                     required = true,
-                     in = ParameterIn.PATH,
-                     schema = @Schema(type = "string", format = "string"),
-                     examples = {
-                           @ExampleObject(
-                                 name = "Example request with correct Id",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with non-exist Id",
-                                 value = "12345678-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with invalid Id",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1!"
-                           )
-                     }
-               )
-         },
          responses = {
                @ApiResponse(
                      responseCode = "200",
@@ -79,36 +56,13 @@ public interface CustomerControllerInterface {
                )
          }
    )
-   ResponseEntity<CustomerDto> getCustomerById(@UuidFormatChecker @PathVariable("id") String customerId);
+   ResponseEntity<CustomerDto> getCustomerByEmail();
 
 
    // UPDATE - CUSTOMER DETAILS
    @Operation(
          summary = "Update details about a customer",
          description = "Update a customer details and return him",
-         parameters = {
-               @Parameter(
-                     name = "id",
-                     description = "The customer details have been successfully updated",
-                     required = true,
-                     in = ParameterIn.PATH,
-                     schema = @Schema(type = "string", format = "string"),
-                     examples = {
-                           @ExampleObject(
-                                 name = "Example request with correct Id",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with non-exist Id",
-                                 value = "12345678-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with invalid Id",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1!"
-                           )
-                     }
-               )
-         },
          requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                description = "The customer to be created",
                required = true,
@@ -178,55 +132,13 @@ public interface CustomerControllerInterface {
 
          }
    )
-   ResponseEntity<CustomerResponseDto> updateCustomerInfo(@UuidFormatChecker @PathVariable("id") String customerId,
-                                                          @Valid @RequestBody CustomerUpdateDto customerUpdateDto);
+   ResponseEntity<CustomerResponseDto> updateCustomerInfo(@Valid @RequestBody CustomerUpdateDto customerUpdateDto);
 
 
    // DELETE - BLOCK CUSTOMER
    @Operation(
          summary = "Block Customer by ID",
-         description = "Block an customer by its unique identifier",
-         parameters = {
-               @Parameter(
-                     name = "id",
-                     description = "The unique identifier of the customer",
-                     required = true,
-                     in = ParameterIn.PATH,
-                     schema = @Schema(type = "string", format = "string"),
-                     examples = {
-                           @ExampleObject(
-                                 name = "Example request with correct Id",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                           )
-                     }
-               )
-         },
-         responses = {
-               @ApiResponse(
-                     responseCode = "200",
-                     description = "A customer found and returned",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = CustomerDto.class)
-                     )
-               ),
-               @ApiResponse(
-                     responseCode = "400",
-                     description = "Invalid ID",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = ResponseExceptionHandler.class)
-                     )
-               ),
-               @ApiResponse(
-                     responseCode = "409",
-                     description = "Customer not found",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = ResponseExceptionHandler.class)
-                     )
-               )
-         }
+         description = "Block an customer by its unique identifier"
    )
-   ResponseEntity<CustomerResponseDto> blockCustomerById(@UuidFormatChecker @PathVariable("id") String customerId);
+   ResponseEntity<CustomerResponseDto> blockCustomerById();
 }

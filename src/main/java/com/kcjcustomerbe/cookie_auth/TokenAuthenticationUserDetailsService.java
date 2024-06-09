@@ -54,8 +54,6 @@ public class TokenAuthenticationUserDetailsService
        }
 
        throw new UsernameNotFoundException("Principal must be of type Token");
-
-
     }
 }
 

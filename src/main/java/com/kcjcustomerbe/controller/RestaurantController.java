@@ -1,6 +1,8 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.controller.interfaces.RestaurantControllerInterface;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.service.CustomerService;
 import com.kcjcustomerbe.validation.UuidFormatChecker;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
@@ -8,7 +10,10 @@ import com.kcjcustomerbe.service.RestaurantService;
 import com.kcjcustomerbe.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +30,8 @@ public class RestaurantController implements RestaurantControllerInterface {
    private final RestaurantService restaurantService;
 
    private final ReviewService reviewService;
+
+   private final CustomerService customerService;
 
    // READ - ALL RESTAURANTS
    @GetMapping
@@ -49,10 +56,17 @@ public class RestaurantController implements RestaurantControllerInterface {
    // CREATE - ADD A REVIEW FOR THE RESTAURANT
    @PostMapping("/{restaurantId}/reviews")
    public ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
-                                                 @UuidFormatChecker @RequestParam String customerId,
                                                  @Valid @PathVariable("restaurantId") Long restaurantId) {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-      ReviewDto dto = reviewService.addReview(reviewDto, UUID.fromString(customerId), restaurantId);
-      return ResponseEntity.created(URI.create("/restaurant/" + restaurantId + "/reviews")).body(dto);
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+
+         ReviewDto dto = reviewService.addReview(reviewDto, customerDto.getId(), restaurantId);
+         return ResponseEntity.created(URI.create("/restaurant/" + restaurantId + "/reviews")).body(dto);
+      }
+
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

@@ -35,113 +35,18 @@ public interface CartControllerInterface {
          summary = "Add product to cart",
          description = "Allows you to add a product to the cart with the specified cart ID and product ID. Requires authorization."
    )
-   ResponseEntity<CartProductDto> addProductToCart(@UuidFormatChecker @RequestParam String cartId,
-                                                   @RequestParam Long productId);
+   ResponseEntity<CartProductDto> addProductToCart(@RequestParam Long productId);
 
    @Operation(
          summary = "Pay for items in the cart",
-         description = "Allows you to pay for the items in the cart with the specified cart ID. Requires authorization.",
-         parameters = {
-               @Parameter(
-                     name = "cartId",
-                     description = "The unique identifier of the cart",
-                     required = true,
-                     in = ParameterIn.QUERY,
-                     schema = @Schema(type = "string", format = "string"),
-                     examples = {
-                           @ExampleObject(
-                                 name = "Example request with correct ID",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with non-exist ID",
-                                 value = "12345678-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with invalid ID",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49b1!"
-                           )
-                     }
-               )
-         },
-         responses = {
-               @ApiResponse(
-                     responseCode = "201",
-                     description = "The cart has been payed",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = OrderDto.class)
-                     )
-               ),
-               @ApiResponse(
-                     responseCode = "400",
-                     description = "Invalid ID",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = ResponseExceptionHandler.class)
-                     )
-               ),
-               @ApiResponse(
-                     responseCode = "404",
-                     description = "Cart not found",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = ResponseExceptionHandler.class)
-                     )
-               )
-         }
+         description = "Allows you to pay for the items in the cart with the specified cart ID. Requires authorization."
    )
-   ResponseEntity<OrderDto> payCart(@UuidFormatChecker @RequestParam String cartId);
+   ResponseEntity<OrderDto> payCart();
 
 
    @Operation(
          summary = "Clean cart by ID",
-         description = "Retrieve an cart by its unique identifier",
-         parameters = {
-               @Parameter(
-                     name = "cartId",
-                     description = "The unique identifier of the cart",
-                     required = true,
-                     in = ParameterIn.QUERY,
-                     schema = @Schema(type = "string", format = "string"),
-                     examples = {
-                           @ExampleObject(
-                                 name = "Example request with correct ID",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49b1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with non-exist ID",
-                                 value = "12345678-170e-42f7-b6ae-435ee56f49a1"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with invalid ID",
-                                 value = "d234d99d-170e-42f7-b6ae-435ee56f49b1!"
-                           )
-                     }
-               )
-         },
-         responses = {
-               @ApiResponse(
-                     responseCode = "200",
-                     description = "The cart has been cleaned"
-               ),
-               @ApiResponse(
-                     responseCode = "400",
-                     description = "Invalid ID",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = ResponseExceptionHandler.class)
-                     )
-               ),
-               @ApiResponse(
-                     responseCode = "404",
-                     description = "Cart not found",
-                     content = @Content(
-                           mediaType = "application/json",
-                           schema = @Schema(implementation = ResponseExceptionHandler.class)
-                     )
-               )
-         }
+         description = "Retrieve an cart by its unique identifier"
    )
-   ResponseEntity<HttpStatus> clearCart(@UuidFormatChecker @RequestParam String cartId);
+   ResponseEntity<HttpStatus> clearCart();
 }

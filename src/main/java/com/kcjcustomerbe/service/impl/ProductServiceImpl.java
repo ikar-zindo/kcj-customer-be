@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
       Optional<Product> productOptional = productRepository.findByIdAndIsAvailableTrue(productId);
 
       if (productOptional.isEmpty()) {
-         throw new ProductNotAvailableException(productId);
+         throw new ProductIdNotFoundException(productId);
       }
 
       Product product = productOptional.get();

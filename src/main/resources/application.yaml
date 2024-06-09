@@ -11,6 +11,8 @@ jwt:
   cookie-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
 
 spring:
+#  profiles:
+#    active: dev
   main:
     banner-mode: off
   messages:
@@ -33,7 +35,7 @@ spring:
 
   liquibase:
     enabled: true
-    drop-first: true
+#    drop-first: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
 logging:

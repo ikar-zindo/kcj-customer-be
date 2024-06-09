@@ -1,6 +1,9 @@
 server:
   port: 9092
 
+jwt:
+  cookie-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
+
 spring:
   profiles:
     active: test

@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UuidFormatCheckerConstraint.class)
 public @interface UuidFormatChecker {
 
-    String message() default "It is not UUID format";
+    String message() default "IT_IS_NOT_UUID_FORMAT";
 
     Class<?>[] groups() default {};
 

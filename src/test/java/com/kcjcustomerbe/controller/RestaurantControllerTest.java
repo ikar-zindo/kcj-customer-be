@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -46,7 +48,7 @@ public class RestaurantControllerTest {
 
 
    @Test
-   void getRestaurantPositiveTest() throws Exception {
+   void get_restaurant_positive_test() throws Exception {
       restaurantId = 1L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -63,7 +65,7 @@ public class RestaurantControllerTest {
 
 
    @Test
-   void getRestaurantNegativeTest() throws Exception {
+   void get_restaurant_negative_test() throws Exception {
       restaurantId = 0L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -80,8 +82,8 @@ public class RestaurantControllerTest {
 
 
    @Test
-   void addReviewfPositiveTest() throws Exception {
-      String customerId = "d234d99d-170e-42f7-b6ae-435ee56f49a1";
+   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   void add_review_positive_test() throws Exception {
       restaurantId = 1L;
 
       ReviewDto reviewDto = new ReviewDto(
@@ -97,8 +99,8 @@ public class RestaurantControllerTest {
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .post("/restaurant/" + restaurantId + "/reviews")
-                  .param("customerId", customerId)
                   .contentType(MediaType.APPLICATION_JSON)
+                  .with(csrf())
                   .content(jsonRequest))
             .andExpect(status().isCreated())
             .andReturn();
@@ -115,8 +117,8 @@ public class RestaurantControllerTest {
 
 
    @Test
-   void addReviewNegativeTest() throws Exception {
-      String customerId = "d234d99d-170e-42f7-b6ae-435ee56f49a1";
+   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   void add_review_negative_test() throws Exception {
       restaurantId = 1L;
 
       ReviewDto reviewDto = new ReviewDto(
@@ -132,8 +134,8 @@ public class RestaurantControllerTest {
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .post("/restaurant/" + restaurantId + "/reviews")
-                  .param("customerId", customerId)
                   .contentType(MediaType.APPLICATION_JSON)
+                  .with(csrf())
                   .content(jsonRequest))
             .andExpect(status().isBadRequest())
             .andReturn();
@@ -146,7 +148,7 @@ public class RestaurantControllerTest {
 
 
    @Test
-   void getAllRestaurantsPositiveTest() throws Exception {
+   void get_all_restaurants_positive_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -166,7 +168,7 @@ public class RestaurantControllerTest {
 
    @Test
    @Sql("/db/clear.sql")
-   void getAllRestaurantsNegativeTest() throws Exception {
+   void get_all_restaurants_negative_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant")
                   .contentType(MediaType.APPLICATION_JSON))
