@@ -1,12 +1,10 @@
 package com.kcjcustomerbe.cookie_auth.controller;
 
-import com.kcjcustomerbe.cookie_auth.AuthRequest;
+import com.kcjcustomerbe.cookie_auth.LoginReques;
 import com.kcjcustomerbe.cookie_auth.TokenCookieSessionAuthenticationStrategy;
-import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,20 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping
 //@RequiredArgsConstructor
-public class AuthController {
+public class LoginController {
 
    @Autowired
    private AuthenticationManager authenticationManager;
 
-//   @Autowired
+   @Autowired
    private TokenCookieSessionAuthenticationStrategy tokenCookieSessionAuthenticationStrategy;
 
    @PostMapping("/login")
-   public ResponseEntity<?> login(@RequestBody AuthRequest authRequest, HttpServletResponse response) {
+   public ResponseEntity<?> login(@RequestBody LoginReques loginReques, HttpServletResponse response) {
       Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
+            new UsernamePasswordAuthenticationToken(loginReques.getEmail(), loginReques.getPassword())
       );
 
       SecurityContextHolder.getContext().setAuthentication(authentication);

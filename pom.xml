@@ -12,7 +12,7 @@
     <artifactId>kcj-customer-be</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>kcj-customer-be</name>
-    <description>Customer part web application for food delivery K-Curry Jib</description>
+    <description>Backend part for Customer of the K-Curry-Jib food delivery application</description>
     <properties>
         <java.version>17</java.version>
     </properties>

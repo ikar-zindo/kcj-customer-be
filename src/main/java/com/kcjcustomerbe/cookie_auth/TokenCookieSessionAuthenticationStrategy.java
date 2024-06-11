@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -28,6 +29,7 @@ import java.util.function.Function;
  *
  * @see TokenCookieAuthenticationConverter
  */
+@Component
 public class TokenCookieSessionAuthenticationStrategy implements SessionAuthenticationStrategy {
 
     private Function<Authentication, Token> tokenCookieFactory = new DefaultTokenCookieFactory();
