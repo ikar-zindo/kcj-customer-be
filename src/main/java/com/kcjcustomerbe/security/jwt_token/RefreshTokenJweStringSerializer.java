@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.cookie_auth;
+package com.kcjcustomerbe.security.jwt_token;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jwt.EncryptedJWT;
@@ -9,12 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.function.Function;
 
-/**
- *
- */
-public class TokenCookieJweStringSerializer implements Function<Token, String> {
+public class RefreshTokenJweStringSerializer implements Function<Token, String> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenCookieJweStringSerializer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RefreshTokenJweStringSerializer.class);
 
     private final JWEEncrypter jweEncrypter;
 
@@ -22,11 +19,11 @@ public class TokenCookieJweStringSerializer implements Function<Token, String> {
 
     private EncryptionMethod encryptionMethod = EncryptionMethod.A128GCM;
 
-    public TokenCookieJweStringSerializer(JWEEncrypter jweEncrypter) {
+    public RefreshTokenJweStringSerializer(JWEEncrypter jweEncrypter) {
         this.jweEncrypter = jweEncrypter;
     }
 
-    public TokenCookieJweStringSerializer(JWEEncrypter jweEncrypter, JWEAlgorithm jweAlgorithm, EncryptionMethod encryptionMethod) {
+    public RefreshTokenJweStringSerializer(JWEEncrypter jweEncrypter, JWEAlgorithm jweAlgorithm, EncryptionMethod encryptionMethod) {
         this.jweEncrypter = jweEncrypter;
         this.jweAlgorithm = jweAlgorithm;
         this.encryptionMethod = encryptionMethod;

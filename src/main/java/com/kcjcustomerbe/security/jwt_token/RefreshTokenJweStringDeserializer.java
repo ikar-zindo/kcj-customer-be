@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.cookie_auth;
+package com.kcjcustomerbe.security.jwt_token;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEDecrypter;
@@ -10,13 +10,13 @@ import java.text.ParseException;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class TokenCookieJweStringDeserializer implements Function<String, Token> {
+public class RefreshTokenJweStringDeserializer implements Function<String, Token> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenCookieJweStringDeserializer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RefreshTokenJweStringDeserializer.class);
 
     private final JWEDecrypter jweDecrypter;
 
-    public TokenCookieJweStringDeserializer(JWEDecrypter jweDecrypter) {
+    public RefreshTokenJweStringDeserializer(JWEDecrypter jweDecrypter) {
         this.jweDecrypter = jweDecrypter;
     }
 

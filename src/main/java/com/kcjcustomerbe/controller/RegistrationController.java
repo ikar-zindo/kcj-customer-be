@@ -29,6 +29,6 @@ public class RegistrationController implements RegistrationControllerInterface {
          @Valid @RequestBody CustomerCreateDto customerCreateDto) {
 
       CustomerResponseDto dto = customerService.registrationCustomer(customerCreateDto);
-      return ResponseEntity.created(URI.create("customer/" + dto.getId())).body(dto);
+      return ResponseEntity.created(URI.create("customer")).body(dto);
    }
 }
