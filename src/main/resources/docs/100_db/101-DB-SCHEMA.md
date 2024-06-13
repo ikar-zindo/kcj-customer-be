@@ -72,7 +72,7 @@
 
 # 6. `orders` public class OrderProduct {}
 
-| `order_products`   |                        | Annotations                                                                                                                                                     | Type variable | Name variable |
+| `order_products`   | `type`                 | Annotations                                                                                                                                                     | Type variable | Name variable |
 |--------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------|
 | `order_product_id` | BINARY(16) PRIMARY KEY | @Id<br/>@GeneratedValue(generator = "UUID")<br/>@GenericGenerator(name = "UUID", type = UuidTimeSequenceGenerator.class)<br/>@Column(name = "order_product_id") | `UUID`        | id            | 
 | `order_id`         | BINARY(16) NOT NULL    | @Column(name = "quantity")                                                                                                                                      | `int`         | quantity      |
@@ -81,30 +81,30 @@
 
 # 7. `products` public class Product {}
 
-| `order_products` | Annotations                                                                                  | Type variable        | Name variable |
-|------------------|----------------------------------------------------------------------------------------------|----------------------|---------------|
-| `product_id`     | @Id<br/>@GeneratedValue(strategy = GenerationType.IDENTITY)<br/>@Column(name = "product_id") | `Long`               | id            |
-| `name`           | @Column(name = "name")                                                                       | `String`             | name          |
-| `description`    | @Column(name = "description")                                                                | `String`             | description   |
-| `price`          | @Column(name = "price", precision = 8, scale = 2)                                            | `BigDecimal`         | price         |
-| `restaurant_id`  | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "restaurant_id")                   | `Restaurant`         | restaurant    |
-| `image_url`      | @Column(name = "image_url")                                                                  | `String`             | imageUrl      |
-| `created_at`     | @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")       | `LocalDateTime`      | createdAt     |
-| `is_available`   | @Column(name = "is_available")                                                               | `Boolean`            | isAvailable   |
-| `is_available`   | @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)                                  | `List<CartProduct>`  | cartProducts  |
-| `is_available`   | @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)                                  | `List<OrderProduct>` | orderProducts |
+| `order_products` | `type`                                     | Annotations                                                                                  | Type variable        | Name variable |
+|------------------|--------------------------------------------|----------------------------------------------------------------------------------------------|----------------------|---------------|
+| `product_id`     | BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY | @Id<br/>@GeneratedValue(strategy = GenerationType.IDENTITY)<br/>@Column(name = "product_id") | `Long`               | id            |
+| `name`           | VARCHAR(60)                                | @Column(name = "name")                                                                       | `String`             | name          |
+| `description`    | TEXT                                       | @Column(name = "description")                                                                | `String`             | description   |
+| `price`          | DECIMAL(8, 2)                              | @Column(name = "price", precision = 8, scale = 2)                                            | `BigDecimal`         | price         |
+| `restaurant_id`  | BIGINT                                     | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "restaurant_id")                   | `String`             | restaurant    |
+| `image_url`      | VARCHAR(200)                               | @Column(name = "image_url")                                                                  | `String`             | imageUrl      |
+| `created_at`     | TIMESTAMP DEFAULT CURRENT_TIMESTAMP        | @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")       | `LocalDateTime`      | createdAt     |
+| `is_available`   | BOOL DEFAULT TRUE                          | @Column(name = "is_available")                                                               | `String`             | isAvailable   |
+| `FOREIGN KEY`    | `cart_products_fk_products`                | @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)                                  | `List<CartProduct>`  | cartProducts  |
+| `FOREIGN KEY`    | `order_products_fk_products`               | @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)                                  | `List<OrderProduct>` | orderProducts |
 
 # 8. `reviews` public class Review {}
 
-| `order_products` | Annotations                                                                                 | Type variable   | Name variable |
-|------------------|---------------------------------------------------------------------------------------------|-----------------|---------------|
-| `review_id`      | @Id<br/>@GeneratedValue(strategy = GenerationType.IDENTITY)<br/>@Column(name = "review_id") | `Long`          | id            |
-| `restaurant_id`  | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "restaurant_id")                  | `Restaurant`    | restaurant    |
-| `customer_id`    | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "customer_id")                    | `Customer`      | customer      |
-| `rating`         | @Column(name = "rating", precision = 5, scale = 2)                                          | `BigDecimal`    | rating        |
-| `comment`        | @Column(name = "comment")                                                                   | `String`        | comment       |
-| `created_at`     | @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")      | `LocalDateTime` | createdAt     |
-| `updated_at`     | @Column(name = "updated_at")                                                                | `LocalDateTime` | updatedAt     |
+| `order_products` | `type`                                     | Annotations                                                                                 | Type variable   | Name variable |
+|------------------|--------------------------------------------|---------------------------------------------------------------------------------------------|-----------------|---------------|
+| `review_id`      | BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY | @Id<br/>@GeneratedValue(strategy = GenerationType.IDENTITY)<br/>@Column(name = "review_id") | `Long`          | id            |
+| `restaurant_id`  | BIGINT                                     | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "restaurant_id")                  | `Restaurant`    | restaurant    |
+| `customer_id`    | BINARY(16) NOT NULL                        | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "customer_id")                    | `Customer`      | customer      |
+| `rating`         | DECIMAL(5, 2)                              | @Column(name = "rating", precision = 5, scale = 2)                                          | `BigDecimal`    | rating        |
+| `comment`        | TEXT                                       | @Column(name = "comment")                                                                   | `String`        | comment       |
+| `created_at`     | TIMESTAMP DEFAULT CURRENT_TIMESTAMP        | @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")      | `LocalDateTime` | createdAt     |
+| `updated_at`     | TIMESTAMP                                  | @Column(name = "updated_at")                                                                | `LocalDateTime` | updatedAt     |
 
 
 

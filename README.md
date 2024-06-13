@@ -1,6 +1,6 @@
 # Web application for food delivery K-Curry Jib
 
-### 1.
+### 1. Clone the repository
 
 ### 2. Launch jar archive
 
@@ -27,12 +27,12 @@ docker-compose up
 
 ---
 
-### [4. View](https://localhost:8889)
+### [4. View](http://localhost:8889)
 
 *Copy to browser address bar*
 
 ```
-https://localhost:8889
+http://localhost:8889
 ```
 
 ## Customer part web application
@@ -55,6 +55,8 @@ https://localhost:8889
 ---
 
 - WebMVC
+
+### 5. Authorization data 
 
 ```bash
 
