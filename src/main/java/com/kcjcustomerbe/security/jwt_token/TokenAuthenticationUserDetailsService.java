@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.security.jwt_token;
 
+import com.kcjcustomerbe.security.exception.SecurityErrorMessage;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,16 +17,16 @@ import java.util.UUID;
 public class TokenAuthenticationUserDetailsService
       implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {
 
-   private final JdbcTemplate jdbcTemplate;
+//   private final JdbcTemplate jdbcTemplate;
 
-//   private final DeactivatedTokenRepository deactivatedTokenRepository;
+   private final DeactivatedTokenRepository deactivatedTokenRepository;
 
    public TokenAuthenticationUserDetailsService(
-         JdbcTemplate jdbcTemplate
-//         DeactivatedTokenRepository deactivatedTokenRepository
+//         JdbcTemplate jdbcTemplate
+         DeactivatedTokenRepository deactivatedTokenRepository
    ) {
-      this.jdbcTemplate = jdbcTemplate;
-//      this.deactivatedTokenRepository = deactivatedTokenRepository;
+//      this.jdbcTemplate = jdbcTemplate;
+      this.deactivatedTokenRepository = deactivatedTokenRepository;
    }
 
    @Override
@@ -34,16 +35,16 @@ public class TokenAuthenticationUserDetailsService
       if (authenticationToken.getPrincipal() instanceof Token token) {
          // Проверка, деактивирован ли токен
 
-//         Boolean isTokenDeactivated = deactivatedTokenRepository.findById(token.id()).isEmpty();
+         Boolean isTokenDeactivated = deactivatedTokenRepository.findById(token.id()).isPresent();
 
-         UUID tokenId = token.id();
-         ByteBuffer tokenIdBB = ByteBuffer.wrap(new byte[16]);
-         tokenIdBB.putLong(tokenId.getMostSignificantBits());
-         tokenIdBB.putLong(tokenId.getLeastSignificantBits());
-
-         Boolean isTokenDeactivated = this.jdbcTemplate.queryForObject("""
-               SELECT EXISTS(SELECT token_id FROM deactivated_tokens WHERE token_id = ?)
-               """, Boolean.class, tokenIdBB.array());
+//         UUID tokenId = token.id();
+//         ByteBuffer tokenIdBB = ByteBuffer.wrap(new byte[16]);
+//         tokenIdBB.putLong(tokenId.getMostSignificantBits());
+//         tokenIdBB.putLong(tokenId.getLeastSignificantBits());
+//
+//         Boolean isTokenDeactivated = this.jdbcTemplate.queryForObject("""
+//               SELECT EXISTS(SELECT token_id FROM deactivated_tokens WHERE token_id = ?)
+//               """, Boolean.class, tokenIdBB.array());
 
          // Проверка, истек ли срок действия токена
          boolean isTokenValid = !isTokenDeactivated && token.expiresAt().isAfter(Instant.now());
@@ -65,7 +66,7 @@ public class TokenAuthenticationUserDetailsService
          );
       }
 
-      throw new UsernameNotFoundException("Principal must be of type Token");
+      throw new UsernameNotFoundException(SecurityErrorMessage.PRINCIPAL_MUST_BE_TOKEN);
    }
 }
 

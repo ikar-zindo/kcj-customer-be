@@ -26,9 +26,9 @@ public class JwtAuthenticationConfigurer
 
     private Function<String, Token> refreshTokenStringDeserializer;
 
-    private JdbcTemplate jdbcTemplate;
+//    private JdbcTemplate jdbcTemplate;
 
-//    private DeactivatedTokenRepository deactivatedTokenRepository;
+    private DeactivatedTokenRepository deactivatedTokenRepository;
 
     @Override
     public void init(HttpSecurity builder) throws Exception {
@@ -54,14 +54,15 @@ public class JwtAuthenticationConfigurer
         var authenticationProvider = new PreAuthenticatedAuthenticationProvider();
         authenticationProvider.setPreAuthenticatedUserDetailsService(
                 new TokenAuthenticationUserDetailsService(
-                      this.jdbcTemplate
-//                      this.deactivatedTokenRepository
+//                      this.jdbcTemplate
+                      this.deactivatedTokenRepository
                 ));
 
         var refreshTokenFilter = new RefreshTokenFilter();
         refreshTokenFilter.setAccessTokenStringSerializer(this.accessTokenStringSerializer);
 
-        var jwtLogoutFilter = new JwtLogoutFilter(this.jdbcTemplate);
+//        var jwtLogoutFilter = new JwtLogoutFilter(this.jdbcTemplate);
+        var jwtLogoutFilter = new JwtLogoutFilter(this.deactivatedTokenRepository);
 
         builder.addFilterAfter(requestJwtTokensFilter, ExceptionTranslationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, CsrfFilter.class)
@@ -94,8 +95,13 @@ public class JwtAuthenticationConfigurer
         return this;
     }
 
-    public JwtAuthenticationConfigurer jdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JwtAuthenticationConfigurer deactivatedTokenRepository(DeactivatedTokenRepository deactivatedTokenRepository) {
+        this.deactivatedTokenRepository = deactivatedTokenRepository;
         return this;
     }
+
+//    public JwtAuthenticationConfigurer jdbcTemplate(JdbcTemplate jdbcTemplate) {
+//        this.jdbcTemplate = jdbcTemplate;
+//        return this;
+//    }
 }

@@ -1,6 +1,7 @@
 package com.kcjcustomerbe.config;
 
 import com.kcjcustomerbe.security.jwt_token.*;
+import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.crypto.DirectDecrypter;
 import com.nimbusds.jose.crypto.DirectEncrypter;
@@ -52,7 +53,8 @@ public class SecurityConfig {
    public JwtAuthenticationConfigurer jwtAuthenticationConfigurer(
          @Value("${jwt.access-token-key}") String accessTokenKey,
          @Value("${jwt.refresh-token-key}") String refreshTokenKey,
-         JdbcTemplate jdbcTemplate
+//         JdbcTemplate jdbcTemplate,
+         DeactivatedTokenRepository deactivatedTokenRepository
    ) throws ParseException, JOSEException {
       return new JwtAuthenticationConfigurer()
             .accessTokenStringSerializer(new AccessTokenJwsStringSerializer(
@@ -67,7 +69,8 @@ public class SecurityConfig {
             .refreshTokenStringDeserializer(new RefreshTokenJweStringDeserializer(
                   new DirectDecrypter(OctetSequenceKey.parse(refreshTokenKey))
             ))
-            .jdbcTemplate(jdbcTemplate);
+            .deactivatedTokenRepository(deactivatedTokenRepository);
+//            .jdbcTemplate(jdbcTemplate);
    }
 
    @Bean

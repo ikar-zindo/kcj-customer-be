@@ -1,12 +1,6 @@
 # Web application for food delivery K-Curry Jib
 
-### 1. Clone the repository
-
-```
-git clone git@github.com:ikar-zindo/kcj-customer-be.git
-```
-
----
+### 1.
 
 ### 2. Launch jar archive
 
@@ -41,12 +35,6 @@ docker-compose up
 https://localhost:8889
 ```
 
-pass for all: `1qaz`
-
-- `thomas@mail.com`, `antonio@mail.com`, `maria@mail.com`, `hanna@mail.com`, `laurence@mail.com`
-
----
-
 ## Customer part web application
 
 ### Used technology stack in my web application:
@@ -67,3 +55,14 @@ pass for all: `1qaz`
 ---
 
 - WebMVC
+
+```bash
+
+# username:pass
+echo -n "maria@mail.com:1qaz" | base64
+echo -n "thomas@mail.com:1qaz" | base64
+echo -n "christina@mail.com@mail.com:1qaz" | base64
+echo -n "elizabeth@mail.com@mail.com:1qaz" | base64
+echo -n "frederique@mail.com@mail.com:1qaz" | base64
+
+```

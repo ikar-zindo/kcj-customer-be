@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.security.jwt_token;
 
+import com.kcjcustomerbe.security.entity.DeactivatedToken;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,9 +29,9 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
 
    private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
 
-   private final JdbcTemplate jdbcTemplate;
+//   private final JdbcTemplate jdbcTemplate;
 
-//   private final DeactivatedTokenRepository deactivatedTokenRepository;
+   private final DeactivatedTokenRepository deactivatedTokenRepository;
 
    @Override
    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -42,15 +44,21 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
                   context.getAuthentication().getAuthorities()
                         .contains(new SimpleGrantedAuthority("JWT_LOGOUT"))) {
 
-               UUID tokenId = user.getToken().id();
-               ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-               bb.putLong(tokenId.getMostSignificantBits());
-               bb.putLong(tokenId.getLeastSignificantBits());
+               DeactivatedToken deactivatedToken = new DeactivatedToken();
+               deactivatedToken.setId(user.getToken().id());
+               deactivatedToken.setKeepUntil(Timestamp.from(user.getToken().expiresAt()));
 
-               String sql = "INSERT INTO deactivated_tokens (token_id, keep_until) VALUES (?, ?)";
+               deactivatedTokenRepository.save(deactivatedToken);
 
-               this.jdbcTemplate.update(sql,
-                     bb.array(), Date.from(user.getToken().expiresAt()));
+//               UUID tokenId = user.getToken().id();
+//               ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+//               bb.putLong(tokenId.getMostSignificantBits());
+//               bb.putLong(tokenId.getLeastSignificantBits());
+//
+//               String sql = "INSERT INTO deactivated_tokens (token_id, keep_until) VALUES (?, ?)";
+//
+//               this.jdbcTemplate.update(sql,
+//                     bb.array(), Date.from(user.getToken().expiresAt()));
 
                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                return;
@@ -63,9 +71,13 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
    }
 
-   public JwtLogoutFilter(JdbcTemplate jdbcTemplate) {
-      this.jdbcTemplate = jdbcTemplate;
+   public JwtLogoutFilter(DeactivatedTokenRepository deactivatedTokenRepository) {
+      this.deactivatedTokenRepository = deactivatedTokenRepository;
    }
+
+//   public JwtLogoutFilter(JdbcTemplate jdbcTemplate) {
+//      this.jdbcTemplate = jdbcTemplate;
+//   }
 
    public void setRequestMatcher(RequestMatcher requestMatcher) {
       this.requestMatcher = requestMatcher;
