@@ -22,7 +22,7 @@
 | `quantity`        | INT                                 | @Column(name = "quantity")<br/>@NotNull(message = "{Product cannot be null}")                                                                                  | `int`             | quantity      | 
 | `created_at`      | TIMESTAMP DEFAULT CURRENT_TIMESTAMP | @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")                                                                         | `LocalDateTime`   | createdAt     |
 
-# 3. `customers` public class Customers {}
+# 3. `customers` public class Customer {}
 
 | `db_column_name` | `type`                                        | Annotations                                                                                                                                                | Type variable   | Name variable |
 |------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|---------------|
@@ -42,19 +42,24 @@
 | `FOREIGN KEY`    | `orders_fk_customers`                         | @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)                                                                                               | `List<Order>`   | orders        |
 | `FOREIGN KEY`    | `reviews_fk_customers`                        | @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)                                                                                               | `List<Review>`  | reviews       |
 
-# 4. `reviews` public class Reviews {}
+# 4. `restaurants` public class Restaurant {}
 
-| `db_column_name` | `type`                                     | Annotations                                                                                 | Type variable   | Name variable |
-|------------------|--------------------------------------------|---------------------------------------------------------------------------------------------|-----------------|---------------|
-| `review_id`      | BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY | @GeneratedValue(strategy = GenerationType.IDENTITY)<br/> @Column(name = "review_id")        | `Long`          | id            | 
-| `restaurant_id`  | BIGINT                                     | @ManyToOne(fetch = FetchType.LAZY)<br/> @JoinColumn(name = "restaurant_id")                 | `Restaurant`    | restaurant    | 
-| `customer_id`    | BINARY(16) NOT NULL                        | @ManyToOne(fetch = FetchType.LAZY)<br/>@JoinColumn(name = "customer_id")                    | `Customer`      | customer      |
-| `rating`         | DECIMAL(5, 2)                              | @Column(name = "rating", precision = 5, scale = 2)                                          | `BigDecimal`    | rating        |
-| `comment`        | TEXT                                       | @Column(name = "comment")                                                                   | `String`        | comment       |
-| `created_at`     | TIMESTAMP DEFAULT CURRENT_TIMESTAMP        | @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")<br/> | `LocalDateTime` | createdAt     |
-| `updated_at`     | TIMESTAMP                                  | @Column(name = "updated_at")                                                                | `LocalDateTime` | updatedAt     |
+| `db_column_name`     | `type`                                      | Annotations                                                                                       | Type variable   | Name variable    |
+|----------------------|---------------------------------------------|---------------------------------------------------------------------------------------------------|-----------------|------------------|
+| `restaurant_id`      | BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, | @Id<br/>>@GeneratedValue(strategy = GenerationType.IDENTITY)<br/>>@Column(name = "restaurant_id") | `Long`          | id               |
+| `name`               | VARCHAR(60),                                | @Column(name = "name")                                                                            | `String`        | name             |
+| `address`            | VARCHAR(120),                               | @Column(name = "address")                                                                         | `String`        | address          |
+| `phone_number`       | VARCHAR(20),                                | @Column(name = "phone_number")                                                                    | `String`        | phoneNumber      |
+| `opening_hours`      | VARCHAR(20),                                | @Column(name = "opening_hours")                                                                   | `String`        | openingHours     |
+| `cuisine_type`       | VARCHAR(20),                                | @Column(name = "cuisine_type")                                                                    | `String`        | cuisineType      |
+| `description`        | TEXT,                                       | @Column(name = "description")                                                                     | `String`        | description      |
+| `social_media_links` | VARCHAR(200),                               | @Column(name = "social_media_links")                                                              | `String`        | socialMediaLinks |
+| `is_open`            | BOOL DEFAULT TRUE                           | @Column(name = "is_open")                                                                         | `Boolean`       | isOpen           |
+| `FOREIGN KEY`        | `products_fk_restaurants`                   | @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)           | `List<Product>` | products         |
+| `FOREIGN KEY`        | `review_fk_restaurants`                     | @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)           | `List<Review>`  | reviews          |
+| `FOREIGN KEY`        | `orders_fk_restaurants`                     | @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)           | `List<Order>`   | orders           |
 
-# 5. `orders` public class Orders {}
+# 5. `orders` public class Order {}
 
 | `db_column_name`   | `type`                                                             | Annotations                                                                                                                                             | Type variable        | Name variable   |
 |--------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|-----------------|

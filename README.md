@@ -59,7 +59,6 @@ http://localhost:8889
 ### 5. Authorization data 
 
 ```bash
-
 # username:pass
 echo -n "maria@mail.com:1qaz" | base64
 echo -n "thomas@mail.com:1qaz" | base64
