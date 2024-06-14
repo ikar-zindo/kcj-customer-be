@@ -1,8 +1,9 @@
 package com.kcjcustomerbe.security.jwt_token;
 
+import com.kcjcustomerbe.security.entity.Token;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
+import com.kcjcustomerbe.security.service.TokenAuthenticationUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;

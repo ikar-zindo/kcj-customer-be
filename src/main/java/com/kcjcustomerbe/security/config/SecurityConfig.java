@@ -1,5 +1,6 @@
-package com.kcjcustomerbe.config;
+package com.kcjcustomerbe.security.config;
 
+import com.kcjcustomerbe.security.exception.ExceptionDeniedHandler;
 import com.kcjcustomerbe.security.jwt_token.*;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
 import com.nimbusds.jose.JOSEException;
@@ -9,24 +10,20 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jose.jwk.OctetSequenceKey;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.text.ParseException;
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +32,9 @@ import java.util.Collections;
 public class SecurityConfig {
 
 //   private final UserDetailsServiceImpl customerService;
+
+   @Autowired
+   private final ExceptionDeniedHandler exceptionDeniedHandler;
 
    @Bean
    public PasswordEncoder bCryptPasswordEncoder() {
@@ -81,12 +81,12 @@ public class SecurityConfig {
 
       http
             .csrf(AbstractHttpConfigurer::disable)
-//            .logout(logout -> logout
+            .logout(logout -> logout
 //                  .logoutUrl("/jwt/logout")
-//                  .invalidateHttpSession(true)
-//                  .deleteCookies("JSESSIONID")
+                  .invalidateHttpSession(true)
+                  .deleteCookies("JSESSIONID")
 //                  .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-//            )
+            )
             .sessionManagement(sessionManagement ->
                   sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeHttpRequests ->
@@ -102,6 +102,7 @@ public class SecurityConfig {
                                     "/manager.html").hasRole("CUSTOMER")
                               .requestMatchers(
                                     "/",
+                                    "/jwt/logout",
                                     "index.html",
                                     "/v2/api-docs/**",
                                     "/configuration/ui",
@@ -119,6 +120,8 @@ public class SecurityConfig {
             .headers(headers -> headers.cacheControl(Customizer.withDefaults()).disable())
             .httpBasic(Customizer.withDefaults())
             .formLogin(Customizer.withDefaults());
+//            .exceptionHandling(exceptionHandling -> exceptionHandling
+//                  .accessDeniedHandler(exceptionDeniedHandler));
 
       return http.build();
    }

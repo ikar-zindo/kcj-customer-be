@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.security.jwt_token;
 
+import com.kcjcustomerbe.security.entity.Token;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;

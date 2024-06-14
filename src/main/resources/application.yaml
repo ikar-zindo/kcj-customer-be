@@ -42,4 +42,4 @@ spring:
 logging:
   level:
     org.springframework.security: trace
-    root: debug
+#    root: debug

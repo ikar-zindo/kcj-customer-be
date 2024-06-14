@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.security.jwt_token;
+package com.kcjcustomerbe.security.entity;
 
 import java.time.Instant;
 import java.util.List;

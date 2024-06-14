@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.security.jwt_token;
+package com.kcjcustomerbe.security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

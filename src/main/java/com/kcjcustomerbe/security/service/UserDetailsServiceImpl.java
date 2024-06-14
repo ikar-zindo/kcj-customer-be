@@ -1,4 +1,4 @@
-package com.kcjcustomerbe.security;
+package com.kcjcustomerbe.security.service;
 
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.exception.ErrorMessage;

@@ -1,13 +1,13 @@
 package com.kcjcustomerbe.security.jwt_token;
 
 import com.kcjcustomerbe.security.entity.DeactivatedToken;
+import com.kcjcustomerbe.security.entity.TokenUser;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -18,10 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.UUID;
 
 public class JwtLogoutFilter extends OncePerRequestFilter {
 

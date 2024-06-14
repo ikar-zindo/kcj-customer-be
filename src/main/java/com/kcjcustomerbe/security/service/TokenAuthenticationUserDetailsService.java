@@ -1,18 +1,17 @@
-package com.kcjcustomerbe.security.jwt_token;
+package com.kcjcustomerbe.security.service;
 
+import com.kcjcustomerbe.security.entity.Token;
+import com.kcjcustomerbe.security.entity.TokenUser;
 import com.kcjcustomerbe.security.exception.SecurityErrorMessage;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public class TokenAuthenticationUserDetailsService
       implements AuthenticationUserDetailsService<PreAuthenticatedAuthenticationToken> {

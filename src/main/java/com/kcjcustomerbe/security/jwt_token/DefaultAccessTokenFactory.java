@@ -1,5 +1,7 @@
 package com.kcjcustomerbe.security.jwt_token;
 
+import com.kcjcustomerbe.security.entity.Token;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.Function;

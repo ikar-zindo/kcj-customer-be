@@ -1,5 +1,6 @@
 package com.kcjcustomerbe.security.jwt_token;
 
+import com.kcjcustomerbe.security.entity.Token;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;

@@ -1,6 +1,7 @@
 package com.kcjcustomerbe.aspect.logging;
 
 import com.kcjcustomerbe.exception.list.LogException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -8,8 +9,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -24,6 +28,9 @@ public class AspectLoggingService {
 
       logBeforeServiceQuery(queryMethod, args);
       long startTime = System.currentTimeMillis();
+
+      ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+      HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
       try {
          Object result = joinPoint.proceed();
