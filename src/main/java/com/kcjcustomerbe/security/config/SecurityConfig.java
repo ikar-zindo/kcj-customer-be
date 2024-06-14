@@ -60,7 +60,7 @@ public class SecurityConfig {
    public JwtAuthenticationConfigurer jwtAuthenticationConfigurer(
          @Value("${jwt.access-token-key}") String accessTokenKey,
          @Value("${jwt.refresh-token-key}") String refreshTokenKey,
-//         JdbcTemplate jdbcTemplate,
+//         JdbcTemplate jdbcTemplate
          DeactivatedTokenRepository deactivatedTokenRepository
    ) throws ParseException, JOSEException {
       return new JwtAuthenticationConfigurer()
@@ -92,6 +92,7 @@ public class SecurityConfig {
 //                  .logoutUrl("/jwt/logout")
                   .invalidateHttpSession(true)
                   .deleteCookies("JSESSIONID")
+
                   .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             )
             .sessionManagement(sessionManagement ->
@@ -105,10 +106,12 @@ public class SecurityConfig {
                               .requestMatchers(
                                     "/customer/**",
                                     "/cart/**",
-                                    "/product/**",
+//                                    "/product/**",
                                     "/manager.html").hasRole("CUSTOMER")
+                              .requestMatchers("/product/**").hasRole("MANAGER")
                               .requestMatchers(
                                     "/",
+                                    "/auth/login",
                                     "/jwt/logout",
                                     "index.html",
                                     "/v2/api-docs/**",

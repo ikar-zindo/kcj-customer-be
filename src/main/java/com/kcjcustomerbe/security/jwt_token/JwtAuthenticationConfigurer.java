@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
@@ -26,8 +27,6 @@ public class JwtAuthenticationConfigurer
     private Function<String, Token> accessTokenStringDeserializer;
 
     private Function<String, Token> refreshTokenStringDeserializer;
-
-//    private JdbcTemplate jdbcTemplate;
 
     private DeactivatedTokenRepository deactivatedTokenRepository;
 
@@ -55,16 +54,13 @@ public class JwtAuthenticationConfigurer
         var authenticationProvider = new PreAuthenticatedAuthenticationProvider();
         authenticationProvider.setPreAuthenticatedUserDetailsService(
                 new TokenAuthenticationUserDetailsService(
-//                      this.jdbcTemplate
                       this.deactivatedTokenRepository
                 ));
 
         var refreshTokenFilter = new RefreshTokenFilter();
         refreshTokenFilter.setAccessTokenStringSerializer(this.accessTokenStringSerializer);
 
-//        var jwtLogoutFilter = new JwtLogoutFilter(this.jdbcTemplate);
         var jwtLogoutFilter = new JwtLogoutFilter(this.deactivatedTokenRepository);
-
         builder.addFilterAfter(requestJwtTokensFilter, ExceptionTranslationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, CsrfFilter.class)
                 .addFilterAfter(refreshTokenFilter, ExceptionTranslationFilter.class)
@@ -100,9 +96,4 @@ public class JwtAuthenticationConfigurer
         this.deactivatedTokenRepository = deactivatedTokenRepository;
         return this;
     }
-
-//    public JwtAuthenticationConfigurer jdbcTemplate(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//        return this;
-//    }
 }

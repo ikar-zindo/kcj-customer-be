@@ -25,7 +25,7 @@ public class JwtAuthenticationConverter implements AuthenticationConverter {
     public Authentication convert(HttpServletRequest request) {
         var authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authorization != null && authorization.startsWith("Bearer ")) {
-            var token = authorization.replace("Bearer ", "");
+            var token = authorization.substring(7);
             var accessToken = this.accessTokenStringDeserializer.apply(token);
             if (accessToken != null) {
                 return new PreAuthenticatedAuthenticationToken(accessToken, token);

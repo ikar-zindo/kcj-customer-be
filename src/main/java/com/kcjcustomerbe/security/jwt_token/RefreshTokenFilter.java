@@ -49,8 +49,11 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     this.objectMapper.writeValue(response.getWriter(),
-                            new Tokens(this.accessTokenStringSerializer.apply(accessToken),
-                                    accessToken.expiresAt().toString(), null, null));
+                            new Tokens(
+                                  this.accessTokenStringSerializer.apply(accessToken),
+                                  accessToken.expiresAt().toString(),
+                                  null,
+                                  null));
                     return;
                 }
             }

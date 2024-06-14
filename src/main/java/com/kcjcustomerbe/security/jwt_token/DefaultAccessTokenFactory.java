@@ -16,7 +16,7 @@ public class DefaultAccessTokenFactory implements Function<Token, Token> {
         return new Token(token.id(), token.subject(),
                 token.authorities().stream()
                         .filter(authority -> authority.startsWith("GRANT_"))
-                        .map(authority -> authority.replace("GRANT_", ""))
+                        .map(authority -> authority.substring(6))
                         .toList(), now, now.plus(this.tokenTtl));
     }
 

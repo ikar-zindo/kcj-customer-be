@@ -3,6 +3,7 @@ package com.kcjcustomerbe.security.jwt_token;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcjcustomerbe.security.entity.Token;
 import com.kcjcustomerbe.security.entity.Tokens;
+import com.kcjcustomerbe.security.exception.SecurityErrorMessage;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,11 +17,18 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.function.Function;
 
+/**
+ * Фильтр для получения токенов
+ * Если мы можем обработать запрос
+ */
+
+//@Component
 public class RequestJwtTokensFilter extends OncePerRequestFilter {
 
     private RequestMatcher requestMatcher = new AntPathRequestMatcher("/jwt/tokens", HttpMethod.POST.name());
@@ -58,7 +66,7 @@ public class RequestJwtTokensFilter extends OncePerRequestFilter {
                 }
             }
 
-            throw new AccessDeniedException("User must be authenticated");
+            throw new AccessDeniedException(SecurityErrorMessage.NO_AUTHENTICATED);
         }
 
         filterChain.doFilter(request, response);

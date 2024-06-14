@@ -26,8 +26,6 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
 
    private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
 
-//   private final JdbcTemplate jdbcTemplate;
-
    private final DeactivatedTokenRepository deactivatedTokenRepository;
 
    @Override
@@ -47,16 +45,6 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
 
                deactivatedTokenRepository.save(deactivatedToken);
 
-//               UUID tokenId = user.getToken().id();
-//               ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-//               bb.putLong(tokenId.getMostSignificantBits());
-//               bb.putLong(tokenId.getLeastSignificantBits());
-//
-//               String sql = "INSERT INTO deactivated_tokens (token_id, keep_until) VALUES (?, ?)";
-//
-//               this.jdbcTemplate.update(sql,
-//                     bb.array(), Date.from(user.getToken().expiresAt()));
-
                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                return;
             }
@@ -71,10 +59,6 @@ public class JwtLogoutFilter extends OncePerRequestFilter {
    public JwtLogoutFilter(DeactivatedTokenRepository deactivatedTokenRepository) {
       this.deactivatedTokenRepository = deactivatedTokenRepository;
    }
-
-//   public JwtLogoutFilter(JdbcTemplate jdbcTemplate) {
-//      this.jdbcTemplate = jdbcTemplate;
-//   }
 
    public void setRequestMatcher(RequestMatcher requestMatcher) {
       this.requestMatcher = requestMatcher;

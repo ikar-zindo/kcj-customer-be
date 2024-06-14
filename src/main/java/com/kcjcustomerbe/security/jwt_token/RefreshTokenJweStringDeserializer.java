@@ -13,28 +13,29 @@ import java.util.function.Function;
 
 public class RefreshTokenJweStringDeserializer implements Function<String, Token> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RefreshTokenJweStringDeserializer.class);
+   private static final Logger LOGGER = LoggerFactory.getLogger(RefreshTokenJweStringDeserializer.class);
 
-    private final JWEDecrypter jweDecrypter;
+   private final JWEDecrypter jweDecrypter;
 
-    public RefreshTokenJweStringDeserializer(JWEDecrypter jweDecrypter) {
-        this.jweDecrypter = jweDecrypter;
-    }
+   public RefreshTokenJweStringDeserializer(JWEDecrypter jweDecrypter) {
+      this.jweDecrypter = jweDecrypter;
+   }
 
-    @Override
-    public Token apply(String string) {
-        try {
-            var encryptedJWT = EncryptedJWT.parse(string);
-            encryptedJWT.decrypt(this.jweDecrypter);
-            var claimsSet = encryptedJWT.getJWTClaimsSet();
-            return new Token(UUID.fromString(claimsSet.getJWTID()), claimsSet.getSubject(),
-                    claimsSet.getStringListClaim("authorities"),
-                    claimsSet.getIssueTime().toInstant(),
-                    claimsSet.getExpirationTime().toInstant());
-        } catch (ParseException | JOSEException exception) {
-            LOGGER.error(exception.getMessage(), exception);
-        }
+   @Override
+   public Token apply(String string) {
+      try {
+         var encryptedJWT = EncryptedJWT.parse(string);
+         encryptedJWT.decrypt(this.jweDecrypter);
+         var claimsSet = encryptedJWT.getJWTClaimsSet();
+         return new Token(
+               UUID.fromString(claimsSet.getJWTID()), claimsSet.getSubject(),
+               claimsSet.getStringListClaim("authorities"),
+               claimsSet.getIssueTime().toInstant(),
+               claimsSet.getExpirationTime().toInstant());
+      } catch (ParseException | JOSEException exception) {
+         LOGGER.error(exception.getMessage(), exception);
+      }
 
-        return null;
-    }
+      return null;
+   }
 }
