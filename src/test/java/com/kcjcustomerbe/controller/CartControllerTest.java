@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
@@ -23,41 +25,39 @@ public class CartControllerTest {
    private MockMvc mockMvc;
 
    @Test
-   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void add_product_to_cart_positive_test() throws Exception {
       mockMvc.perform(MockMvcRequestBuilders
                   .put("/cart/addToCart")
                   .param("productId", "1")
-                  .contentType("application/x-www-form-urlencoded")
-                  .with(csrf()))
+                  .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
    }
 
 
    @Test
+   @WithAnonymousUser
    void add_product_to_cart_unauthorized_negative_test() throws Exception {
       mockMvc.perform(MockMvcRequestBuilders
                   .put("/cart/addToCart")
                   .param("productId", "1")
-                  .contentType("application/x-www-form-urlencoded")
-                  .with(csrf()))
+                  .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isUnauthorized());
    }
 
 
    @Test
-   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    public void add_product_to_cart_without_product_id_negative_test() throws Exception {
       mockMvc.perform(MockMvcRequestBuilders
                   .put("/cart/addToCart")
-                  .contentType("application/x-www-form-urlencoded")
-                  .with(csrf()))
+                  .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
    }
 
 
    @Test
-   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    public void add_non_existent_product_to_cart_negative_test() throws Exception {
       mockMvc.perform(MockMvcRequestBuilders
                   .put("/cart/addToCart")

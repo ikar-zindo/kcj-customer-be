@@ -11,7 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -54,7 +56,7 @@ public class ReviewControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(200, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(Long.toString(reviewId)));
    }
 
@@ -71,7 +73,7 @@ public class ReviewControllerTest {
 
       String jsonResponse = result.getResponse().getContentAsString();
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.REVIEW_ID_NOT_FOUND + reviewId));
    }
 
@@ -90,7 +92,7 @@ public class ReviewControllerTest {
       List<RestaurantDto> restaurants = objectMapper.readValue(jsonResponse, new TypeReference<>() {
       });
 
-      Assertions.assertEquals(200, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
       Assertions.assertFalse(restaurants.isEmpty());
    }
 
@@ -107,7 +109,7 @@ public class ReviewControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.REVIEWS_NOT_FOUND));
    }
 }

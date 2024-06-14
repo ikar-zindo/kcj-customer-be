@@ -1,6 +1,7 @@
 package com.kcjcustomerbe.security.config;
 
 import com.kcjcustomerbe.security.exception.ExceptionDeniedHandler;
+import com.kcjcustomerbe.security.exception.UnauthorizedAuthenticationEntryPoint;
 import com.kcjcustomerbe.security.jwt_token.*;
 import com.kcjcustomerbe.security.repo.DeactivatedTokenRepository;
 import com.nimbusds.jose.JOSEException;
@@ -9,6 +10,7 @@ import com.nimbusds.jose.crypto.DirectEncrypter;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jose.jwk.OctetSequenceKey;
+import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +24,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 import java.text.ParseException;
 
@@ -35,6 +39,9 @@ public class SecurityConfig {
 
    @Autowired
    private final ExceptionDeniedHandler exceptionDeniedHandler;
+
+   @Autowired
+   private final UnauthorizedAuthenticationEntryPoint unauthorizedAuthenticationEntryPoint;
 
    @Bean
    public PasswordEncoder bCryptPasswordEncoder() {
@@ -85,7 +92,7 @@ public class SecurityConfig {
 //                  .logoutUrl("/jwt/logout")
                   .invalidateHttpSession(true)
                   .deleteCookies("JSESSIONID")
-//                  .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                  .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             )
             .sessionManagement(sessionManagement ->
                   sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -113,22 +120,23 @@ public class SecurityConfig {
                                     "/swagger-ui.html",
                                     "/api/v1/auth/",
                                     "/swagger-ui/**",
+                                    "/review/**",
                                     "/restaurant/**").permitAll()
                               .anyRequest()
                               .authenticated()
             )
             .headers(headers -> headers.cacheControl(Customizer.withDefaults()).disable())
             .httpBasic(Customizer.withDefaults())
-            .formLogin(Customizer.withDefaults());
-//            .exceptionHandling(exceptionHandling -> exceptionHandling
-//                  .accessDeniedHandler(exceptionDeniedHandler));
+            .formLogin(Customizer.withDefaults())
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                  .authenticationEntryPoint(unauthorizedAuthenticationEntryPoint)
+                  .accessDeniedHandler(exceptionDeniedHandler));
 
       return http.build();
    }
 
 //   @Bean
 //   public UserDetailsService userDetailsService(JdbcTemplate jdbcTemplate) {
-//      // TODO: реализовать с использоавнием CustomerRepository
 //
 //      String userQuery = "SELECT * FROM customers WHERE email = ?";
 //      return username -> jdbcTemplate.query(userQuery,

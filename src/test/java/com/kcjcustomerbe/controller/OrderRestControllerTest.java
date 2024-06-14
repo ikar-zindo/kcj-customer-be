@@ -11,7 +11,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -41,6 +40,6 @@ public class OrderRestControllerTest {
    void permit_all_api_product_anonymous_test() throws Exception {
       this.mockMvc.perform(MockMvcRequestBuilders
                   .get("/product"))
-            .andExpect(status().isOk());
+            .andExpect(status().isUnauthorized());
    }
 }

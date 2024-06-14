@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -59,7 +60,7 @@ public class RestaurantControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(200, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(Long.toString(restaurantId)));
    }
 
@@ -76,13 +77,13 @@ public class RestaurantControllerTest {
 
       String jsonResponse = result.getResponse().getContentAsString();
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.RESTAURANT_ID_NOT_FOUND + restaurantId));
    }
 
 
    @Test
-   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void add_review_positive_test() throws Exception {
       restaurantId = 1L;
 
@@ -109,7 +110,7 @@ public class RestaurantControllerTest {
       ReviewDto reviewResponseDto;
       reviewResponseDto = objectMapper.readValue(jsonResponse, ReviewDto.class);
 
-      Assertions.assertEquals(201, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
       Assertions.assertNotNull(reviewResponseDto.getId());
       Assertions.assertEquals(reviewDto.getComment(), reviewResponseDto.getComment());
       Assertions.assertEquals(reviewDto.getRating(), reviewResponseDto.getRating());
@@ -117,7 +118,7 @@ public class RestaurantControllerTest {
 
 
    @Test
-   @WithMockUser(username = "maria@mail.com", roles = {"CUSTOMER"})
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void add_review_negative_test() throws Exception {
       restaurantId = 1L;
 
@@ -142,7 +143,7 @@ public class RestaurantControllerTest {
 
       String jsonResponse = result.getResponse().getContentAsString();
 
-      Assertions.assertEquals(400, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains("Field cannot be null"));
    }
 
@@ -161,7 +162,7 @@ public class RestaurantControllerTest {
       List<RestaurantDto> restaurants = objectMapper.readValue(jsonResponse, new TypeReference<>() {
       });
 
-      Assertions.assertEquals(200, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
       Assertions.assertFalse(restaurants.isEmpty());
    }
 
@@ -178,7 +179,7 @@ public class RestaurantControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.RESTAURANTS_LIST_IS_EMPTY));
    }
 }

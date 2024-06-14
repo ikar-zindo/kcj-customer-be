@@ -12,7 +12,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -44,6 +46,7 @@ public class ProductControllerTest {
 
 
    @Test
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_product_by_id_positive_test() throws Exception {
       productId = 1L;
 
@@ -55,12 +58,13 @@ public class ProductControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(200, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(Long.toString(productId)));
    }
 
 
    @Test
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_product_by_id_negative_test() throws Exception {
       productId = 0L;
 
@@ -72,12 +76,13 @@ public class ProductControllerTest {
 
       String jsonResponse = result.getResponse().getContentAsString();
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.PRODUCT_ID_NOT_FOUND + productId));
    }
 
 
    @Test
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_all_products_positive_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/product")
@@ -91,13 +96,14 @@ public class ProductControllerTest {
       List<RestaurantDto> restaurants = objectMapper.readValue(jsonResponse, new TypeReference<>() {
       });
 
-      Assertions.assertEquals(200, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
       Assertions.assertFalse(restaurants.isEmpty());
    }
 
 
    @Test
    @Sql("/db/clear.sql")
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_all_products_negative_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/product")
@@ -108,7 +114,7 @@ public class ProductControllerTest {
       String jsonResponse = result.getResponse().getContentAsString();
       System.out.println(jsonResponse);
 
-      Assertions.assertEquals(404, result.getResponse().getStatus());
+      Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.PRODUCTS_NOT_FOUND));
    }
 }
