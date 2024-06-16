@@ -1,6 +1,7 @@
 package com.kcjcustomerbe.service.impl;
 
 import com.kcjcustomerbe.dto.customer.*;
+import com.kcjcustomerbe.entity.Cart;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.entity.enums.RolesName;
 import com.kcjcustomerbe.exception.ErrorMessage;
@@ -9,6 +10,7 @@ import com.kcjcustomerbe.exception.list.CustomerIsExistException;
 import com.kcjcustomerbe.exception.list.CustomerNotFoundException;
 import com.kcjcustomerbe.exception.list.IdNullException;
 import com.kcjcustomerbe.mapper.CustomerMapper;
+import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.service.CustomerService;
 import jakarta.transaction.Transactional;
@@ -25,6 +27,8 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
 
    private final CustomerRepository customerRepository;
+
+   private final CartRepository cartRepository;
 
    private final CustomerMapper customerMapper;
 
@@ -43,8 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
       Customer customer = customerMapper.mapCustomerFromCustomerCreateDto(customerCreateDto);
       customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
       customer.setRole(RolesName.ROLE_CUSTOMER);
-      Customer afterCreate = customerRepository.save(customer);
 
+      Cart cart = new Cart();
+      cart.setCustomer(customer);
+      cartRepository.save(cart);
+
+      Customer afterCreate = customerRepository.save(customer);
       return customerMapper.mapToCustomerAfterCreateDto(afterCreate);
    }
 

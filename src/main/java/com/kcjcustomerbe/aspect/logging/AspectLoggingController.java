@@ -15,13 +15,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.Arrays;
 import java.util.Objects;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class AspectLoggingController {
 
    private static final Logger LOGGER = LoggerFactory.getLogger(AspectLoggingController.class);
 
-//   @Around("execution(* com.kcjcustomerbe.controller..*(..)))")
+   @Around("execution(* com.kcjcustomerbe.controller..*(..)))")
    public Object mdcServiceController(@NotNull final ProceedingJoinPoint joinPoint) throws Throwable {
       ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
       HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();

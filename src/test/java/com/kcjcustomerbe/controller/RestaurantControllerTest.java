@@ -49,6 +49,7 @@ public class RestaurantControllerTest {
 
 
    @Test
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_restaurant_positive_test() throws Exception {
       restaurantId = 1L;
 
@@ -66,6 +67,7 @@ public class RestaurantControllerTest {
 
 
    @Test
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_restaurant_negative_test() throws Exception {
       restaurantId = 0L;
 
@@ -149,6 +151,7 @@ public class RestaurantControllerTest {
 
 
    @Test
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_all_restaurants_positive_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant")
@@ -169,6 +172,7 @@ public class RestaurantControllerTest {
 
    @Test
    @Sql("/db/clear.sql")
+   @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void get_all_restaurants_negative_test() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant")

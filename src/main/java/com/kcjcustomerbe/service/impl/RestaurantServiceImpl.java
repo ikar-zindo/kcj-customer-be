@@ -73,13 +73,11 @@ public class RestaurantServiceImpl implements RestaurantService {
          throw new IdNullException(ErrorMessage.NULL_ID);
       }
 
-      Optional<List<Review>> reviews = reviewRepository.findAllByRestaurantId(restaurantId);
-
-      if (reviews.isEmpty()) {
+      List<ReviewDto> reviewsDto = getRestaurantById(restaurantId).getReviewsDto();
+      if (reviewsDto.isEmpty()) {
          throw new ReviewNotFoundException(ErrorMessage.REVIEWS_NOT_FOUND);
       }
-
-      return reviewMapper.mapToReviewsDto(reviews.get());
+      return reviewsDto;
    }
 
    // AGGREGATION - GET NUMBER OF RESTAURANT BY RESTAURANT ID
@@ -90,7 +88,6 @@ public class RestaurantServiceImpl implements RestaurantService {
       if (restaurantDto != null && restaurantDto.getReviewsDto() != null) {
          return restaurantDto.getReviewsDto().size();
       }
-
       return 0;
    }
 
@@ -114,7 +111,6 @@ public class RestaurantServiceImpl implements RestaurantService {
             }
          }
       }
-
       return BigDecimal.ZERO;
    }
 }

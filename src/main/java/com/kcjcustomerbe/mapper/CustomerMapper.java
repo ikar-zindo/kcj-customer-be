@@ -62,18 +62,6 @@ public interface CustomerMapper {
    Customer mapCustomerFromCustomerCreateDto(CustomerCreateDto dto);
 
    /**
-    * Creates a `Cart` entity and sets it to the `Customer` entity after mapping.
-    *
-    * @param entity The `Customer` entity to which the `Cart` is to be set.
-    */
-   @AfterMapping
-   default void createCart(@MappingTarget Customer entity) {
-      Cart cart = new Cart();
-      cart.setCustomer(entity);
-      entity.setCart(cart);
-   }
-
-   /**
     * Maps a `Customer` entity to a `CustomerAfterCreateDto`.
     *
     * @param entity The `Customer` entity to be mapped.
@@ -104,7 +92,7 @@ public interface CustomerMapper {
          @Mapping(target = "updatedAt", ignore = true),
          @Mapping(target = "role", source = "role"),
          @Mapping(target = "isBlocked", source = "isBlocked"),
-         @Mapping(target = "cartDto", source = "cart", qualifiedByName = "mapToCartDto"),
+         @Mapping(target = "cartDto", source = "cart"),
          @Mapping(target = "ordersDto", source = "orders"),
          @Mapping(target = "reviewsDto", source = "reviews")
    })
