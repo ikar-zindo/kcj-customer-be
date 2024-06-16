@@ -30,10 +30,11 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
       nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-      uses = ProductMapper.class)
+      uses = {ProductMapper.class})
 public interface CartMapper {
 
    /**
+    * Mapping without Customer
     * Maps a `Cart` entity to a `CartDto`.
     *
     * @param entity The `Cart` entity to be mapped.
@@ -45,8 +46,8 @@ public interface CartMapper {
    @Mapping(target = "cartProductsDto", source = "cartProducts")
    CartDto mapToCartDto(Cart entity);
 
-
    /**
+    * Mapping with Customer
     * Maps a `Cart` entity to a `CartDto`.
     *
     * @param entity The `Cart` entity to be mapped.
@@ -58,6 +59,12 @@ public interface CartMapper {
    @Mapping(target = "cartProductsDto", source = "cartProducts")
    CartDto mapToCartDtoWithCustomer(Cart entity);
 
+   /**
+    * Maps a `Customer` entity to a `CustomerDto`.
+    *
+    * @param entity The `Customer` entity to be mapped.
+    * @return The mapped `CustomerDto`. If the source `Customer` entity is null, return null.
+    */
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "firstName", source = "firstName"),
@@ -74,7 +81,7 @@ public interface CartMapper {
          @Mapping(target = "ordersDto", ignore = true),
          @Mapping(target = "reviewsDto", ignore = true)
    })
-   CustomerDto mapTuCustomerCart(Customer customer);
+   CustomerDto mapTuCustomerCart(Customer entity);
 
    /**
     * Maps a `CartProduct` entity to a `CartProductDto`.

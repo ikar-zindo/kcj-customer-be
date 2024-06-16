@@ -35,6 +35,7 @@ public interface RestaurantMapper {
     * @param entity The `Restaurant` entity to be mapped.
     * @return The mapped `RestaurantDto`. If the source `Restaurant` entity is null, return null.
     */
+   @Named("mapToRestaurantDto")
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "name", source = "name"),
@@ -46,7 +47,7 @@ public interface RestaurantMapper {
          @Mapping(target = "socialMediaLinks", source = "socialMediaLinks"),
          @Mapping(target = "isOpen", source = "isOpen"),
          @Mapping(target = "productsDto", source = "products"),
-         @Mapping(target = "reviewsDto", source = "reviews"),
+         @Mapping(target = "reviewsDto", source = "reviews", qualifiedByName = "mapToReviewDto"),
    })
    RestaurantDto mapToRestaurantDto(Restaurant entity);
 
@@ -77,5 +78,6 @@ public interface RestaurantMapper {
     * @param entities The list of `Restaurant` entities to be mapped.
     * @return The list of mapped `RestaurantDto`. If the source list is null or empty, return an empty list.
     */
+   @IterableMapping(qualifiedByName = "mapToRestaurantDto")
    List<RestaurantDto> mapRestaurantsToRestaurantsDto(List<Restaurant> entities);
 }

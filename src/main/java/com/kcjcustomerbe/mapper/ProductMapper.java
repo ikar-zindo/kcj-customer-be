@@ -68,13 +68,11 @@ public interface ProductMapper {
    RestaurantDto mapToRestaurantDto(Restaurant entity);
 
    /**
-    * Maps a list of `Product` entities to a list of `ProductDto`.
+    * Maps a `ProductDto` to a `Product` entity.
     *
-    * @param products The list of `Product` entities to be mapped.
-    * @return The list of mapped `ProductDto`. If the source list is null or empty, return an empty list.
+    * @param dto The `ProductDto` to be mapped.
+    * @return The mapped `Product` entity. If the source `ProductDto` is null, return null.
     */
-   List<ProductDto> mapToProductsDto(List<Product> products);
-
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "name", source = "name"),
@@ -84,15 +82,21 @@ public interface ProductMapper {
          @Mapping(target = "isAvailable", source = "isAvailable"),
          @Mapping(target = "restaurant", source = "restaurantDto")
    })
-   Product mapToProduct(ProductDto productDto);
+   Product mapToProduct(ProductDto dto);
 
+   /**
+    * Maps a list of `Product` entities to a list of `ProductDto`.
+    *
+    * @param entities The list of `Product` entities to be mapped.
+    * @return The list of mapped `ProductDto`. If the source list is null or empty, return an empty list.
+    */
+   List<ProductDto> mapToProductsDto(List<Product> entities);
+
+   /**
+    * Maps a list of `ProductDto` to a list of `Product` entities.
+    *
+    * @param dtos The list of `ProductDto` to be mapped.
+    * @return The list of mapped `Product` entities. If the source list is null or empty, return an empty list.
+    */
    List<Product> mapToProducts(List<ProductDto> dtos);
-
-   @Named("mapBigDecimalWithoutChanges")
-   public static BigDecimal mapBigDecimalWithoutChanges(BigDecimal value) {
-      if (value != null) {
-         return value.setScale(2, RoundingMode.HALF_UP);
-      }
-      return null;
-   }
 }

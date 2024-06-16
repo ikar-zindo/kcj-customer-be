@@ -26,13 +26,21 @@ import java.util.List;
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
-      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+      uses = {CustomerMapper.class})
 public interface ReviewMapper {
 
    ReviewMapper INSTANCE = Mappers.getMapper(ReviewMapper.class);
 
+   /**
+    * Mapping for creating a new comment
+    * Maps a `ReviewDto` to a `Review` entity.
+    *
+    * @param dto The `ReviewDto` to be mapped.
+    * @return The mapped `Review` entity. If the source `ReviewDto` is null, return null.
+    */
    @Mappings({
-         @Mapping(target = "restaurant",source = "restaurantDto"),
+         @Mapping(target = "restaurant", source = "restaurantDto"),
          @Mapping(target = "customer", source = "customerDto"),
          @Mapping(target = "rating", source = "rating"),
          @Mapping(target = "comment", source = "comment"),
@@ -40,6 +48,13 @@ public interface ReviewMapper {
    })
    Review mapReviewToCreateReviewDto(ReviewDto dto);
 
+   /**
+    * Mapping for changing comments
+    * Maps a `ReviewDto` to a `Review` entity.
+    *
+    * @param dto The `ReviewDto` to be mapped.
+    * @return The mapped `Review` entity. If the source `ReviewDto` is null, return null.
+    */
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "restaurant", ignore = true),
@@ -61,7 +76,7 @@ public interface ReviewMapper {
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "restaurantDto", ignore = true),
-         @Mapping(target = "customerDto", source = "customer"),
+         @Mapping(target = "customerDto", source = "customer", qualifiedByName = "mapToCustomerDtoShort"),
          @Mapping(target = "rating", source = "rating"),
          @Mapping(target = "comment", source = "comment"),
          @Mapping(target = "createdAt", source = "createdAt"),
@@ -69,11 +84,17 @@ public interface ReviewMapper {
    })
    ReviewDto mapToReviewDto(Review entity);
 
+   /**
+    * Maps a `ReviewDto` to a `Review` entity.
+    *
+    * @param dto The `ReviewDto` to be mapped.
+    * @return The mapped `Review` entity. If the source `ReviewDto` is null, return null.
+    */
    @Named("mapToReview")
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "restaurant", ignore = true),
-         @Mapping(target = "customer", source = "customerDto"),
+         @Mapping(target = "customer", source = "customerDto", qualifiedByName = "mapToCustomerShort"),
          @Mapping(target = "rating", source = "rating"),
          @Mapping(target = "comment", source = "comment"),
          @Mapping(target = "createdAt", source = "createdAt"),
@@ -99,40 +120,4 @@ public interface ReviewMapper {
     */
    @IterableMapping(qualifiedByName = "mapToReview")
    List<Review> mapToReviews(List<ReviewDto> dtos);
-
-   @Mappings({
-         @Mapping(target = "id", source = "id"),
-         @Mapping(target = "firstName", source = "firstName"),
-         @Mapping(target = "lastName", source = "lastName"),
-         @Mapping(target = "email", ignore = true),
-         @Mapping(target = "phoneNumber", ignore = true),
-         @Mapping(target = "address", ignore = true),
-         @Mapping(target = "postalCode", ignore = true),
-         @Mapping(target = "createdAt", ignore = true),
-         @Mapping(target = "updatedAt", ignore = true),
-         @Mapping(target = "role", ignore = true),
-         @Mapping(target = "isBlocked", ignore = true),
-         @Mapping(target = "ordersDto", ignore = true),
-         @Mapping(target = "cartDto", ignore = true),
-         @Mapping(target = "reviewsDto", ignore = true)
-   })
-   CustomerDto mapToCustomer(Customer entity);
-
-   @Mappings({
-         @Mapping(target = "id", source = "id"),
-         @Mapping(target = "firstName", source = "firstName"),
-         @Mapping(target = "lastName", source = "lastName"),
-         @Mapping(target = "email", ignore = true),
-         @Mapping(target = "phoneNumber", ignore = true),
-         @Mapping(target = "address", ignore = true),
-         @Mapping(target = "postalCode", ignore = true),
-         @Mapping(target = "createdAt", ignore = true),
-         @Mapping(target = "updatedAt", ignore = true),
-         @Mapping(target = "role", ignore = true),
-         @Mapping(target = "isBlocked", ignore = true),
-         @Mapping(target = "orders", ignore = true),
-         @Mapping(target = "cart", ignore = true),
-         @Mapping(target = "reviews", ignore = true)
-   })
-   Customer mapToCustomerDto(CustomerDto dto);
 }

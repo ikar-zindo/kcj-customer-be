@@ -110,25 +110,12 @@ public interface CustomerMapper {
    })
    CustomerDto mapToCustomerDto(Customer entity);
 
-   @Named("mapToCustomerDtoWithoutCart")
-   @Mappings({
-         @Mapping(target = "id", source = "id"),
-         @Mapping(target = "firstName", source = "firstName"),
-         @Mapping(target = "lastName", source = "lastName"),
-         @Mapping(target = "email", source = "email"),
-         @Mapping(target = "phoneNumber", source = "phoneNumber"),
-         @Mapping(target = "address", source = "address"),
-         @Mapping(target = "postalCode", source = "postalCode"),
-         @Mapping(target = "createdAt", ignore = true),
-         @Mapping(target = "updatedAt", ignore = true),
-         @Mapping(target = "role", source = "role"),
-         @Mapping(target = "isBlocked", source = "isBlocked"),
-         @Mapping(target = "cartDto", source = "cart", qualifiedByName = "mapToCartDto"),
-         @Mapping(target = "ordersDto", source = "orders"),
-         @Mapping(target = "reviewsDto", source = "reviews")
-   })
-   CustomerDto mapToCustomerDtoWithoutCart(Customer entity);
-
+   /**
+    * Maps a `ProductDto` to a `Product` entity.
+    *
+    * @param dto The `ProductDto` to be mapped.
+    * @return The mapped `Product` entity. If the source `ProductDto` is null, return null.
+    */
    @Mappings({
          @Mapping(target = "id", source = "id"),
          @Mapping(target = "firstName", source = "firstName"),
@@ -147,6 +134,45 @@ public interface CustomerMapper {
          @Mapping(target = "reviews", source = "reviewsDto")
    })
    Customer mapToCustomer(CustomerDto dto);
+
+
+   @Named("mapToCustomerDtoShort")
+   @Mappings({
+         @Mapping(target = "id", ignore = true),
+         @Mapping(target = "firstName", source = "firstName"),
+         @Mapping(target = "lastName", source = "lastName"),
+         @Mapping(target = "email", ignore = true),
+         @Mapping(target = "phoneNumber", ignore = true),
+         @Mapping(target = "address", ignore = true),
+         @Mapping(target = "postalCode", ignore = true),
+         @Mapping(target = "createdAt", ignore = true),
+         @Mapping(target = "updatedAt", ignore = true),
+         @Mapping(target = "role", ignore = true),
+         @Mapping(target = "isBlocked", ignore = true),
+         @Mapping(target = "ordersDto", ignore = true),
+         @Mapping(target = "cartDto", ignore = true),
+         @Mapping(target = "reviewsDto", ignore = true)
+   })
+   CustomerDto mapToCustomerDtoShort(Customer entity);
+
+   @Named("mapToCustomerShort")
+   @Mappings({
+         @Mapping(target = "id", source = "id"),
+         @Mapping(target = "firstName", source = "firstName"),
+         @Mapping(target = "lastName", source = "lastName"),
+         @Mapping(target = "email", ignore = true),
+         @Mapping(target = "phoneNumber", ignore = true),
+         @Mapping(target = "address", ignore = true),
+         @Mapping(target = "postalCode", ignore = true),
+         @Mapping(target = "createdAt", ignore = true),
+         @Mapping(target = "updatedAt", ignore = true),
+         @Mapping(target = "role", ignore = true),
+         @Mapping(target = "isBlocked", ignore = true),
+         @Mapping(target = "orders", ignore = true),
+         @Mapping(target = "cart", ignore = true),
+         @Mapping(target = "reviews", ignore = true)
+   })
+   Customer mapToCustomerShort(CustomerDto dto);
 
    // ==================================================================================================================
 
