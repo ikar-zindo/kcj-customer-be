@@ -87,23 +87,21 @@ public class RestaurantControllerTest {
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void add_review_positive_test() throws Exception {
-      restaurantId = 1L;
-
       ReviewDto reviewDto = new ReviewDto(
             null,
             null,
             null,
             BigDecimal.valueOf(5.0),
             "Good food!",
-            LocalDateTime.now(),
+            null,
             null
       );
       String jsonRequest = objectMapper.writeValueAsString(reviewDto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .post("/restaurant/" + restaurantId + "/reviews")
+                  .post("/restaurant/add-review")
+                  .param("restaurantId", "1")
                   .contentType(MediaType.APPLICATION_JSON)
-                  .with(csrf())
                   .content(jsonRequest))
             .andExpect(status().isCreated())
             .andReturn();
@@ -122,8 +120,6 @@ public class RestaurantControllerTest {
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
    void add_review_negative_test() throws Exception {
-      restaurantId = 1L;
-
       ReviewDto reviewDto = new ReviewDto(
             null,
             null,
@@ -136,9 +132,9 @@ public class RestaurantControllerTest {
       String jsonRequest = objectMapper.writeValueAsString(reviewDto);
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-                  .post("/restaurant/" + restaurantId + "/reviews")
+                  .post("/restaurant/add-review")
+                  .param("restaurantId", "1")
                   .contentType(MediaType.APPLICATION_JSON)
-                  .with(csrf())
                   .content(jsonRequest))
             .andExpect(status().isBadRequest())
             .andReturn();

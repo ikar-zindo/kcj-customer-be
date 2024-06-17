@@ -144,8 +144,7 @@ public class CustomerControllerTest {
             "Obere Str. 57",
             "09874",
             LocalDateTime.now(),
-            false,
-            null
+            false
       );
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
@@ -176,8 +175,7 @@ public class CustomerControllerTest {
             "Obere Str. 57",
             "09874",
             LocalDateTime.now(),
-            false,
-            null
+            false
       );
       String jsonRequest = objectMapper.writeValueAsString(dto);
 
@@ -210,8 +208,7 @@ public class CustomerControllerTest {
             "Obere Str. 57",
             "09874",
             LocalDateTime.now(),
-            false,
-            null
+            false
       );
       String jsonRequest = objectMapper.writeValueAsString(dto);
 

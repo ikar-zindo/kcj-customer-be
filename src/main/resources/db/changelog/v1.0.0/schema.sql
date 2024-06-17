@@ -1,5 +1,4 @@
 -- liquibase formatted sql
-
 -- changeset root:v1.0.0-schema
 -- comment initial schema db
 

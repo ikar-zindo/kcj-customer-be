@@ -1,5 +1,4 @@
 -- liquibase formatted sql
-
 -- changeset root:v1.2.0-data-test
 -- comment add deactivated-tokens
 

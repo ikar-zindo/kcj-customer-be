@@ -1,5 +1,4 @@
 -- liquibase formatted sql
-
 -- changeset root:v1.1.0-data-test
 -- comment add test data
 
