@@ -8,7 +8,7 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ErrorResponse(
       int status,
-      HttpStatus error,
+      String error,
       String message,
       String timestamp,
       Map<String, Object> info) {

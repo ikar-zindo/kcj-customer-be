@@ -54,7 +54,7 @@ public interface RestaurantControllerInterface {
                      name = "restaurantId",
                      description = "The ID of the restaurant",
                      required = true,
-                     in = ParameterIn.PATH,
+                     in = ParameterIn.QUERY,
                      schema = @Schema(type = "integer", format = "int64"),
                      examples = {
                            @ExampleObject(
@@ -136,5 +136,5 @@ public interface RestaurantControllerInterface {
          }
    )
    ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
-                                          @Valid @PathVariable("restaurantId") Long restaurantId);
+                                          @Valid @RequestParam Long restaurantId);
 }

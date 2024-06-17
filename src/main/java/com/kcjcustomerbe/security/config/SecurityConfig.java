@@ -10,7 +10,6 @@ import com.nimbusds.jose.crypto.DirectEncrypter;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jose.jwk.OctetSequenceKey;
-import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +23,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 import java.text.ParseException;
@@ -77,7 +75,6 @@ public class SecurityConfig {
                   new DirectDecrypter(OctetSequenceKey.parse(refreshTokenKey))
             ))
             .deactivatedTokenRepository(deactivatedTokenRepository);
-//            .jdbcTemplate(jdbcTemplate);
    }
 
    @Bean
@@ -89,10 +86,8 @@ public class SecurityConfig {
       http
             .csrf(AbstractHttpConfigurer::disable)
             .logout(logout -> logout
-//                  .logoutUrl("/jwt/logout")
                   .invalidateHttpSession(true)
                   .deleteCookies("JSESSIONID")
-
                   .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             )
             .sessionManagement(sessionManagement ->
@@ -106,13 +101,15 @@ public class SecurityConfig {
                               .requestMatchers(
                                     "/customer/**",
                                     "/cart/**",
-//                                    "/product/**",
-                                    "/manager.html").hasRole("CUSTOMER")
-                              .requestMatchers("/product/**").hasRole("MANAGER")
+                                    "/restaurant/**",
+                                    "/manager.html",
+                                    "/jwt/logout").hasRole("CUSTOMER")
+//                              .requestMatchers("/product/**").hasRole("MANAGER")
                               .requestMatchers(
                                     "/",
+                                    "/error",
                                     "/auth/login",
-                                    "/jwt/logout",
+//                                    "/jwt/logout",
                                     "index.html",
                                     "/v2/api-docs/**",
                                     "/configuration/ui",
@@ -124,7 +121,7 @@ public class SecurityConfig {
                                     "/api/v1/auth/",
                                     "/swagger-ui/**",
                                     "/review/**",
-                                    "/restaurant/**").permitAll()
+                                    "/product/**").permitAll()
                               .anyRequest()
                               .authenticated()
             )
@@ -132,21 +129,9 @@ public class SecurityConfig {
             .httpBasic(Customizer.withDefaults())
             .formLogin(Customizer.withDefaults())
             .exceptionHandling(exceptionHandling -> exceptionHandling
-                  .authenticationEntryPoint(unauthorizedAuthenticationEntryPoint)
-                  .accessDeniedHandler(exceptionDeniedHandler));
+                  .accessDeniedHandler(exceptionDeniedHandler)
+                  .authenticationEntryPoint(unauthorizedAuthenticationEntryPoint));
 
       return http.build();
    }
-
-//   @Bean
-//   public UserDetailsService userDetailsService(JdbcTemplate jdbcTemplate) {
-//
-//      String userQuery = "SELECT * FROM customers WHERE email = ?";
-//      return username -> jdbcTemplate.query(userQuery,
-//            (rs, i) -> User.builder()
-//                  .username(rs.getString("email"))
-//                  .password(rs.getString("password"))
-//                  .authorities(Collections.singleton(new SimpleGrantedAuthority(rs.getString("role"))))
-//                  .build(), username).stream().findFirst().orElse(null);
-//   }
 }

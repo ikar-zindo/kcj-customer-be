@@ -1,11 +1,11 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.controller.interfaces.RestaurantControllerInterface;
-import com.kcjcustomerbe.dto.customer.CustomerDto;
-import com.kcjcustomerbe.service.CustomerService;
-import com.kcjcustomerbe.validation.UuidFormatChecker;
+import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.service.CustomerService;
 import com.kcjcustomerbe.service.RestaurantService;
 import com.kcjcustomerbe.service.ReviewService;
 import jakarta.validation.Valid;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
 @Validated
 @RestController
@@ -47,6 +46,12 @@ public class RestaurantController implements RestaurantControllerInterface {
       return ResponseEntity.ok(restaurantDto);
    }
 
+   // READ - GET PRODUCTS OF RESTAURANT BY ID
+   @GetMapping("/{restaurantId}/products")
+   public ResponseEntity<List<ProductDto>> getAllProductsByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
+      return ResponseEntity.ok(restaurantService.getRestaurantById(restaurantId).getProductsDto());
+   }
+
    // READ - GET REVIEWS OF RESTAURANT BY ID
    @GetMapping("/{restaurantId}/reviews")
    public ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
@@ -54,9 +59,9 @@ public class RestaurantController implements RestaurantControllerInterface {
    }
 
    // CREATE - ADD A REVIEW FOR THE RESTAURANT
-   @PostMapping("/{restaurantId}/reviews")
+   @PostMapping("/add-review")
    public ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
-                                                 @Valid @PathVariable("restaurantId") Long restaurantId) {
+                                                 @Valid @RequestParam Long restaurantId) {
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
       if (principal instanceof UserDetails userDetails) {

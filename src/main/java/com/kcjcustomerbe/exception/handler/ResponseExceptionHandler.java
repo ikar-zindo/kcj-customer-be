@@ -52,7 +52,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
       ErrorResponse errorResponse = new ErrorResponse(
             status.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             errors
@@ -66,7 +66,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleIdCannotBeNullException(IdNullException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -79,7 +79,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleIdNotFoundException(IdNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -94,7 +94,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCustomerNotFoundException(CustomerNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             INTERNAL_SERVER_ERROR.value(),
-            INTERNAL_SERVER_ERROR,
+            INTERNAL_SERVER_ERROR.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -107,7 +107,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCustomerIsExistException(CustomerIsExistException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             CONFLICT.value(),
-            CONFLICT,
+            CONFLICT.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -120,7 +120,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCustomerIdNotFound(CustomerIdNotFound exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -135,7 +135,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCartNotFoundException(CartNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -148,7 +148,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCartIdNotFoundException(CartIdNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -161,7 +161,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleDifferentRestaurantException(DifferentRestaurantException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -174,7 +174,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCartException(CartException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             INTERNAL_SERVER_ERROR.value(),
-            INTERNAL_SERVER_ERROR,
+            INTERNAL_SERVER_ERROR.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -187,7 +187,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleCartIsEmptyException(CartIsEmptyException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -202,7 +202,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleProductIdNotFoundException(ProductIdNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -215,7 +215,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleProductNotAvailableException(ProductNotAvailableException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             CONFLICT.value(),
-            CONFLICT,
+            CONFLICT.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -228,7 +228,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleProductsNotFoundException(ProductsNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -243,7 +243,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleOrderException(OrderException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             INTERNAL_SERVER_ERROR.value(),
-            INTERNAL_SERVER_ERROR,
+            INTERNAL_SERVER_ERROR.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -256,7 +256,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleProductsFromDifferentRestaurantsException(ProductsFromDifferentRestaurantsException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -271,7 +271,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handlePaymentException(PaymentException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             PAYMENT_REQUIRED.value(),
-            PAYMENT_REQUIRED,
+            PAYMENT_REQUIRED.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -286,7 +286,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleRestaurantNotFoundException(RestaurantNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -299,7 +299,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleRestaurantsListException(RestaurantsListException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -314,7 +314,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleReviewException(ReviewException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -327,7 +327,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleReviewNotFoundException(ReviewNotFoundException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -340,7 +340,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleReviewEmptyException(ReviewEmptyException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             NOT_FOUND.value(),
-            NOT_FOUND,
+            NOT_FOUND.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null
@@ -357,7 +357,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             info
@@ -370,7 +370,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
    public ResponseEntity<ErrorResponse> handleInvalidIdException(InvalidIdException exception) {
       ErrorResponse errorResponse = new ErrorResponse(
             BAD_REQUEST.value(),
-            BAD_REQUEST,
+            BAD_REQUEST.getReasonPhrase(),
             exception.getMessage(),
             LocalDateTime.now().toString(),
             null

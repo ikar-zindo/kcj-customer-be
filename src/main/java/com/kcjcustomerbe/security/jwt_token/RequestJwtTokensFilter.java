@@ -17,7 +17,6 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -31,72 +30,71 @@ import java.util.function.Function;
 //@Component
 public class RequestJwtTokensFilter extends OncePerRequestFilter {
 
-    private RequestMatcher requestMatcher = new AntPathRequestMatcher("/jwt/tokens", HttpMethod.POST.name());
+   private RequestMatcher requestMatcher = new AntPathRequestMatcher("/jwt/tokens", HttpMethod.POST.name());
 
-    private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
+   private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
 
-    private Function<Authentication, Token> refreshTokenFactory = new DefaultRefreshTokenFactory();
+   private Function<Authentication, Token> refreshTokenFactory = new DefaultRefreshTokenFactory();
 
-    private Function<Token, Token> accessTokenFactory = new DefaultAccessTokenFactory();
+   private Function<Token, Token> accessTokenFactory = new DefaultAccessTokenFactory();
 
-    private Function<Token, String> refreshTokenStringSerializer = Object::toString;
+   private Function<Token, String> refreshTokenStringSerializer = Object::toString;
 
-    private Function<Token, String> accessTokenStringSerializer = Object::toString;
+   private Function<Token, String> accessTokenStringSerializer = Object::toString;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+   private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        if (this.requestMatcher.matches(request)) {
-            if (this.securityContextRepository.containsContext(request)) {
-                var context = this.securityContextRepository.loadDeferredContext(request).get();
-                if (context != null && !(context.getAuthentication() instanceof PreAuthenticatedAuthenticationToken)) {
-                    var refreshToken = this.refreshTokenFactory.apply(context.getAuthentication());
-                    var accessToken = this.accessTokenFactory.apply(refreshToken);
+   @Override
+   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                   FilterChain filterChain) throws ServletException, IOException {
+      if (this.requestMatcher.matches(request)) {
+         if (this.securityContextRepository.containsContext(request)) {
+            var context = this.securityContextRepository.loadDeferredContext(request).get();
+            if (context != null && !(context.getAuthentication() instanceof PreAuthenticatedAuthenticationToken)) {
+               var refreshToken = this.refreshTokenFactory.apply(context.getAuthentication());
+               var accessToken = this.accessTokenFactory.apply(refreshToken);
 
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    this.objectMapper.writeValue(response.getWriter(),
-                            new Tokens(this.accessTokenStringSerializer.apply(accessToken),
-                                    accessToken.expiresAt().toString(),
-                                    this.refreshTokenStringSerializer.apply(refreshToken),
-                                    refreshToken.expiresAt().toString()));
-                    return;
-                }
+               response.setStatus(HttpServletResponse.SC_OK);
+               response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+               this.objectMapper.writeValue(response.getWriter(),
+                     new Tokens(
+                           this.accessTokenStringSerializer.apply(accessToken),
+                           accessToken.expiresAt().toString(),
+                           this.refreshTokenStringSerializer.apply(refreshToken),
+                           refreshToken.expiresAt().toString()));
+               return;
             }
+         }
+         throw new AccessDeniedException(SecurityErrorMessage.NO_AUTHENTICATED);
+      }
+      filterChain.doFilter(request, response);
+   }
 
-            throw new AccessDeniedException(SecurityErrorMessage.NO_AUTHENTICATED);
-        }
+   public void setRequestMatcher(RequestMatcher requestMatcher) {
+      this.requestMatcher = requestMatcher;
+   }
 
-        filterChain.doFilter(request, response);
-    }
+   public void setSecurityContextRepository(SecurityContextRepository securityContextRepository) {
+      this.securityContextRepository = securityContextRepository;
+   }
 
-    public void setRequestMatcher(RequestMatcher requestMatcher) {
-        this.requestMatcher = requestMatcher;
-    }
+   public void setRefreshTokenFactory(Function<Authentication, Token> refreshTokenFactory) {
+      this.refreshTokenFactory = refreshTokenFactory;
+   }
 
-    public void setSecurityContextRepository(SecurityContextRepository securityContextRepository) {
-        this.securityContextRepository = securityContextRepository;
-    }
+   public void setAccessTokenFactory(Function<Token, Token> accessTokenFactory) {
+      this.accessTokenFactory = accessTokenFactory;
+   }
 
-    public void setRefreshTokenFactory(Function<Authentication, Token> refreshTokenFactory) {
-        this.refreshTokenFactory = refreshTokenFactory;
-    }
+   public void setRefreshTokenStringSerializer(Function<Token, String> refreshTokenStringSerializer) {
+      this.refreshTokenStringSerializer = refreshTokenStringSerializer;
+   }
 
-    public void setAccessTokenFactory(Function<Token, Token> accessTokenFactory) {
-        this.accessTokenFactory = accessTokenFactory;
-    }
+   public void setAccessTokenStringSerializer(Function<Token, String> accessTokenStringSerializer) {
+      this.accessTokenStringSerializer = accessTokenStringSerializer;
+   }
 
-    public void setRefreshTokenStringSerializer(Function<Token, String> refreshTokenStringSerializer) {
-        this.refreshTokenStringSerializer = refreshTokenStringSerializer;
-    }
-
-    public void setAccessTokenStringSerializer(Function<Token, String> accessTokenStringSerializer) {
-        this.accessTokenStringSerializer = accessTokenStringSerializer;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+   public void setObjectMapper(ObjectMapper objectMapper) {
+      this.objectMapper = objectMapper;
+   }
 }

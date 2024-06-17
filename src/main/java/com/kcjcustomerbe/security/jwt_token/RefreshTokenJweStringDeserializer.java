@@ -35,7 +35,6 @@ public class RefreshTokenJweStringDeserializer implements Function<String, Token
       } catch (ParseException | JOSEException exception) {
          LOGGER.error(exception.getMessage(), exception);
       }
-
       return null;
    }
 }

@@ -24,63 +24,61 @@ import java.util.function.Function;
 
 public class RefreshTokenFilter extends OncePerRequestFilter {
 
-    private RequestMatcher requestMatcher = new AntPathRequestMatcher("/jwt/refresh", HttpMethod.POST.name());
+   private RequestMatcher requestMatcher = new AntPathRequestMatcher("/jwt/refresh", HttpMethod.POST.name());
 
-    private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
+   private SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository();
 
-    private Function<Token, Token> accessTokenFactory = new DefaultAccessTokenFactory();
+   private Function<Token, Token> accessTokenFactory = new DefaultAccessTokenFactory();
 
-    private Function<Token, String> accessTokenStringSerializer = Object::toString;
+   private Function<Token, String> accessTokenStringSerializer = Object::toString;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+   private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-        if (this.requestMatcher.matches(request)) {
-            if (this.securityContextRepository.containsContext(request)) {
-                var context = this.securityContextRepository.loadDeferredContext(request).get();
-                if (context != null && context.getAuthentication() instanceof PreAuthenticatedAuthenticationToken &&
-                        context.getAuthentication().getPrincipal() instanceof TokenUser user &&
-                        context.getAuthentication().getAuthorities()
-                                .contains(new SimpleGrantedAuthority("JWT_REFRESH"))) {
-                    var accessToken = this.accessTokenFactory.apply(user.getToken());
+   @Override
+   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                   FilterChain filterChain) throws ServletException, IOException {
+      if (this.requestMatcher.matches(request)) {
+         if (this.securityContextRepository.containsContext(request)) {
+            var context = this.securityContextRepository.loadDeferredContext(request).get();
+            if (context != null && context.getAuthentication() instanceof PreAuthenticatedAuthenticationToken &&
+                  context.getAuthentication().getPrincipal() instanceof TokenUser user &&
+                  context.getAuthentication().getAuthorities()
+                        .contains(new SimpleGrantedAuthority("JWT_REFRESH"))) {
+               var accessToken = this.accessTokenFactory.apply(user.getToken());
 
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    this.objectMapper.writeValue(response.getWriter(),
-                            new Tokens(
-                                  this.accessTokenStringSerializer.apply(accessToken),
-                                  accessToken.expiresAt().toString(),
-                                  null,
-                                  null));
-                    return;
-                }
+               response.setStatus(HttpServletResponse.SC_OK);
+               response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+               this.objectMapper.writeValue(response.getWriter(),
+                     new Tokens(
+                           this.accessTokenStringSerializer.apply(accessToken),
+                           accessToken.expiresAt().toString(),
+                           null,
+                           null));
+               return;
             }
+         }
+         throw new AccessDeniedException("User must be authenticated with JWT");
+      }
+      filterChain.doFilter(request, response);
+   }
 
-            throw new AccessDeniedException("User must be authenticated with JWT");
-        }
+   public void setRequestMatcher(RequestMatcher requestMatcher) {
+      this.requestMatcher = requestMatcher;
+   }
 
-        filterChain.doFilter(request, response);
-    }
+   public void setSecurityContextRepository(SecurityContextRepository securityContextRepository) {
+      this.securityContextRepository = securityContextRepository;
+   }
 
-    public void setRequestMatcher(RequestMatcher requestMatcher) {
-        this.requestMatcher = requestMatcher;
-    }
+   public void setAccessTokenFactory(Function<Token, Token> accessTokenFactory) {
+      this.accessTokenFactory = accessTokenFactory;
+   }
 
-    public void setSecurityContextRepository(SecurityContextRepository securityContextRepository) {
-        this.securityContextRepository = securityContextRepository;
-    }
+   public void setAccessTokenStringSerializer(Function<Token, String> accessTokenStringSerializer) {
+      this.accessTokenStringSerializer = accessTokenStringSerializer;
+   }
 
-    public void setAccessTokenFactory(Function<Token, Token> accessTokenFactory) {
-        this.accessTokenFactory = accessTokenFactory;
-    }
-
-    public void setAccessTokenStringSerializer(Function<Token, String> accessTokenStringSerializer) {
-        this.accessTokenStringSerializer = accessTokenStringSerializer;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+   public void setObjectMapper(ObjectMapper objectMapper) {
+      this.objectMapper = objectMapper;
+   }
 }

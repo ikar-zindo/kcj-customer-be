@@ -32,7 +32,7 @@ public class OrderRestControllerTest {
    void permit_all_api_restaurant_anonymous_test() throws Exception {
       this.mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant"))
-            .andExpect(status().isOk());
+            .andExpect(status().isUnauthorized());
    }
 
 
@@ -40,6 +40,6 @@ public class OrderRestControllerTest {
    void permit_all_api_product_anonymous_test() throws Exception {
       this.mockMvc.perform(MockMvcRequestBuilders
                   .get("/product"))
-            .andExpect(status().isUnauthorized());
+            .andExpect(status().isOk());
    }
 }

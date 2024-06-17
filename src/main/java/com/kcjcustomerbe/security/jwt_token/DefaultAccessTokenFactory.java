@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class DefaultAccessTokenFactory implements Function<Token, Token> {
 
-    private Duration tokenTtl = Duration.ofMinutes(5);
+    private Duration tokenTtl = Duration.ofDays(1);
 
     @Override
     public Token apply(Token token) {

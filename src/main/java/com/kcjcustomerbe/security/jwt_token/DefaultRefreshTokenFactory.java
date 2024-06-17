@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 public class DefaultRefreshTokenFactory implements Function<Authentication, Token> {
 
-   private Duration tokenTtl = Duration.ofDays(1);
+   private Duration tokenTtl = Duration.ofDays(30);
 
    @Override
    public Token apply(Authentication authentication) {
