@@ -236,6 +236,8 @@
 					console.log('Logout successful');
 					localStorage.removeItem('accessToken');
 					localStorage.removeItem('refreshToken');
+
+					tokenDisplay.innerHTML = '';
 				} else {
 					console.error('Logout failed:', response.statusText);
 				}
