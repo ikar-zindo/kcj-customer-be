@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = SwaggerConfig.CUSTOMER, description = "allows you to receive information about customer")
+@Tag(name = SwaggerConfig.CUSTOMER)
 public interface RegistrationControllerInterface {
 
    // CREATE - REGISTRATION NEW CUSTOMER
@@ -23,7 +23,7 @@ public interface RegistrationControllerInterface {
          summary = "Registration a new customer",
          description = "Create a new customer and return him",
          requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-               description = "The unique identifier of the customer",
+               description = "Create Customer Request",
                required = true,
                content = @Content(
                      mediaType = "application/json",
@@ -112,7 +112,6 @@ public interface RegistrationControllerInterface {
                            schema = @Schema(implementation = ResponseExceptionHandler.class)
                      )
                )
-
          }
    )
    ResponseEntity<CustomerResponseDto> registrationCustomer(

@@ -4,10 +4,8 @@ import com.kcjcustomerbe.controller.interfaces.CartControllerInterface;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.OrderDto;
 import com.kcjcustomerbe.dto.customer.CustomerDto;
-import com.kcjcustomerbe.entity.Customer;
-import com.kcjcustomerbe.service.CartService;
-import com.kcjcustomerbe.service.CustomerService;
-import com.kcjcustomerbe.validation.UuidFormatChecker;
+import com.kcjcustomerbe.service.interfaces.CartService;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +45,6 @@ public class CartController implements CartControllerInterface {
 
          return ResponseEntity.ok(cartService.addProductToCart(cartId, productId));
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
@@ -65,7 +62,6 @@ public class CartController implements CartControllerInterface {
          cartService.clearCart((cartId));
          return ResponseEntity.created(URI.create("/cart")).body(dto);
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
@@ -82,7 +78,6 @@ public class CartController implements CartControllerInterface {
          cartService.clearCart((cartId));
          return ResponseEntity.ok(HttpStatus.OK);
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

@@ -2,11 +2,14 @@ package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.controller.interfaces.ReviewControllerInterface;
 import com.kcjcustomerbe.dto.ReviewDto;
-import com.kcjcustomerbe.service.ReviewService;
+import com.kcjcustomerbe.service.interfaces.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,7 +25,6 @@ public class ReviewController implements ReviewControllerInterface {
    @GetMapping
    public ResponseEntity<List<ReviewDto>> getAllReviewsDto() {
       List<ReviewDto> reviewsDto = reviewService.getAllReviews();
-
       return ResponseEntity.ok(reviewsDto);
    }
 
@@ -30,7 +32,6 @@ public class ReviewController implements ReviewControllerInterface {
    @GetMapping("/{id}")
    public ResponseEntity<ReviewDto> getReviewDtoById(@PathVariable("id") Long reviewId) {
       ReviewDto reviewDto = reviewService.getReviewById(reviewId);
-
       return ResponseEntity.ok(reviewDto);
    }
 }

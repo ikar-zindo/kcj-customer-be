@@ -1,20 +1,9 @@
 package com.kcjcustomerbe.controller.interfaces;
 
 import com.kcjcustomerbe.config.SwaggerConfig;
-import com.kcjcustomerbe.dto.CartDto;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.OrderDto;
-import com.kcjcustomerbe.dto.customer.CustomerDto;
-import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
-import com.kcjcustomerbe.validation.UuidFormatChecker;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

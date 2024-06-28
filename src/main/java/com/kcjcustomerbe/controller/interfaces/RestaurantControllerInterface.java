@@ -4,7 +4,6 @@ import com.kcjcustomerbe.config.SwaggerConfig;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.exception.handler.ResponseExceptionHandler;
-import com.kcjcustomerbe.validation.UuidFormatChecker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name = SwaggerConfig.RESTAURANT, description = "allows you to receive information about restaurants adn his reviews")
+@Tag(name = SwaggerConfig.RESTAURANT, description = "allows you to receive information about restaurants and his reviews")
 public interface RestaurantControllerInterface {
 
    // READ - ALL RESTAURANTS
@@ -34,7 +33,44 @@ public interface RestaurantControllerInterface {
    // READ - GET RESTAURANT BY ID
    @Operation(
          summary = "Information about restaurant with selected id",
-         description = "Allows you to get information about restaurant with selected id, not require authorization."
+         description = "Allows you to get information about restaurant with selected id, not require authorization.",
+         parameters = {
+               @Parameter(
+                     name = "restaurantId",
+                     description = "Restaurant ID Param",
+                     required = true,
+                     in = ParameterIn.QUERY,
+                     schema = @Schema(type = "integer", format = "int64"),
+                     examples = {
+                           @ExampleObject(
+                                 name = "Example request with correct ID",
+                                 value = "1"
+                           ),
+                           @ExampleObject(
+                                 name = "Example request with non-existent ID",
+                                 value = "0"
+                           )
+                     }
+               )
+         },
+         responses = {
+               @ApiResponse(
+                     responseCode = "200",
+                     description = "Restaurant was returned",
+                     content = @Content(
+                           mediaType = "application/json",
+                           schema = @Schema(implementation = ReviewDto.class)
+                     )
+               ),
+               @ApiResponse(
+                     responseCode = "404",
+                     description = "Restaurant not found",
+                     content = @Content(
+                           mediaType = "application/json",
+                           schema = @Schema(implementation = ResponseExceptionHandler.class)
+                     )
+               )
+         }
    )
    ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable(name = "restaurantId") Long restaurantId);
 
@@ -52,7 +88,7 @@ public interface RestaurantControllerInterface {
          parameters = {
                @Parameter(
                      name = "restaurantId",
-                     description = "The ID of the restaurant",
+                     description = "Restaurant ID Param",
                      required = true,
                      in = ParameterIn.QUERY,
                      schema = @Schema(type = "integer", format = "int64"),
@@ -63,17 +99,13 @@ public interface RestaurantControllerInterface {
                            ),
                            @ExampleObject(
                                  name = "Example request with non-existent ID",
-                                 value = "999"
-                           ),
-                           @ExampleObject(
-                                 name = "Example request with invalid ID",
-                                 value = "abc"
+                                 value = "0"
                            )
                      }
                )
          },
          requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-               description = "The review to be added",
+               description = "Create Review Request",
                required = true,
                content = @Content(
                      mediaType = "application/json",

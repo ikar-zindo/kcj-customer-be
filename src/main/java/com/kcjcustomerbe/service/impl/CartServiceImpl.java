@@ -14,9 +14,9 @@ import com.kcjcustomerbe.repo.CartProductRepository;
 import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.OrderProductRepository;
 import com.kcjcustomerbe.repo.OrderRepository;
-import com.kcjcustomerbe.service.CartService;
-import com.kcjcustomerbe.service.ProductService;
-import com.kcjcustomerbe.service.RestaurantService;
+import com.kcjcustomerbe.service.interfaces.CartService;
+import com.kcjcustomerbe.service.interfaces.ProductService;
+import com.kcjcustomerbe.service.interfaces.RestaurantService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -199,7 +199,7 @@ public class CartServiceImpl implements CartService {
       List<OrderProduct> orderProducts = buildOrderProductsFromCartProducts(order, cartProductsDto);
       orderProductRepository.saveAll(orderProducts);
 
-      clearCart(cartId);
+      clearCart(cartId); // TODO: не очищается корзина после оплаты
       return orderMapper.mapToOrderDto(orderResponse);
    }
 

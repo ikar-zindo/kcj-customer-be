@@ -33,12 +33,23 @@
 		</layout>
 	</appender>
 
+<!--	<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+<!--		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+<!--			<driverClass>com.mysql.cj.jdbc.Driver</driverClass>-->
+<!--			<url>jdbc:mysql://localhost:3306/kcj</url>-->
+<!--			<user>root</user>-->
+<!--			<password>12345</password>-->
+<!--		</connectionSource>-->
+<!--	</appender>-->
+
 	<logger name="com.kcjcustomerbe" additivity="false" level="INFO">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
+<!--		<appender-ref ref="DB"/>-->
 	</logger>
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT"/>
+<!--		<appender-ref ref="DB"/>-->
 	</root>
 </configuration>

@@ -10,7 +10,7 @@ import com.kcjcustomerbe.mapper.ReviewMapper;
 import com.kcjcustomerbe.repo.CustomerRepository;
 import com.kcjcustomerbe.repo.RestaurantRepository;
 import com.kcjcustomerbe.repo.ReviewRepository;
-import com.kcjcustomerbe.service.ReviewService;
+import com.kcjcustomerbe.service.interfaces.ReviewService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

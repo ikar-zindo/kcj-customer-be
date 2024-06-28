@@ -5,9 +5,9 @@ import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.dto.RestaurantDto;
 import com.kcjcustomerbe.dto.ReviewDto;
 import com.kcjcustomerbe.dto.customer.CustomerDto;
-import com.kcjcustomerbe.service.CustomerService;
-import com.kcjcustomerbe.service.RestaurantService;
-import com.kcjcustomerbe.service.ReviewService;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
+import com.kcjcustomerbe.service.interfaces.RestaurantService;
+import com.kcjcustomerbe.service.interfaces.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -71,7 +71,6 @@ public class RestaurantController implements RestaurantControllerInterface {
          ReviewDto dto = reviewService.addReview(reviewDto, customerDto.getId(), restaurantId);
          return ResponseEntity.created(URI.create("/restaurant/" + restaurantId + "/reviews")).body(dto);
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

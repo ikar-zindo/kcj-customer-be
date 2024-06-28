@@ -36,7 +36,6 @@ public class AspectLoggingController {
             joinPoint.getSignature().getDeclaringTypeName(),
             joinPoint.getSignature().getName());
 
-         Object result = joinPoint.proceed();
-         return result;
+      return joinPoint.proceed();
    }
 }

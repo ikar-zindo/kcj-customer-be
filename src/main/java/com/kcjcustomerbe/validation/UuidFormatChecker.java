@@ -14,9 +14,6 @@ import java.lang.annotation.Target;
 public @interface UuidFormatChecker {
 
     String message() default "IT_IS_NOT_UUID_FORMAT";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
-
 }

@@ -1,8 +1,10 @@
 package com.kcjcustomerbe.mapper;
 
 import com.kcjcustomerbe.constant.GlobalConstant;
-import com.kcjcustomerbe.dto.customer.*;
-import com.kcjcustomerbe.entity.Cart;
+import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
+import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.util.MappingUtils;
 import org.mapstruct.*;
@@ -33,7 +35,7 @@ import java.util.Objects;
  * @see Objects
  * @see MappingUtils
  * @see GlobalConstant
- * @since v1.0.0
+ * @since v1.3.0
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
       unmappedTargetPolicy = ReportingPolicy.IGNORE,
@@ -43,10 +45,10 @@ import java.util.Objects;
 public interface CustomerMapper {
 
    /**
-    * Maps a `CustomerCreateDto` to a `Customer` entity.
+    * Maps a {@link CustomerCreateDto} to a {@link Customer} entity.
     *
-    * @param dto The `CustomerCreateDto` to be mapped.
-    * @return The mapped `Customer` entity. If the source `CustomerCreateDto` is null, return null.
+    * @param dto The {@link CustomerCreateDto} to be mapped.
+    * @return The mapped {@link Customer} entity. If the source {@link CustomerCreateDto} is null, return null.
     */
    @Mappings({
          @Mapping(target = "firstName", source = "firstName"),
@@ -59,13 +61,13 @@ public interface CustomerMapper {
          @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())"),
          @Mapping(target = "isBlocked", defaultValue = "false")
    })
-   Customer mapCustomerFromCustomerCreateDto(CustomerCreateDto dto);
+   Customer mapToCustomerFromCustomerCreateDto(CustomerCreateDto dto);
 
    /**
-    * Maps a `Customer` entity to a `CustomerAfterCreateDto`.
+    * Maps a {@link Customer} entity to a {@link CustomerResponseDto}.
     *
-    * @param entity The `Customer` entity to be mapped.
-    * @return The mapped `CustomerAfterCreateDto`. If the source `Customer` entity is null, return null.
+    * @param entity The {@link Customer} entity to be mapped.
+    * @return The mapped {@link CustomerResponseDto}. If the source `Customer` entity is null, return null.
     */
    @Mapping(target = "id", source = "id")
    @Mapping(target = "status", expression = "java(com.kcjcustomerbe.constant.GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE)")
@@ -74,10 +76,10 @@ public interface CustomerMapper {
 // =====================================================================================================================
 
    /**
-    * Maps a `Customer` entity to a `CustomerDto`.
+    * Maps a {@link Customer} entity to a {@link CustomerDto}.
     *
-    * @param entity The `Customer` entity to be mapped.
-    * @return The mapped `CustomerDto`. If the source `Customer` entity is null, return null.
+    * @param entity The {@link Customer} entity to be mapped.
+    * @return The mapped {@link CustomerDto}. If the source {@link Customer} entity is null, return null.
     */
    @Named("mapToCustomerDto")
    @Mappings({
@@ -99,10 +101,10 @@ public interface CustomerMapper {
    CustomerDto mapToCustomerDto(Customer entity);
 
    /**
-    * Maps a `ProductDto` to a `Product` entity.
+    * Maps a {@link CustomerDto} to a {@link Customer} entity.
     *
-    * @param dto The `ProductDto` to be mapped.
-    * @return The mapped `Product` entity. If the source `ProductDto` is null, return null.
+    * @param dto The {@link CustomerDto} to be mapped.
+    * @return The mapped {@link Customer} entity. If the source {@link CustomerDto} is null, return null.
     */
    @Mappings({
          @Mapping(target = "id", source = "id"),
@@ -123,7 +125,12 @@ public interface CustomerMapper {
    })
    Customer mapToCustomer(CustomerDto dto);
 
-
+   /**
+    * Maps a {@link Customer} entity to a {@link CustomerDto}.
+    *
+    * @param entity The {@link Customer} entity to be mapped.
+    * @return The mapped {@link CustomerDto}. If the source {@link Customer} entity is null, return null.
+    */
    @Named("mapToCustomerDtoShort")
    @Mappings({
          @Mapping(target = "id", ignore = true),
@@ -143,6 +150,12 @@ public interface CustomerMapper {
    })
    CustomerDto mapToCustomerDtoShort(Customer entity);
 
+   /**
+    * Maps a {@link CustomerDto} to a {@link Customer} entity.
+    *
+    * @param dto The {@link CustomerDto} to be mapped.
+    * @return The mapped {@link Customer} entity. If the source {@link CustomerDto} is null, return null.
+    */
    @Named("mapToCustomerShort")
    @Mappings({
          @Mapping(target = "id", source = "id"),
@@ -165,11 +178,11 @@ public interface CustomerMapper {
    // ==================================================================================================================
 
    /**
-    * Maps a `CustomerUpdateDto` to a `Customer` entity, updating only non-null and non-empty fields.
+    * Maps a {@link CustomerUpdateDto} to a {@link Customer} entity, updating only non-null and non-empty fields.
     *
-    * @param dto    The `CustomerUpdateDto` to be mapped.
-    * @param entity The existing `Customer` entity to be updated.
-    * @return The updated `Customer` entity. If the source `CustomerUpdateDto` is null, return the existing entity.
+    * @param dto    The {@link CustomerUpdateDto} to be mapped.
+    * @param entity The existing {@link Customer} entity to be updated.
+    * @return The updated {@link Customer} entity. If the source {@link CustomerUpdateDto} is null, return the existing entity.
     */
    @Mappings({
          @Mapping(target = "firstName", expression = "java(MappingUtils.mapNullOrEmpty(dto.getFirstName(), entity.getFirstName()))"),
@@ -187,18 +200,26 @@ public interface CustomerMapper {
          @Mapping(target = "orders", ignore = true),
          @Mapping(target = "reviews", ignore = true),
    })
-   Customer mapCustomerFromCustomerUpdateDto(CustomerUpdateDto dto, @MappingTarget Customer entity);
+   Customer mapToCustomerFromCustomerUpdateDto(CustomerUpdateDto dto, @MappingTarget Customer entity);
 
    /**
-    * Maps a `Customer` entity to a `CustomerAfterUpdateDto`.
+    * Used after updating customer information
+    * Maps a {@link Customer} entity to a {@link CustomerResponseDto}.
     *
-    * @param entity The `Customer` entity to be mapped.
-    * @return The mapped `CustomerAfterUpdateDto`. If the source `Customer` entity is null, return null.
+    * @param entity The {@link Customer} entity to be mapped.
+    * @return The mapped {@link CustomerResponseDto}. If the source {@link Customer} entity is null, return null.
     */
    @Mapping(target = "id", source = "id")
    @Mapping(target = "status", expression = "java(com.kcjcustomerbe.constant.GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE)")
    CustomerResponseDto mapToCustomerAfterUpdateDto(Customer entity);
 
+   /**
+    * Used after blocking customer account
+    * Maps a {@link Customer} entity to a {@link CustomerResponseDto}.
+    *
+    * @param entity The {@link Customer} entity to be mapped.
+    * @return The mapped {@link CustomerResponseDto}. If the source {@link Customer} entity is null, return null.
+    */
    @Mapping(target = "id", source = "id")
    @Mapping(target = "status", expression = "java(com.kcjcustomerbe.constant.GlobalConstant.CUSTOMER_BLOCKED_SUCCESS_MESSAGE)")
    CustomerResponseDto mapToCustomerAfterBlockedDto(Customer entity);

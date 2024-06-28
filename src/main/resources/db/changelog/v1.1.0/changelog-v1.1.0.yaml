@@ -1,4 +1,16 @@
 databaseChangeLog:
   - include:
+      file: schema-init.sql
+      relativeToChangelogFile: true
+  - include:
       file: data.sql
       relativeToChangelogFile: true
+  - include:
+      file: schema-roles.sql
+      relativeToChangelogFile: true
+  - include:
+      file: schema-deactivated-tokens.sql
+      relativeToChangelogFile: true
+#  - include:
+#      file: schema-logback.sql
+#      relativeToChangelogFile: true

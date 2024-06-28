@@ -3,7 +3,7 @@ package com.kcjcustomerbe.controller;
 import com.kcjcustomerbe.controller.interfaces.RegistrationControllerInterface;
 import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
 import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
-import com.kcjcustomerbe.service.CustomerService;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

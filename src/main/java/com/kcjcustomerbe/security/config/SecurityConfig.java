@@ -58,7 +58,6 @@ public class SecurityConfig {
    public JwtAuthenticationConfigurer jwtAuthenticationConfigurer(
          @Value("${jwt.access-token-key}") String accessTokenKey,
          @Value("${jwt.refresh-token-key}") String refreshTokenKey,
-//         JdbcTemplate jdbcTemplate
          DeactivatedTokenRepository deactivatedTokenRepository
    ) throws ParseException, JOSEException {
       return new JwtAuthenticationConfigurer()
@@ -85,49 +84,45 @@ public class SecurityConfig {
 
       http
             .csrf(AbstractHttpConfigurer::disable)
-            .logout(logout -> logout
-                  .invalidateHttpSession(true)
-                  .deleteCookies("JSESSIONID")
-                  .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+            .logout(logout ->
+                  logout
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             )
             .sessionManagement(sessionManagement ->
                   sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeHttpRequests ->
-                        authorizeHttpRequests
-                              .requestMatchers(
-//                                    "/auth/login",
-                                    "/login",
-                                    "/registration").anonymous()
-                              .requestMatchers(
-                                    "/customer/**",
-                                    "/cart/**",
-                                    "/restaurant/**",
-                                    "/manager.html",
-                                    "/jwt/logout").hasRole("CUSTOMER")
-//                              .requestMatchers("/product/**").hasRole("MANAGER")
-                              .requestMatchers(
-                                    "/",
-                                    "/error",
-                                    "/auth/login",
-//                                    "/jwt/logout",
-                                    "index.html",
-                                    "/v2/api-docs/**",
-                                    "/configuration/ui",
-                                    "/swagger-resources/",
-                                    "/configuration/security",
-                                    "/webjars/",
-                                    "/v3/api-docs/**",
-                                    "/swagger-ui.html",
-                                    "/api/v1/auth/",
-                                    "/swagger-ui/**",
-                                    "/review/**",
-                                    "/product/**").permitAll()
-                              .anyRequest()
-                              .authenticated()
+                  authorizeHttpRequests
+                        .requestMatchers(
+                              "/jwt/login",
+                              "/registration").anonymous()
+                        .requestMatchers(
+                              "/customer/**",
+                              "/cart/**",
+                              "/restaurant/**",
+                              "/jwt/logout").hasRole("CUSTOMER")
+                        .requestMatchers(
+                              "/",
+                              "/error",
+                              "index.html",
+                              "/v2/api-docs/**",
+                              "/configuration/ui",
+                              "/swagger-resources/",
+                              "/configuration/security",
+                              "/webjars/",
+                              "/v3/api-docs/**",
+                              "/swagger-ui.html",
+                              "/api/v1/auth/",
+                              "/swagger-ui/**",
+                              "/review/**",
+                              "/product/**").permitAll()
+                        .anyRequest()
+                        .authenticated()
             )
-            .headers(headers -> headers.cacheControl(Customizer.withDefaults()).disable())
+            .headers(headers ->
+                  headers.cacheControl(Customizer.withDefaults()).disable())
             .httpBasic(Customizer.withDefaults())
-            .formLogin(Customizer.withDefaults())
             .exceptionHandling(exceptionHandling -> exceptionHandling
                   .accessDeniedHandler(exceptionDeniedHandler)
                   .authenticationEntryPoint(unauthorizedAuthenticationEntryPoint));

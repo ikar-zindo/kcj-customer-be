@@ -1,6 +1,9 @@
 package com.kcjcustomerbe.service.impl;
 
-import com.kcjcustomerbe.dto.customer.*;
+import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
+import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
 import com.kcjcustomerbe.entity.Cart;
 import com.kcjcustomerbe.entity.Customer;
 import com.kcjcustomerbe.entity.enums.RolesName;
@@ -12,7 +15,7 @@ import com.kcjcustomerbe.exception.list.IdNullException;
 import com.kcjcustomerbe.mapper.CustomerMapper;
 import com.kcjcustomerbe.repo.CartRepository;
 import com.kcjcustomerbe.repo.CustomerRepository;
-import com.kcjcustomerbe.service.CustomerService;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
          throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
       }
 
-      Customer customer = customerMapper.mapCustomerFromCustomerCreateDto(customerCreateDto);
+      Customer customer = customerMapper.mapToCustomerFromCustomerCreateDto(customerCreateDto);
       customer.setPassword(encoder.encode(customerCreateDto.getPassword()));
       customer.setRole(RolesName.ROLE_CUSTOMER);
 
@@ -111,7 +114,7 @@ public class CustomerServiceImpl implements CustomerService {
          throw new CustomerIsExistException(ErrorMessage.EMAIL_ALREADY_EXISTS);
       }
 
-      existingCustomer = customerMapper.mapCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
+      existingCustomer = customerMapper.mapToCustomerFromCustomerUpdateDto(customerUpdateDto, existingCustomer);
 
       if (customerUpdateDto.getPassword() != null && !customerUpdateDto.getPassword().isEmpty()) {
          existingCustomer.setPassword(encoder.encode(customerUpdateDto.getPassword()));

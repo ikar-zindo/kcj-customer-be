@@ -1,19 +1,11 @@
 server:
   port: 8889
-#  http2:
-#    enabled: true
-#  ssl:
-#    key-store: classpath:key/localhost.p12
-#    key-store-password: password
-#    key-alias: localhost
 
 jwt:
   access-token-key: '{"kty":"oct","k":"hi7S5RX5ZRZooHA0RKGctZ-KtR9FoESgCnH-3BNg5XI"}'
   refresh-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
 
 spring:
-#  profiles:
-#    active: dev
   main:
     banner-mode: off
   messages:

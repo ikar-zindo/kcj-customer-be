@@ -1,12 +1,10 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.controller.interfaces.CustomerControllerInterface;
-import com.kcjcustomerbe.dto.customer.CustomerCreateDto;
 import com.kcjcustomerbe.dto.customer.CustomerDto;
 import com.kcjcustomerbe.dto.customer.CustomerResponseDto;
 import com.kcjcustomerbe.dto.customer.CustomerUpdateDto;
-import com.kcjcustomerbe.service.CustomerService;
-import com.kcjcustomerbe.validation.UuidFormatChecker;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,9 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.util.UUID;
 
 @Validated
 @RestController
@@ -28,7 +23,7 @@ public class CustomerController implements CustomerControllerInterface {
    private final CustomerService customerService;
 
    // READ - GET CUSTOMER BY ID
-   @GetMapping()
+   @GetMapping
    public ResponseEntity<CustomerDto> getCustomerByEmail() {
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -38,12 +33,11 @@ public class CustomerController implements CustomerControllerInterface {
 
          return ResponseEntity.ok(customerDto);
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // UPDATE - CUSTOMER DETAILS
-   @PutMapping()
+   @PutMapping
    public ResponseEntity<CustomerResponseDto> updateCustomerInfo(@Valid @RequestBody CustomerUpdateDto customerUpdateDto) {
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -56,12 +50,11 @@ public class CustomerController implements CustomerControllerInterface {
 
          return ResponseEntity.ok(customerResponseDto);
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // DELETE - BLOCK CUSTOMER
-   @DeleteMapping()
+   @DeleteMapping
    public ResponseEntity<CustomerResponseDto> blockCustomerById() {
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -74,7 +67,6 @@ public class CustomerController implements CustomerControllerInterface {
 
          return ResponseEntity.ok(customerResponseDto);
       }
-
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

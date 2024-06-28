@@ -3,6 +3,7 @@ package com.kcjcustomerbe.config;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -16,11 +17,16 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
       info = @Info(
             title = "K-Curry Jib Customer Backend",
-            description = "",
-            version = "1.0.0",
+            description = "REST API for server application. " +
+                  "This application implements a functional food delivery service.",
+            version = "1.3.0",
             contact = @Contact(
                   name = "Ivan Bukrieiev",
                   url = "https://github.com/ikar-zindo?tab=repositories"
+            ),
+            license = @License(
+                  name = "License of API",
+                  url = "API license URL"
             )
       )
 )
@@ -44,14 +50,14 @@ public class SwaggerConfig {
             .group("public")
             .packagesToScan(PACKAGE_NAME)
             .addOpenApiCustomiser(openApi -> {
-               openApi.addTagsItem(new Tag().name(CART).description("API for working with cart service"));
-               openApi.addTagsItem(new Tag().name(CART_PRODUCT).description("API for working with cart products service"));
-               openApi.addTagsItem(new Tag().name(CUSTOMER).description("API for working with customers service"));
-               openApi.addTagsItem(new Tag().name(ORDER).description("API for working with orders service"));
-               openApi.addTagsItem(new Tag().name(ORDER_PRODUCT).description("API for working with order products service"));
-               openApi.addTagsItem(new Tag().name(PRODUCT).description("API for working with products service"));
-               openApi.addTagsItem(new Tag().name(RESTAURANT).description("API for working with user restaurants service"));
-               openApi.addTagsItem(new Tag().name(REVIEW).description("API for working with reviews service"));
+               openApi.addTagsItem(new Tag().name(CART).description("API for working with cart controller"));
+               openApi.addTagsItem(new Tag().name(CART_PRODUCT).description("API for working with cart products controller"));
+               openApi.addTagsItem(new Tag().name(CUSTOMER).description("API for working with customers controller"));
+               openApi.addTagsItem(new Tag().name(ORDER).description("API for working with orders controller"));
+               openApi.addTagsItem(new Tag().name(ORDER_PRODUCT).description("API for working with order products controller"));
+               openApi.addTagsItem(new Tag().name(PRODUCT).description("API for working with products controller"));
+               openApi.addTagsItem(new Tag().name(RESTAURANT).description("API for working with user restaurants controller"));
+               openApi.addTagsItem(new Tag().name(REVIEW).description("API for working with reviews controller"));
             })
             .build();
    }
@@ -60,12 +66,7 @@ public class SwaggerConfig {
    public OpenAPI openAPI() {
       return new OpenAPI()
             .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
-            .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
-            .info(new io.swagger.v3.oas.models.info.Info().title("My REST API")
-                  .description("Some custom description of API.")
-                  .version("1.0")
-                  .contact(new io.swagger.v3.oas.models.info.Contact().name("Ivan Bukrieiev").url("https://github.com/ikar-zindo?tab=repositories"))
-                  .license(new io.swagger.v3.oas.models.info.License().name("License of API").url("API license URL")));
+            .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
    }
 
    private SecurityScheme createAPIKeyScheme() {
