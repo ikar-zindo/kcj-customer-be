@@ -11,6 +11,6 @@ databaseChangeLog:
   - include:
       file: schema-deactivated-tokens.sql
       relativeToChangelogFile: true
-#  - include:
-#      file: schema-logback.sql
-#      relativeToChangelogFile: true
+  - include:
+      file: schema-logback.sql
+      relativeToChangelogFile: true

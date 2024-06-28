@@ -12,30 +12,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = SwaggerConfig.CART, description = "allows you to receive information about customer cart")
 public interface CartControllerInterface {
 
-
+   // READ - CUSTOMER
    @Operation(
          summary = "Get customer cart",
          description = "Allows you to retrieve the cart information for the authenticated customer. Requires authorization."
    )
    String getCustomerCart();
 
-
+   // CREATE - ADD PRODUCT TO CART
    @Operation(
          summary = "Add product to cart",
          description = "Allows you to add a product to the cart with the specified cart ID and product ID. Requires authorization."
    )
    ResponseEntity<CartProductDto> addProductToCart(@RequestParam Long productId);
 
+   // CREATE NEW ORDER
    @Operation(
          summary = "Pay for items in the cart",
          description = "Allows you to pay for the items in the cart with the specified cart ID. Requires authorization."
    )
    ResponseEntity<OrderDto> payCart();
 
-
+   // DELETE - CLEAR CART
    @Operation(
-         summary = "Clean cart by ID",
-         description = "Retrieve an cart by its unique identifier"
+         summary = "Clean cart",
+         description = "Allows you to clear items in the cart with the specified cart ID. Authorization required."
    )
    ResponseEntity<HttpStatus> clearCart();
 }
