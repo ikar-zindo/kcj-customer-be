@@ -60,7 +60,6 @@ public interface CustomerControllerInterface {
    )
    ResponseEntity<CustomerDto> getCustomerByEmail();
 
-
    // UPDATE - CUSTOMER DETAILS
    @Operation(
          summary = "Update customer info",
@@ -134,7 +133,6 @@ public interface CustomerControllerInterface {
          }
    )
    ResponseEntity<CustomerResponseDto> updateCustomerInfo(@Valid @RequestBody CustomerUpdateDto customerUpdateDto);
-
 
    // DELETE - BLOCK CUSTOMER
    @Operation(

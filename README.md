@@ -16,13 +16,26 @@ java -jar kcj-customer-be.jar
 
 ### [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
 
-###### At the 1st launch, a DB will be created.
-
 *At the root of the project*
 
-```
-docker-compose build
-docker-compose up
+```bash
+# Start all services
+docker-compose -p kcj up -d
+
+# Check the status of running containers
+docker-compose -p kcj ps
+
+# View logs (optional)
+docker-compose -p kcj logs -f
+
+# Stop all services
+docker-compose -p kcj stop
+
+# Start all services
+docker-compose -p kcj start
+
+# Deactivate all services (if necessary)
+docker-compose -p ems down
 ```
 
 ---
@@ -56,14 +69,13 @@ http://localhost:8889
 
 - WebMVC
 
-### 5. Authorization data 
+### 5. Authorization data
 
-```sh
+```shell
 # username:password
 echo -n "maria@mail.com:1qaz" | base64
 echo -n "thomas@mail.com:1qaz" | base64
 echo -n "christina@mail.com@mail.com:1qaz" | base64
 echo -n "elizabeth@mail.com@mail.com:1qaz" | base64
 echo -n "frederique@mail.com@mail.com:1qaz" | base64
-
 ```

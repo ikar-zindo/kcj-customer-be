@@ -14,14 +14,14 @@ public interface ProductControllerInterface {
 
    // READ - GET ALL AVAILABLE PRODUCTS
    @Operation(
-         summary = "information about all products",
+         summary = "Information about all products",
          description = "allows you to get information about all products, not require authorization"
    )
    ResponseEntity<List<ProductDto>> getAllProductsDto();
 
    // READ - GET AVAILABLE PRODUCT BY ID
    @Operation(
-         summary = "information about product with selected id",
+         summary = "Information about product with selected id",
          description = "allows you to get information about product with selected id, , not require authorization"
    )
    ResponseEntity<ProductDto> getProductDtoById(@PathVariable(name = "id") Long id);
