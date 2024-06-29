@@ -31,7 +31,7 @@ spring:
 #    drop-first: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
-logging:
-  level:
-    org.springframework.security: trace
+#logging:
+#  level:
+#    org.springframework.security: trace
 #    root: debug
