@@ -69,14 +69,13 @@ http://localhost:8889
 
 - WebMVC
 
-### 5. Authorization data 
+### 5. Authorization data
 
 ```shell
 # username:password
 echo -n "maria@mail.com:1qaz" | base64
-echo -n "thomas@mail.com:1qaz" | base64
-echo -n "christina@mail.com@mail.com:1qaz" | base64
-echo -n "elizabeth@mail.com@mail.com:1qaz" | base64
-echo -n "frederique@mail.com@mail.com:1qaz" | base64
-
+echo -n "ultron@mail.com:1qaz" | base64
+echo -n "santa@mail.com:1qaz" | base64
+echo -n "luke@mail.com:1qaz" | base64
+echo -n "frodo@mail.com:1qaz" | base64
 ```

@@ -87,6 +87,19 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
+   @ExceptionHandler(InvalidDataException.class)
+   @org.springframework.web.bind.annotation.ResponseStatus(BAD_REQUEST)
+   public ResponseEntity<ErrorResponse> handleIdInvalidDataException(InvalidDataException exception) {
+      ErrorResponse errorResponse = new ErrorResponse(
+            BAD_REQUEST.value(),
+            BAD_REQUEST.getReasonPhrase(),
+            exception.getMessage(),
+            LocalDateTime.now().toString(),
+            null
+      );
+      return new ResponseEntity<>(errorResponse, BAD_REQUEST);
+   }
+
 
    // CUSTOMER EXCEPTIONS
    @ExceptionHandler(CustomerNotFoundException.class)
