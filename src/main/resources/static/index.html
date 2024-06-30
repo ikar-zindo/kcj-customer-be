@@ -156,19 +156,19 @@
 <main>
     <div class="form">
         <form id="getTokenForm">
-            <h1>Get Access Token</h1>
+            <h1>Get Tokens</h1>
 
             <div class="form-floating">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="name@example.com" required>
+                <label for="email">email</label>
+                <input type="email" id="email" name="email" placeholder="maria@mail.com" required>
             </div>
 
             <div class="form-floating">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Password" name="password" required>
+                <label for="password">password</label>
+                <input type="password" id="password" placeholder="1qaz" name="password" required>
             </div>
 
-            <button class="btn btn-primary" type="submit">Get Token</button>
+            <button class="btn btn-primary" type="submit">Get Tokens</button>
         </form>
 
         <a href="http://localhost:8889/swagger-ui/index.html" target="_blank" class="btn btn-success">Swagger</a>
@@ -188,13 +188,13 @@
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
 
-		const username = document.getElementById('username').value;
+		const email = document.getElementById('email').value;
 		const password = document.getElementById('password').value;
 
 		fetch('http://localhost:8889/jwt/tokens', {
 			method: 'POST',
 			headers: {
-				'Authorization': 'Basic ' + btoa(username + ':' + password)
+				'Authorization': 'Basic ' + btoa(email + ':' + password)
 			}
 		})
 			.then(response => response.json())
@@ -208,7 +208,8 @@
                     <p class="tokenDisplay" style="font-size: 12px;">Refresh Token Expiry: ${data.refreshTokenExpire}</p>
                 `;
 
-				// Дополнительные действия с токенами, например, сохранение в localStorage
+				console.log('Logout successful');
+				// сохранение токенов в localStorage
 				localStorage.setItem('accessToken', data.accessToken);
 				localStorage.setItem('refreshToken', data.refreshToken);
 			})

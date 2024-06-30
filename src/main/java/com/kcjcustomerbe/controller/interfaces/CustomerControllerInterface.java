@@ -85,7 +85,7 @@ public interface CustomerControllerInterface {
                            @ExampleObject(name = "Request with existing email",
                                  value = """
                                        {
-                                          "email": "john@gmail.com"
+                                          "email": "maria@gmail.com"
                                        }
                                        """),
                            @ExampleObject(name = "Invalidate password",

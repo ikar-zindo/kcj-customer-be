@@ -28,19 +28,9 @@ public interface RegistrationControllerInterface {
                content = @Content(
                      mediaType = "application/json",
                      schema = @Schema(implementation = Customer.class),
-                     examples = {@ExampleObject(name = "Good request",
-                           value = """
-                                 {
-                                    "firstName": "John",
-                                    "lastName": "Snow",
-                                    "email": "john@gmail.com",
-                                    "password": "Snow12345!",
-                                    "phoneNumber": "+31950908",
-                                    "address": "Alexanderstr. 1",
-                                    "postalCode": "12345"
-                                 }
-                                 """),
-                           @ExampleObject(name = "Request with existing email",
+                     examples = {
+                           @ExampleObject(name = "Good request",
+                                 description = "",
                                  value = """
                                        {
                                           "firstName": "John",
@@ -53,11 +43,12 @@ public interface RegistrationControllerInterface {
                                        }
                                        """),
                            @ExampleObject(name = "Request with existing email",
+                                 description = "",
                                  value = """
                                        {
                                           "firstName": "John",
                                           "lastName": "Snow",
-                                          "email": "johnsnow@gmail.com",
+                                          "email": "maria@mail.com",
                                           "password": "Snow12345!",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",
@@ -65,12 +56,13 @@ public interface RegistrationControllerInterface {
                                        }
                                        """),
                            @ExampleObject(name = "Not validate data",
+                                 description = "",
                                  value = """
                                        {
                                           "firstName": "John",
                                           "lastName": "Snow",
                                           "email": "john@gmail.com",
-                                          "password": "Snow12345!",
+                                          "password": "Snow12345",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",
                                           "postalCode": "12345"
