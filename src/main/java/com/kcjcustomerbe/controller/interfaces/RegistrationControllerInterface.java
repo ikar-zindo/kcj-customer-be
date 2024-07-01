@@ -35,7 +35,7 @@ public interface RegistrationControllerInterface {
                                        {
                                           "firstName": "John",
                                           "lastName": "Snow",
-                                          "email": "john@gmail.com",
+                                          "email": "john@mail.com",
                                           "password": "Snow12345!",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",
@@ -61,7 +61,7 @@ public interface RegistrationControllerInterface {
                                        {
                                           "firstName": "John",
                                           "lastName": "Snow",
-                                          "email": "john@gmail.com",
+                                          "email": "john@mail.com",
                                           "password": "Snow12345",
                                           "phoneNumber": "+31950908",
                                           "address": "Alexanderstr. 1",

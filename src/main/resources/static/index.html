@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Access Token</title>
+    <title>Get Tokens</title>
 
     <style>
         body {
@@ -156,11 +156,11 @@
 <main>
     <div class="form">
         <form id="getTokenForm">
-            <h1>Get Tokens</h1>
+            <h1>Get Access and Refresh Tokens</h1>
 
             <div class="form-floating">
-                <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="maria@mail.com" required>
+                <label for="username">email</label>
+                <input type="text" id="username" name="username" placeholder="maria@mail.com" required>
             </div>
 
             <div class="form-floating">
@@ -188,13 +188,13 @@
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
 
-		const email = document.getElementById('email').value;
+		const username = document.getElementById('username').value;
 		const password = document.getElementById('password').value;
 
 		fetch('http://localhost:8889/jwt/tokens', {
 			method: 'POST',
 			headers: {
-				'Authorization': 'Basic ' + btoa(email + ':' + password)
+				'Authorization': 'Basic ' + btoa(username + ':' + password)
 			}
 		})
 			.then(response => response.json())
@@ -208,8 +208,7 @@
                     <p class="tokenDisplay" style="font-size: 12px;">Refresh Token Expiry: ${data.refreshTokenExpire}</p>
                 `;
 
-				console.log('Logout successful');
-				// сохранение токенов в localStorage
+				// Дополнительные действия с токенами, например, сохранение в localStorage
 				localStorage.setItem('accessToken', data.accessToken);
 				localStorage.setItem('refreshToken', data.refreshToken);
 			})
