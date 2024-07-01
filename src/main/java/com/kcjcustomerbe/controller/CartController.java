@@ -93,7 +93,7 @@ public class CartController implements CartControllerInterface {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
-
+   // GET - TOTAL CART
    @GetMapping("/getTotal")
    public ResponseEntity<BigDecimal> getTotalCart() {
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -108,6 +108,7 @@ public class CartController implements CartControllerInterface {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
+   // GET - CART SIZE
    @GetMapping("/getSize")
    public ResponseEntity<Integer> getCartProductsSize() {
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -94,7 +94,7 @@ public interface CustomerMapper {
          @Mapping(target = "updatedAt", ignore = true),
          @Mapping(target = "role", source = "role"),
          @Mapping(target = "isBlocked", source = "isBlocked"),
-         @Mapping(target = "cartDto", source = "cart", qualifiedByName = "mapToCartDtoWithoutCustomer"),
+         @Mapping(target = "cartDto", source = "cart"),
          @Mapping(target = "ordersDto", source = "orders"),
          @Mapping(target = "reviewsDto", source = "reviews")
    })
