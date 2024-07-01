@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Tag(name = SwaggerConfig.CART, description = "allows you to receive information about customer cart")
 public interface CartControllerInterface {
 
@@ -17,7 +19,7 @@ public interface CartControllerInterface {
          summary = "Get customer cart",
          description = "Allows you to retrieve the cart information for the authenticated customer. Requires authorization."
    )
-   String getCustomerCart();
+   ResponseEntity<List<CartProductDto>> getCartProducts();
 
    // CREATE - ADD PRODUCT TO CART
    @Operation(

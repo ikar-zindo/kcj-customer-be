@@ -1,6 +1,7 @@
 package com.kcjcustomerbe.controller;
 
 import com.kcjcustomerbe.controller.interfaces.CartControllerInterface;
+import com.kcjcustomerbe.dto.CartDto;
 import com.kcjcustomerbe.dto.CartProductDto;
 import com.kcjcustomerbe.dto.OrderDto;
 import com.kcjcustomerbe.dto.customer.CustomerDto;
@@ -14,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @Validated
@@ -29,8 +32,17 @@ public class CartController implements CartControllerInterface {
 
    // READ - CUSTOMER
    @GetMapping
-   public String getCustomerCart() {
-      return null;
+   public ResponseEntity<List<CartProductDto>> getCartProducts() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         return ResponseEntity.ok(cartService.getCartProductsByCartId(cartId));
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // CREATE - ADD PRODUCT TO CART
@@ -77,6 +89,35 @@ public class CartController implements CartControllerInterface {
 
          cartService.clearCart((cartId));
          return ResponseEntity.ok(HttpStatus.OK);
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+   }
+
+
+   @GetMapping("/getTotal")
+   public ResponseEntity<BigDecimal> getTotalCart() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         return ResponseEntity.ok(cartService.getTotalCartById(cartId));
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+   }
+
+   @GetMapping("/getSize")
+   public ResponseEntity<Integer> getCartProductsSize() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         return ResponseEntity.ok(cartService.getCartProductsSize(cartId));
       }
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }

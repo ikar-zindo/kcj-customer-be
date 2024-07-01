@@ -39,11 +39,11 @@ public interface CartMapper {
     * @param entity The {@link Cart} entity to be mapped.
     * @return The mapped {@link CartDto}. If the source {@link Cart} entity is null, return null.
     */
-   @Named("mapToCartDto")
+   @Named("mapToCartDtoWithoutCustomer")
    @Mapping(target = "id", source = "id")
    @Mapping(target = "customerDto", ignore = true)
    @Mapping(target = "cartProductsDto", source = "cartProducts")
-   CartDto mapToCartDto(Cart entity);
+   CartDto mapToCartDtoWithoutCustomer(Cart entity);
 
    /**
     * Mapping with {@link Customer}
