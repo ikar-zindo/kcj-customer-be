@@ -1,5 +1,5 @@
 server:
-  port: 8889
+  port: 8890
 
 jwt:
   access-token-key: '{"kty":"oct","k":"hi7S5RX5ZRZooHA0RKGctZ-KtR9FoESgCnH-3BNg5XI"}'

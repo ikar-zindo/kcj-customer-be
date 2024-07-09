@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: kcj
+      MYSQL_DATABASE: kcj-db
     ports:
       - "3308:3306"
 
@@ -17,12 +17,12 @@ services:
     environment:
       - DATASOURCE_DATABASE_HOST=db
       - DATASOURCE_DATABASE_PORT=3306
-      - DATASOURCE_DATABASE_NAME=kcj
+      - DATASOURCE_DATABASE_NAME=kcj-db
       - DATASOURCE_DATABASE_USERNAME=root
       - DATASOURCE_DATABASE_PASSWORD=12345
     restart: always
     ports:
-      - "8889:8889"
+      - "8890:8890"
 
   watchtower:
     image: containrrr/watchtower

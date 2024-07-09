@@ -218,18 +218,6 @@
             <artifactId>spring-security-config</artifactId>
             <version>6.2.2</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>6.3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.4</version>
-        </dependency>
     </dependencies>
 
     <repositories>
@@ -308,7 +296,7 @@
                 <version>4.8.0</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
-                    <url>jdbc:mysql://db:3306/kcj</url>
+                    <url>jdbc:mysql://localhost:3306/kcj</url>
                     <username>root</username>
                     <password>12345</password>
                     <driver>com.mysql.cj.jdbc.Driver</driver>
