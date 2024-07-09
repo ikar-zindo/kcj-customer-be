@@ -11,5 +11,5 @@ RUN mvn -f /home/app/pom.xml clean package -Dmaven.test.skip=true
 #
 FROM openjdk:17-slim-buster
 COPY --from=build /home/app/target/kcj-customer-be.jar /usr/local/lib/kcj-customer-be.jar
-EXPOSE 8889
+EXPOSE 8890
 ENTRYPOINT ["java","-Dspring.profiles.active=docker","-jar","/usr/local/lib/kcj-customer-be.jar"]

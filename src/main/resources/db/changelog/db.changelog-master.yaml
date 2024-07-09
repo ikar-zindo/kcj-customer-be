@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/v1.3.0/changelog-v1.3.0.yaml
+        file: db/changelog/root/v1.1.0/changelog-root-v1.1.0.yaml
+  - include:
+        file: db/changelog/customer/v1.3.0/changelog-customer-v1.3.0.yaml
