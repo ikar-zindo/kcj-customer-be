@@ -150,6 +150,7 @@ CREATE TABLE IF NOT EXISTS `employees`
     `nickname`      VARCHAR(60),
     `password`      VARCHAR(60),
     `phone_number`  VARCHAR(20),
+    `role` ENUM('ROLE_USER', 'ROLE_MANAGER', 'ROLE_ADMIN', 'ROLE_DEALER', 'ROLE_DRIVER'),
     `restaurant_id` BIGINT,
     `created_at`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `is_active`     BOOL      DEFAULT TRUE
