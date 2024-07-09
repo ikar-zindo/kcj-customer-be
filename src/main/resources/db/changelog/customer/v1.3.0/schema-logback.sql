@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset root:v1.3.0-schema-logback
+-- changeset customer:v1.3.0-schema-logback
 -- comment logback logging schema
 
 SET

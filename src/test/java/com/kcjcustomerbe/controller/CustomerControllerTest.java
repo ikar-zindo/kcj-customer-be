@@ -202,7 +202,7 @@ public class CustomerControllerTest {
       CustomerUpdateDto dto = new CustomerUpdateDto(
             "Maria",
             "Anders",
-            "ana@mail.com",
+            "luke@mail.com",
             "QwErTy123!",
             "+490134567899",
             "Obere Str. 57",
