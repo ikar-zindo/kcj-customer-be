@@ -28,10 +28,4 @@ spring:
 
   liquibase:
     enabled: true
-#    drop-first: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
-
-#logging:
-#  level:
-#    org.springframework.security: trace
-#    root: debug

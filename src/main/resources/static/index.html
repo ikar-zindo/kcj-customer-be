@@ -171,7 +171,7 @@
             <button class="btn btn-primary" type="submit">Get Tokens</button>
         </form>
 
-        <a href="http://localhost:8889/swagger-ui/index.html" target="_blank" class="btn btn-success">Swagger</a>
+        <a href="http://localhost:8890/swagger-ui/index.html" target="_blank" class="btn btn-success">Swagger</a>
 
         <button class="btn btn-logout" id="logoutButton">Logout</button>
 
@@ -191,7 +191,7 @@
 		const username = document.getElementById('username').value;
 		const password = document.getElementById('password').value;
 
-		fetch('http://localhost:8889/jwt/tokens', {
+		fetch('http://localhost:8890/jwt/tokens', {
 			method: 'POST',
 			headers: {
 				'Authorization': 'Basic ' + btoa(username + ':' + password)
@@ -225,7 +225,7 @@
 	logoutButton.addEventListener('click', function () {
 		const refreshToken = localStorage.getItem('refreshToken');
 
-		fetch('http://localhost:8889/jwt/logout', {
+		fetch('http://localhost:8890/jwt/logout', {
 			method: 'POST',
 			headers: {
 				'Authorization': 'Bearer ' + refreshToken

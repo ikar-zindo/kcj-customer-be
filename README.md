@@ -2,9 +2,23 @@
 
 ### 1. Clone the repository
 
+```
+git clone git@github.com:ikar-zindo/kcj-customer-be.git
+```
+
 ### 2. Launch jar archive
 
-###### The driver for the *MySQL* database must be installed on the computer. For example *Workbench*. When you first launch the application, a database will be created, and *Liquibase* will create all the necessary tables for the application to work properly.
+> [!IMPORTANT]
+> The driver for the *MySQL* database must be installed on the computer.
+> For example *Workbench*. Availability of a created database `kcj-db`.
+> *Liquibase* will create all the necessary tables for the application to work properly.
+> It is necessary to specify these environment variables to connect to the database
+
+- DATASOURCE_DATABASE_HOST=<YOUR_HOST>
+- DATASOURCE_DATABASE_PORT=<YOUR_PORT>
+- DATASOURCE_DATABASE_NAME=<YOUR_NAME>
+- DATASOURCE_DATABASE_USERNAME=<YOUR_USERNAME>
+- DATASOURCE_DATABASE_PASSWORD=<YOUR_PASSWORD>
 
 *At the root of the project*
 
@@ -19,6 +33,9 @@ java -jar kcj-customer-be.jar
 *At the root of the project*
 
 ```bash
+# Collect images for all services
+docker-compose -p kcj build
+
 # Start all services
 docker-compose -p kcj up -d
 
@@ -35,17 +52,17 @@ docker-compose -p kcj stop
 docker-compose -p kcj start
 
 # Deactivate all services (if necessary)
-docker-compose -p ems down
+docker-compose -p kcj down
 ```
 
 ---
 
-### [4. View](http://localhost:8889)
+### [4. View](http://localhost:8890)
 
 *Copy to browser address bar*
 
 ```
-http://localhost:8889
+http://localhost:8890
 ```
 
 ## Customer part web application
