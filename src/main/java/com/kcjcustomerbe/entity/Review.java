@@ -1,12 +1,18 @@
 package com.kcjcustomerbe.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
-@Table(name = "review")
+@Table(name = "reviews")
 public class Review {
 
    @Id
@@ -31,93 +37,6 @@ public class Review {
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
    private LocalDateTime createdAt;
 
-   public Review() {
-   }
-
-   // Getters & Setters
-   public Long getId() {
-      return id;
-   }
-
-   public void setId(Long id) {
-      this.id = id;
-   }
-
-   public Restaurant getRestaurant() {
-      return restaurant;
-   }
-
-   public void setRestaurant(Restaurant restaurant) {
-      this.restaurant = restaurant;
-   }
-
-   public Customer getCustomer() {
-      return customer;
-   }
-
-   public void setCustomer(Customer customer) {
-      this.customer = customer;
-   }
-
-   public BigDecimal getRating() {
-      return rating;
-   }
-
-   public void setRating(BigDecimal rating) {
-      this.rating = rating;
-   }
-
-   public String getComment() {
-      return comment;
-   }
-
-   public void setComment(String comment) {
-      this.comment = comment;
-   }
-
-   public LocalDateTime getCreatedAt() {
-      return createdAt;
-   }
-
-   public void setCreatedAt(LocalDateTime createdAt) {
-      this.createdAt = createdAt;
-   }
-
-   // Builder class
-   public static class Builder {
-      private Review review = new Review();
-
-      public Builder id(Long id) {
-         review.id = id;
-         return this;
-      }
-      public Builder restaurant(Restaurant restaurant) {
-         review.restaurant = restaurant;
-         return this;
-      }
-      public Builder customer(Customer customer) {
-         review.customer = customer;
-         return this;
-      }
-      public Builder rating(BigDecimal rating) {
-         review.rating = rating;
-         return this;
-      }
-      public Builder comment(String comment) {
-         review.comment = comment;
-         return this;
-      }
-      public Builder createdAt(LocalDateTime createdAt) {
-         review.createdAt = createdAt;
-         return this;
-      }
-
-      public Review build() {
-         return review;
-      }
-   }
-
-   public static Builder builder() {
-      return new Builder();
-   }
+   @Column(name = "updated_at")
+   private LocalDateTime updatedAt;
 }

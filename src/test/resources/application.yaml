@@ -1,0 +1,38 @@
+server:
+  port: 9092
+
+jwt:
+  access-token-key: '{"kty":"oct","k":"hi7S5RX5ZRZooHA0RKGctZ-KtR9FoESgCnH-3BNg5XI"}'
+  refresh-token-key: '{"kty":"oct","k":"956PBFst1FguLr5irJD-aQ"}'
+
+spring:
+  profiles:
+    active: test
+  liquibase:
+    enabled: false
+  main:
+    banner-mode: off
+  datasource:
+    url: jdbc:h2:mem:testDB;DB_CLOSE_DELAY=-1;MODE=MySQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+  sql:
+    init:
+      mode: never
+
+  h2:
+    console:
+      enabled: true
+
+#logging:
+#  level:
+#    root: debug
+#    root: info

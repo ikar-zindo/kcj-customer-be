@@ -1,116 +1,125 @@
 package com.kcjcustomerbe.controller;
 
+import com.kcjcustomerbe.controller.interfaces.CartControllerInterface;
+import com.kcjcustomerbe.dto.CartDto;
 import com.kcjcustomerbe.dto.CartProductDto;
-import com.kcjcustomerbe.dto.CustomerDto;
-import com.kcjcustomerbe.entity.Customer;
-import com.kcjcustomerbe.exception.list.CartException;
-import com.kcjcustomerbe.exception.list.OrderException;
-import com.kcjcustomerbe.service.CartService;
-import com.kcjcustomerbe.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+import com.kcjcustomerbe.dto.OrderDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.service.interfaces.CartService;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
-@Controller
+@Validated
+@RestController
 @RequestMapping("/cart")
-@SessionAttributes("editCart")
-@PreAuthorize("hasRole('ROLE_CUSTOMER')")
-public class CartController {
-
-   private final CustomerService customerService;
+@RequiredArgsConstructor
+public class CartController implements CartControllerInterface {
 
    private final CartService cartService;
 
-   @Autowired
-   public CartController(CustomerService customerService,
-                         CartService cartService) {
-
-      this.customerService = customerService;
-      this.cartService = cartService;
-   }
+   private final CustomerService customerService;
 
    // READ - CUSTOMER
    @GetMapping
-   public String getCustomerCart(Model model) {
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentPrincipalName = authentication.getName();
+   public ResponseEntity<List<CartProductDto>> getCartProducts() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-      Customer customer = (Customer) customerService.loadUserByUsername(currentPrincipalName);
-      CustomerDto customerDto = customerService.getCustomerByCartId(customer.getCart().getId());
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
 
-      List<CartProductDto> cartProductsDto = customerDto.getCartDto().getCartProductsDto();
-
-      // CART INFO
-      Long cartId = customerDto.getCartDto().getId();
-      int cartSize = cartService.getCartProductsSize(cartId);
-      BigDecimal total = cartService.getTotalCartById(cartId);
-
-      model.addAttribute("total", total);
-      model.addAttribute("cartSize", cartSize);
-      model.addAttribute("customer", customerDto);
-      model.addAttribute("cartProducts", cartProductsDto);
-
-      return "cart/cart";
+         return ResponseEntity.ok(cartService.getCartProductsByCartId(cartId));
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // CREATE - ADD PRODUCT TO CART
-   @PutMapping("/{restaurantId}/{productId}/add")
-   public String addProductToCart(@PathVariable Long productId,
-                                  @PathVariable Long restaurantId) throws CartException {
+   @PutMapping("/addToCart")
+   public ResponseEntity<CartProductDto> addProductToCart(@RequestParam Long productId) {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentPrincipalName = authentication.getName();
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
 
-      Customer customer = (Customer) customerService.loadUserByUsername(currentPrincipalName);
-
-      CustomerDto customerDto = cartService.getCustomerById(customer.getId());
-
-      cartService.addProductToCustomerCart(customerDto.getCartDto().getId(), productId);
-      return "redirect:/restaurant/" + restaurantId;
+         return ResponseEntity.ok(cartService.addProductToCart(cartId, productId));
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // CREATE NEW ORDER
    @PostMapping("/payCart")
-   public String payCart(@ModelAttribute("customer") CustomerDto customerDtoForDelivery,
-                         BindingResult result,
-                         Model model) throws OrderException {
+   public ResponseEntity<OrderDto> payCart() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      String currentPrincipalName = authentication.getName();
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
 
-      Customer customer = (Customer) customerService.loadUserByUsername(currentPrincipalName);
-
-      CustomerDto customerDto = cartService.getCustomerById(customer.getId());
-
-      Long cartId = customerDto.getCartDto().getId();
-      int cartSize = cartService.getCartProductsSize(cartId);
-      BigDecimal total = cartService.getTotalCartById(cartId);
-
-      if (result.hasErrors()){
-         model.addAttribute("customer", customerDto);
-         model.addAttribute("cartSize", cartSize);
-         model.addAttribute("total", total);
-
-         return "cart/cart";
+         OrderDto dto = cartService.createOrder((cartId));
+         cartService.clearCart((cartId));
+         return ResponseEntity.created(URI.create("/cart")).body(dto);
       }
-
-      cartService.createOrder(customerDto);
-      cartService.clearCart(cartId);
-      return "redirect:/cart";
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 
    // DELETE - CLEAR CART
-   @DeleteMapping("/{cartId}/clear")
-   public String clearCart(@PathVariable Long cartId) {
-      cartService.clearCart(cartId);
-      return "redirect:/cart";
+   @DeleteMapping("/clearCart")
+   public ResponseEntity<HttpStatus> clearCart() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         cartService.clearCart((cartId));
+         return ResponseEntity.ok(HttpStatus.OK);
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+   }
+
+   // GET - TOTAL CART
+   @GetMapping("/getTotal")
+   public ResponseEntity<BigDecimal> getTotalCart() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         return ResponseEntity.ok(cartService.getTotalCartById(cartId));
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+   }
+
+   // GET - CART SIZE
+   @GetMapping("/getSize")
+   public ResponseEntity<Integer> getCartProductsSize() {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+         UUID cartId = customerDto.getCartDto().getId();
+
+         return ResponseEntity.ok(cartService.getCartProductsSize(cartId));
+      }
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

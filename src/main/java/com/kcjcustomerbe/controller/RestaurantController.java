@@ -1,61 +1,76 @@
 package com.kcjcustomerbe.controller;
 
+import com.kcjcustomerbe.controller.interfaces.RestaurantControllerInterface;
 import com.kcjcustomerbe.dto.ProductDto;
 import com.kcjcustomerbe.dto.RestaurantDto;
-import com.kcjcustomerbe.exception.list.RestaurantException;
-import com.kcjcustomerbe.service.RestaurantService;
-import jakarta.annotation.security.PermitAll;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import com.kcjcustomerbe.dto.ReviewDto;
+import com.kcjcustomerbe.dto.customer.CustomerDto;
+import com.kcjcustomerbe.service.interfaces.CustomerService;
+import com.kcjcustomerbe.service.interfaces.RestaurantService;
+import com.kcjcustomerbe.service.interfaces.ReviewService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
-@Controller
+@Validated
+@RestController
 @RequestMapping("/restaurant")
-@SessionAttributes("restaurantsInfo")
-@PermitAll
-public class RestaurantController {
+@RequiredArgsConstructor
+public class RestaurantController implements RestaurantControllerInterface {
 
-   private final RestaurantService service;
+   private final RestaurantService restaurantService;
 
-   public RestaurantController(RestaurantService service) {
-      this.service = service;
+   private final ReviewService reviewService;
+
+   private final CustomerService customerService;
+
+   // READ - ALL RESTAURANTS
+   @GetMapping
+   public ResponseEntity<List<RestaurantDto>> getAllRestaurants() {
+      List<RestaurantDto> restaurantsDto = restaurantService.getAllRestaurants();
+      return ResponseEntity.ok(restaurantsDto);
    }
 
-   // READ - LIST OF ALL RESTAURANTS
-   @GetMapping("/all")
-   public String getAllRestaurants(Model model) throws RestaurantException {
-      List<RestaurantDto> restaurantsDto = service.getAll();
-
-      model.addAttribute("restaurants", restaurantsDto);
-
-      return "restaurant/all";
+   // READ - GET RESTAURANT BY ID
+   @GetMapping("/{restaurantId}")
+   public ResponseEntity<RestaurantDto> getRestaurantById(@PathVariable("restaurantId") Long restaurantId) {
+      RestaurantDto restaurantDto = restaurantService.getRestaurantById(restaurantId);
+      return ResponseEntity.ok(restaurantDto);
    }
 
+   // READ - GET PRODUCTS OF RESTAURANT BY ID
+   @GetMapping("/{restaurantId}/products")
+   public ResponseEntity<List<ProductDto>> getAllProductsByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
+      return ResponseEntity.ok(restaurantService.getRestaurantById(restaurantId).getProductsDto());
+   }
 
-   // READ - RESTAURANT
-   @GetMapping("/{id}")
-   public String getRestaurantByIdWithProducts(@PathVariable Long id,
-                                   Model model) throws RestaurantException {
+   // READ - GET REVIEWS OF RESTAURANT BY ID
+   @GetMapping("/{restaurantId}/reviews")
+   public ResponseEntity<List<ReviewDto>> getAllReviewsByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
+      return ResponseEntity.ok(restaurantService.getAllReviewsByRestaurantId(restaurantId));
+   }
 
-      if (service.getById(id) == null) {
-         return "redirect:/restaurant/all";
+   // CREATE - ADD A REVIEW FOR THE RESTAURANT
+   @PostMapping("/add-review")
+   public ResponseEntity<ReviewDto> createReview(@Valid @RequestBody ReviewDto reviewDto,
+                                                 @Valid @RequestParam Long restaurantId) {
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+      if (principal instanceof UserDetails userDetails) {
+         String email = userDetails.getUsername();
+         CustomerDto customerDto = customerService.getCustomerByEmail(email);
+
+         ReviewDto dto = reviewService.addReview(reviewDto, customerDto.getId(), restaurantId);
+         return ResponseEntity.created(URI.create("/restaurant/" + restaurantId + "/reviews")).body(dto);
       }
-
-      RestaurantDto restaurantDto = service.getById(id);
-
-      List<ProductDto> productsDto = restaurantDto.getProductsDto();
-
-      model.addAttribute("restaurant", restaurantDto);
-//      model.addAttribute("countComments", countComments);
-//      model.addAttribute("avgRating", avgRating);
-      model.addAttribute("products", productsDto);
-//      model.addAttribute("reviews", reviewsDto);
-
-      return "restaurant/info";
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

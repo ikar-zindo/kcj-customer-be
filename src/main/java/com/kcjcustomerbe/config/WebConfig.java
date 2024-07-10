@@ -1,22 +1,21 @@
 package com.kcjcustomerbe.config;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-   @Bean
-   public FilterRegistrationBean<HiddenHttpMethodFilter> hiddenHttpMethodFilter() {
-      FilterRegistrationBean<HiddenHttpMethodFilter> filterRegBean = new FilterRegistrationBean<>();
-
-      filterRegBean.setFilter(new HiddenHttpMethodFilter());
-      filterRegBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-
-      return filterRegBean;
+   @Override
+   public void addCorsMappings(CorsRegistry registry) {
+      registry.addMapping("/**")
+            .allowedOrigins(
+                  "http://localhost:9000/",
+                  "http://localhost:9001/",
+                  "http://192.168.178.25:9000/")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedHeaders("*") // TODO: возможно эта запись может не пропускать Cors запросы
+            .allowCredentials(true); // TODO: эти 2 записи не допускаются в совокупности
    }
 }

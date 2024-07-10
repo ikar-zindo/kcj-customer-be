@@ -1,108 +1,43 @@
 package com.kcjcustomerbe.entity;
 
+import com.kcjcustomerbe.util.UuidTimeSequenceGenerator;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
-@Table(name = "cart_product")
+@Table(name = "cart_products")
 public class CartProduct {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(generator = "UUID")
+   @GenericGenerator(name = "UUID", type = UuidTimeSequenceGenerator.class)
    @Column(name = "cart_product_id")
-   private Long id;
+   private UUID id;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "cart_id")
+   @NotNull(message = "{validation.cart.cart.null}")
    private Cart cart;
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "product_id")
+   @NotNull(message = "{validation.cart.product.null}")
    private Product product;
 
    @Column(name = "quantity")
+   @NotNull(message = "{validation.cart.quantity.null}")
    private int quantity;
 
    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-   private LocalDateTime cratedAt;
-
-   public CartProduct() {
-   }
-
-   public Long getId() {
-      return id;
-   }
-
-   public void setId(Long id) {
-      this.id = id;
-   }
-
-   public Cart getCart() {
-      return cart;
-   }
-
-   public void setCart(Cart cart) {
-      this.cart = cart;
-   }
-
-   public Product getProduct() {
-      return product;
-   }
-
-   public void setProduct(Product product) {
-      this.product = product;
-   }
-
-   public int getQuantity() {
-      return quantity;
-   }
-
-   public void setQuantity(int quantity) {
-      this.quantity = quantity;
-   }
-
-   public LocalDateTime getCratedAt() {
-      return cratedAt;
-   }
-
-   public void setCratedAt(LocalDateTime cratedAt) {
-      this.cratedAt = cratedAt;
-   }
-
-   // Builder class
-   public static class Builder {
-
-      private CartProduct cartProduct = new CartProduct();
-
-      public Builder id(Long id) {
-         cartProduct.id = id;
-         return this;
-      }
-
-      public Builder cart(Cart cart) {
-         cartProduct.cart = cart;
-         return this;
-      }
-
-      public Builder product(Product product) {
-         cartProduct.product = product;
-         return this;
-      }
-
-      public Builder cratedAt(LocalDateTime cratedAt) {
-         cartProduct.cratedAt = cratedAt;
-         return this;
-      }
-
-      public CartProduct build() {
-         return cartProduct;
-      }
-   }
-
-   public static Builder builder() {
-      return new Builder();
-   }
-
-   // Override
+   private LocalDateTime createdAt;
 }
