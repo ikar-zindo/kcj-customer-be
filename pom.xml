@@ -15,6 +15,11 @@
     <description>Backend part for Customer of the K-Curry-Jib food delivery application</description>
     <properties>
         <java.version>17</java.version>
+        <datasource.database.host>${env.DATASOURCE_DATABASE_HOST}</datasource.database.host>
+        <datasource.database.port>${env.DATASOURCE_DATABASE_PORT}</datasource.database.port>
+        <datasource.database.name>${env.DATASOURCE_DATABASE_NAME}</datasource.database.name>
+        <datasource.database.username>${env.DATASOURCE_DATABASE_USERNAME}</datasource.database.username>
+        <datasource.database.password>${env.DATASOURCE_DATABASE_PASSWORD}</datasource.database.password>
     </properties>
     <dependencies>
 
@@ -296,9 +301,9 @@
                 <version>4.8.0</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
-                    <url>jdbc:mysql://localhost:3306/kcj</url>
-                    <username>root</username>
-                    <password>12345</password>
+                    <url>jdbc:mysql://${datasource.database.host}:${datasource.database.port}/${datasource.database.name}</url>
+                    <username>${datasource.database.username}</username>
+                    <password>${datasource.database.password}</password>
                     <driver>com.mysql.cj.jdbc.Driver</driver>
                 </configuration>
             </plugin>
