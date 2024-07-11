@@ -191,13 +191,13 @@
 	const form = document.getElementById('getTokenForm');
 	const tokenDisplay = document.getElementById('tokenDisplay');
 
-	// swagger link
-	const REST_API_URL = window.env.REST_API_URL;
+	 const REST_API_URL = window.env.REST_API_URL;
 
-	const swaggerLink = document.getElementById('swaggerLink');
-	if (swaggerLink) {
-		swaggerLink.href = `${REST_API_URL}/swagger-ui/index.html`;
-	}
+	// swagger link
+	 const swaggerLink = document.getElementById('swaggerLink');
+	 if (swaggerLink) {
+		 swaggerLink.href = `${REST_API_URL}/swagger-ui/index.html`;
+	 }
 
 	// login
 	form.addEventListener('submit', function (event) {

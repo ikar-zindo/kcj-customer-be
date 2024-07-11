@@ -12,13 +12,13 @@ git clone git@github.com:ikar-zindo/kcj-customer-be.git
 > The driver for the *MySQL* database must be installed on the computer.
 > For example *Workbench*. Availability of a created database `kcj-db`.
 > *Liquibase* will create all the necessary tables for the application to work properly.
-> It is necessary to specify these environment variables to connect to the database
-
-- DATASOURCE_DATABASE_HOST=<YOUR_HOST>
-- DATASOURCE_DATABASE_PORT=<YOUR_PORT>
-- DATASOURCE_DATABASE_NAME=<YOUR_NAME>
-- DATASOURCE_DATABASE_USERNAME=<YOUR_USERNAME>
-- DATASOURCE_DATABASE_PASSWORD=<YOUR_PASSWORD>
+> It is necessary to specify these `environment variables` to connect to the database
+> - DATASOURCE_DATABASE_HOST=localhost
+> - DATASOURCE_DATABASE_PORT=3306
+> - DATASOURCE_DATABASE_NAME=kcj-db
+> - DATASOURCE_DATABASE_USERNAME=root
+> - DATASOURCE_DATABASE_PASSWORD=<YOUR_PASSWORD>
+> - REST_API_URL=http://localhost:8890
 
 *At the root of the project*
 

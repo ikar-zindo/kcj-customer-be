@@ -37,6 +37,7 @@ services:
       - DATASOURCE_DATABASE_NAME=kcj-db
       - DATASOURCE_DATABASE_USERNAME=root
       - DATASOURCE_DATABASE_PASSWORD=Ca3=2q4q+Au=9Ct
+      - REST_API_URL=http://localhost:8890
     restart: always
     ports:
       - "8890:8890"
