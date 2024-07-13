@@ -32,7 +32,7 @@ spring:
     console:
       enabled: true
 
-#logging:
-#  level:
-#    root: debug
-#    root: info
+# environment variables
+rest:
+  api:
+    url: ${CUSTOMER_APP_REST_API_URL}

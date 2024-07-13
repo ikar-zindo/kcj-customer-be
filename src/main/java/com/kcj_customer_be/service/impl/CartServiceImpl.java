@@ -44,9 +44,9 @@ public class CartServiceImpl implements CartService {
 
    private final CartMapper cartMapper;
 
-   public final ProductMapper productMapper;
+   private final ProductMapper productMapper;
 
-   public final RestaurantMapper restaurantMapper;
+   private final RestaurantMapper restaurantMapper;
 
    private final OrderMapper orderMapper;
 

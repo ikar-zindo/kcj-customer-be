@@ -10,10 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
    @Override
    public void addCorsMappings(CorsRegistry registry) {
       registry.addMapping("/**")
-            .allowedOrigins(
-                  "http://localhost:9000/",
-                  "http://localhost:9001/",
-                  "http://192.168.178.25:9000/")
+            .allowedOrigins("http://localhost:9000/")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*") // TODO: возможно эта запись может не пропускать Cors запросы
             .allowCredentials(true); // TODO: эти 2 записи не допускаются в совокупности
