@@ -42,7 +42,7 @@
 		</connectionSource>
 	</appender>
 
-	<logger name="com.kcjcustomerbe" additivity="false" level="INFO">
+	<logger name="com.kcj_customer_be" additivity="false" level="INFO">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="FILE"/>
 		<appender-ref ref="DB"/>

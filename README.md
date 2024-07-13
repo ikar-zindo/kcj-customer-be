@@ -70,21 +70,27 @@ http://localhost:8890
 ### Used technology stack in my web application:
 
 - Java 17
+- Maven
 - Spring Framework
 - Spring Security
+- Nimbus JOSE + JWT
 - MySQL
-- JPA
+- JPA/JDBC
+- Liquibase
 - Mapstruct
+- Lombok
 
 ---
 
-- Jupiter - Testing
-- Maven
+- Swagger
+- Logback/Logback DB
 - SLF4J
+- Springdoc
+- Jacoco
 
 ---
 
-- WebMVC
+- H2 (only for testing)
 
 ### 5. Authorization data
 
