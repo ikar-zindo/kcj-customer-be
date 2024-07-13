@@ -150,9 +150,16 @@
             white-space: pre-wrap;
         }
     </style>
+
+    <script>
+		 window.env = {
+			 REST_API_URL: '[[${restApiUrl}]]'
+		 };
+    </script>
 </head>
 
 <body>
+
 <main>
     <div class="form">
         <form id="getTokenForm">
@@ -171,7 +178,7 @@
             <button class="btn btn-primary" type="submit">Get Tokens</button>
         </form>
 
-        <a href="http://localhost:8890/swagger-ui/index.html" target="_blank" class="btn btn-success">Swagger</a>
+        <a id="swaggerLink" href="#" target="_blank" class="btn btn-success">Swagger</a>
 
         <button class="btn btn-logout" id="logoutButton">Logout</button>
 
@@ -184,6 +191,14 @@
 	const form = document.getElementById('getTokenForm');
 	const tokenDisplay = document.getElementById('tokenDisplay');
 
+	// swagger link
+	const REST_API_URL = window.env.REST_API_URL;
+
+	const swaggerLink = document.getElementById('swaggerLink');
+	if (swaggerLink) {
+		swaggerLink.href = `${REST_API_URL}/swagger-ui/index.html`;
+	}
+
 	// login
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
@@ -191,7 +206,7 @@
 		const username = document.getElementById('username').value;
 		const password = document.getElementById('password').value;
 
-		fetch('http://localhost:8890/jwt/tokens', {
+		fetch(REST_API_URL + '/jwt/tokens', {
 			method: 'POST',
 			headers: {
 				'Authorization': 'Basic ' + btoa(username + ':' + password)
@@ -225,7 +240,7 @@
 	logoutButton.addEventListener('click', function () {
 		const refreshToken = localStorage.getItem('refreshToken');
 
-		fetch('http://localhost:8890/jwt/logout', {
+		fetch(REST_API_URL + '/jwt/logout', {
 			method: 'POST',
 			headers: {
 				'Authorization': 'Bearer ' + refreshToken

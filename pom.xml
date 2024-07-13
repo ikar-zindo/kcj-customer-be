@@ -209,7 +209,7 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
-            <version>9.31</version>
+            <version>9.37.2</version>
         </dependency>
 
         <dependency>
@@ -281,16 +281,18 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>com/kcjcustomerbe/config/*</exclude>
-                        <exclude>com/kcjcustomerbe/constant/*</exclude>
-                        <exclude>com/kcjcustomerbe/controller/*</exclude>
-                        <exclude>com/kcjcustomerbe/dto/*</exclude>
-                        <exclude>com/kcjcustomerbe/dto/customer/*</exclude>
-                        <exclude>com/kcjcustomerbe/entity/enums/*</exclude>
-                        <exclude>com/kcjcustomerbe/exception/list/*</exclude>
-                        <exclude>com/kcjcustomerbe/exception/*</exclude>
-                        <exclude>com/kcjcustomerbe/mapper/*</exclude>
-                        <exclude>com/kcjcustomerbe/KCJCustomerBEApplication.class</exclude>
+                        <exclude>com/kcj_customer_be/constant/*</exclude>
+                        <exclude>com/kcj_customer_be/dto/*</exclude>
+                        <exclude>com/kcj_customer_be/dto/customer/*</exclude>
+                        <exclude>com/kcj_customer_be/exception/*</exclude>
+                        <exclude>com/kcj_customer_be/exception/list/*</exclude>
+                        <exclude>com/kcj_customer_be/exception/handler/*</exclude>
+                        <exclude>com/kcj_customer_be/security/controller/*</exclude>
+                        <exclude>com/kcj_customer_be/security/entity/*</exclude>
+                        <exclude>com/kcj_customer_be/security/jwt_token/*</exclude>
+                        <exclude>com/kcj_customer_be/security/repo/*</exclude>
+                        <exclude>com/kcj_customer_be/security/service/*</exclude>
+                        <exclude>com/kcj_customer_be/KCJCustomerBEApplication.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>
