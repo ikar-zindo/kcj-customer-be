@@ -57,7 +57,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             LocalDateTime.now().toString(),
             errors
       );
-
       return new ResponseEntity<>(errorResponse, BAD_REQUEST);
    }
 
@@ -100,7 +99,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, BAD_REQUEST);
    }
 
-
    // CUSTOMER EXCEPTIONS
    @ExceptionHandler(CustomerNotFoundException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(INTERNAL_SERVER_ERROR)
@@ -140,7 +138,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
-
 
    // CART EXCEPTIONS
    @ExceptionHandler(CartNotFoundException.class)
@@ -208,7 +205,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, BAD_REQUEST);
    }
 
-
    // PRODUCT EXCEPTIONS
    @ExceptionHandler(ProductIdNotFoundException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(NOT_FOUND)
@@ -249,7 +245,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
 
-
    // ORDER EXCEPTIONS
    @ExceptionHandler(OrderException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(INTERNAL_SERVER_ERROR)
@@ -277,7 +272,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       return new ResponseEntity<>(errorResponse, BAD_REQUEST);
    }
 
-
    // PAYMENT EXCEPTIONS
    @ExceptionHandler(PaymentException.class)
    @org.springframework.web.bind.annotation.ResponseStatus(PAYMENT_REQUIRED)
@@ -291,7 +285,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
       return new ResponseEntity<>(errorResponse, PAYMENT_REQUIRED);
    }
-
 
    // RESTAURANT EXCEPTIONS
    @ExceptionHandler(RestaurantNotFoundException.class)
@@ -319,7 +312,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
-
 
    // REVIEW EXCEPTIONS
    @ExceptionHandler(ReviewException.class)
@@ -360,7 +352,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
       );
       return new ResponseEntity<>(errorResponse, NOT_FOUND);
    }
-
 
    // CATCHING INVALID UUID
    @ExceptionHandler(ConstraintViolationException.class)

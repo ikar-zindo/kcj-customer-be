@@ -39,7 +39,7 @@ public class CustomerControllerTest {
 
    @Test
    @WithAnonymousUser
-   void registration_positive_test() throws Exception, CustomerIsExistException {
+   void registrationPositiveTest() throws Exception, CustomerIsExistException {
       CustomerCreateDto dto = new CustomerCreateDto(
             "John",
             "Snow",
@@ -68,10 +68,9 @@ public class CustomerControllerTest {
       Assertions.assertEquals(GlobalConstant.CUSTOMER_CREATED_SUCCESS_MESSAGE, customerResponseDto.status);
    }
 
-
    @Test
    @WithAnonymousUser
-   void registration_email_exist_negative_test() throws Exception, CustomerIsExistException {
+   void registrationEmailExistNegativeTest() throws Exception, CustomerIsExistException {
       CustomerCreateDto dto = new CustomerCreateDto(
             "Maria",
             "Anders",
@@ -97,10 +96,9 @@ public class CustomerControllerTest {
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.EMAIL_ALREADY_EXISTS));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_customer_positive_test() throws Exception {
+   void getCustomerPositiveTest() throws Exception {
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/customer")
@@ -114,10 +112,9 @@ public class CustomerControllerTest {
       Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
    }
 
-
    @Test
    @WithAnonymousUser
-   void get_customer_negative_test() throws Exception {
+   void getCustomerNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/customer")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -131,10 +128,9 @@ public class CustomerControllerTest {
       Assertions.assertEquals("Unauthorized", jsonNode.get("error").asText());
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void update_customer_info_positive_test() throws Exception {
+   void updateCustomerInfoPositiveTest() throws Exception {
       CustomerUpdateDto dto = new CustomerUpdateDto(
             "Maria",
             "Anders",
@@ -163,9 +159,8 @@ public class CustomerControllerTest {
       Assertions.assertEquals(GlobalConstant.CUSTOMER_UPDATED_SUCCESS_MESSAGE, customerResponseDto.status);
    }
 
-
    @Test
-   void update_customer_info_unauthorized_negative_test() throws Exception {
+   void updateCustomerInfoUnauthorizedNegativeTest() throws Exception {
       CustomerUpdateDto dto = new CustomerUpdateDto(
             "Maria",
             "Anders",
@@ -195,10 +190,9 @@ public class CustomerControllerTest {
       Assertions.assertEquals("Unauthorized", jsonNode.get("error").asText());
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void update_customer_info_email_exists_negative_test() throws Exception {
+   void updateCustomerInfoEmailExistsNegativeTest() throws Exception {
       CustomerUpdateDto dto = new CustomerUpdateDto(
             "Maria",
             "Anders",
@@ -225,10 +219,9 @@ public class CustomerControllerTest {
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.EMAIL_ALREADY_EXISTS));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void block_customer_positive_test() throws Exception {
+   void blockCustomerPositiveTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .delete("/customer")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -237,9 +230,8 @@ public class CustomerControllerTest {
       Assertions.assertEquals(200, result.getResponse().getStatus());
    }
 
-
    @Test
-   void block_customer_unauthorized_negative_test() throws Exception {
+   void blockCustomerUnauthorizedNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .delete("/customer")
                   .accept(MediaType.APPLICATION_JSON))

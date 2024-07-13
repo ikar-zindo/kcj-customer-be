@@ -42,9 +42,8 @@ public class ReviewControllerTest {
       MockitoAnnotations.openMocks(this);
    }
 
-
    @Test
-   void get_review_by_id_positive_test() throws Exception {
+   void getReviewByIdPositiveTest() throws Exception {
       reviewId = 1L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -59,9 +58,8 @@ public class ReviewControllerTest {
       Assertions.assertTrue(jsonResponse.contains(Long.toString(reviewId)));
    }
 
-
    @Test
-   void get_review_by_id_negative_test() throws Exception {
+   void getReviewByIdNegativeTest() throws Exception {
       reviewId = 0L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -76,9 +74,8 @@ public class ReviewControllerTest {
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.REVIEW_ID_NOT_FOUND + reviewId));
    }
 
-
    @Test
-   void get_all_reviews_positive_test() throws Exception {
+   void getAllReviewsPositiveTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/review")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -95,10 +92,9 @@ public class ReviewControllerTest {
       Assertions.assertFalse(restaurants.isEmpty());
    }
 
-
    @Test
    @Sql("/db/clear.sql")
-   void get_all_reviews_negative_test() throws Exception {
+   void getAllReviewsNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/review")
                   .contentType(MediaType.APPLICATION_JSON))

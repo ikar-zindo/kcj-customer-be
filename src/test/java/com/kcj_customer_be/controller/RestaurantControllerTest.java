@@ -46,10 +46,9 @@ public class RestaurantControllerTest {
       MockitoAnnotations.openMocks(this);
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_restaurant_positive_test() throws Exception {
+   void getRestaurantPositiveTest() throws Exception {
       restaurantId = 1L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -64,10 +63,9 @@ public class RestaurantControllerTest {
       Assertions.assertTrue(jsonResponse.contains(Long.toString(restaurantId)));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_restaurant_negative_test() throws Exception {
+   void getRestaurantNegativeTest() throws Exception {
       restaurantId = 0L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -82,10 +80,9 @@ public class RestaurantControllerTest {
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.RESTAURANT_ID_NOT_FOUND + restaurantId));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void add_review_positive_test() throws Exception {
+   void addReviewPositiveTest() throws Exception {
       ReviewDto reviewDto = new ReviewDto(
             null,
             null,
@@ -115,10 +112,9 @@ public class RestaurantControllerTest {
       Assertions.assertEquals(reviewDto.getRating(), reviewResponseDto.getRating());
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void add_review_negative_test() throws Exception {
+   void addReviewNegativeTest() throws Exception {
       ReviewDto reviewDto = new ReviewDto(
             null,
             null,
@@ -144,10 +140,9 @@ public class RestaurantControllerTest {
       Assertions.assertTrue(jsonResponse.contains("Field cannot be null"));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_all_restaurants_positive_test() throws Exception {
+   void getAllRestaurantsPositiveTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -164,11 +159,10 @@ public class RestaurantControllerTest {
       Assertions.assertFalse(restaurants.isEmpty());
    }
 
-
    @Test
    @Sql("/db/clear.sql")
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_all_restaurants_negative_test() throws Exception {
+   void getAllRestaurantsNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant")
                   .contentType(MediaType.APPLICATION_JSON))

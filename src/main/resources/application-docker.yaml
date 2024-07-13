@@ -33,4 +33,4 @@ spring:
 # env
 rest:
   api:
-    url: ${REST_API_URL}
+    url: ${CUSTOMER_APP_REST_API_URL}

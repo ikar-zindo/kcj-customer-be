@@ -30,7 +30,8 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
-# env
+# environment variables
 rest:
   api:
-    url: ${REST_API_URL}
+    url: ${CUSTOMER_APP_REST_API_URL}
+

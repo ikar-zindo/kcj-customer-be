@@ -191,9 +191,9 @@
 	const form = document.getElementById('getTokenForm');
 	const tokenDisplay = document.getElementById('tokenDisplay');
 
-	// swagger link
 	const REST_API_URL = window.env.REST_API_URL;
 
+	// swagger link
 	const swaggerLink = document.getElementById('swaggerLink');
 	if (swaggerLink) {
 		swaggerLink.href = `${REST_API_URL}/swagger-ui/index.html`;
@@ -220,7 +220,7 @@
                     <p class="tokenDisplay" style="font-size: 12px;">Access Token Expiry: ${data.accessTokenExpiry}</p>
                     <p class="tokenDisplay">Refresh Token:</p>
                     <p class="tokenDisplay">${data.refreshToken}</p>
-                    <p class="tokenDisplay" style="font-size: 12px;">Refresh Token Expiry: ${data.refreshTokenExpire}</p>
+                    <p class="tokenDisplay" style="font-size: 12px;">Refresh Token Expire: ${data.refreshTokenExpire}</p>
                 `;
 
 				// Дополнительные действия с токенами, например, сохранение в localStorage

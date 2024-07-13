@@ -9,22 +9,6 @@ import java.util.Date;
 class KCJCustomerBEApplicationTests {
 
 	@Test
-	void context_loads() {
+	void contextLoads() {
 	}
-
-
-	public static void main(String[] args) {
-		System.out.println("Hello");
-
-
-		Date dateNow = new Date();
-		System.out.println(dateNow);
-
-
-
-
-
-
-	}
-
 }

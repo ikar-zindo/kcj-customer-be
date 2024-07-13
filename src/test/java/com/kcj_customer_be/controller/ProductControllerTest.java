@@ -44,10 +44,9 @@ public class ProductControllerTest {
       MockitoAnnotations.openMocks(this);
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_product_by_id_positive_test() throws Exception {
+   void getProductByIdPositiveTest() throws Exception {
       productId = 1L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -62,10 +61,9 @@ public class ProductControllerTest {
       Assertions.assertTrue(jsonResponse.contains(Long.toString(productId)));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_product_by_id_negative_test() throws Exception {
+   void getProductByIdNegativeTest() throws Exception {
       productId = 0L;
 
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
@@ -80,10 +78,9 @@ public class ProductControllerTest {
       Assertions.assertTrue(jsonResponse.contains(ErrorMessage.PRODUCT_ID_NOT_FOUND + productId));
    }
 
-
    @Test
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_all_products_positive_test() throws Exception {
+   void getAllProductsPositiveTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/product")
                   .contentType(MediaType.APPLICATION_JSON))
@@ -100,11 +97,10 @@ public class ProductControllerTest {
       Assertions.assertFalse(restaurants.isEmpty());
    }
 
-
    @Test
    @Sql("/db/clear.sql")
    @WithMockUser(username = "maria@mail.com", password = "1qaz", roles = {"CUSTOMER"})
-   void get_all_products_negative_test() throws Exception {
+   void getAllProductsNegativeTest() throws Exception {
       MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                   .get("/product")
                   .contentType(MediaType.APPLICATION_JSON))

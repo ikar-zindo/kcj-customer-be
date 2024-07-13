@@ -23,21 +23,19 @@ public class OrderRestControllerTest {
    private MockMvc mockMvc;
 
    @BeforeEach
-   void set_up(final ApplicationContext applicationContext) {
+   void setUp(final ApplicationContext applicationContext) {
       this.mockMvc = applicationContext.getBean(MockMvc.class);
    }
 
-
    @Test
-   void permit_all_api_restaurant_anonymous_test() throws Exception {
+   void permitAllApiRestaurantAnonymousTest() throws Exception {
       this.mockMvc.perform(MockMvcRequestBuilders
                   .get("/restaurant"))
             .andExpect(status().isUnauthorized());
    }
 
-
    @Test
-   void permit_all_api_product_anonymous_test() throws Exception {
+   void permitAllApiProductAnonymousTest() throws Exception {
       this.mockMvc.perform(MockMvcRequestBuilders
                   .get("/product"))
             .andExpect(status().isOk());

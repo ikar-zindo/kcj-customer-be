@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # db
   db:
     image: mysql:8.3.0
     restart: always
@@ -11,7 +10,6 @@ services:
     ports:
       - "3308:3306"
 
-  # employee-app
   employee-app:
     image: ikarzindo/kcj-employee-app:latest
     depends_on:
@@ -26,7 +24,6 @@ services:
     ports:
       - "8880:8880"
 
-  # customer-be
   customer-be:
     image: ikarzindo/kcj-customer-be:latest
     depends_on:
@@ -37,12 +34,11 @@ services:
       - DATASOURCE_DATABASE_NAME=kcj-db
       - DATASOURCE_DATABASE_USERNAME=root
       - DATASOURCE_DATABASE_PASSWORD=Ca3=2q4q+Au=9Ct
-      - REST_API_URL=http://localhost:8890
+      - CUSTOMER_APP_REST_API_URL=http://localhost:8890
     restart: always
     ports:
       - "8890:8890"
 
-  # customer-fe
   customer-fe:
     image: ikarzindo/kcj-customer-fe:latest
     environment:
@@ -51,7 +47,6 @@ services:
     ports:
       - "9000:9000"
 
-  # watchtower
   watchtower:
     image: containrrr/watchtower
     restart: always

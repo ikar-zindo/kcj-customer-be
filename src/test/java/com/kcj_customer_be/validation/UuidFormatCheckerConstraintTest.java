@@ -12,12 +12,12 @@ class UuidFormatCheckerConstraintTest {
     private final UuidFormatCheckerConstraint uuidFormatCheckerConstraint = new UuidFormatCheckerConstraint();
 
     @ParameterizedTest
-    @MethodSource("get_UUID")
-    void is_valid_test(String uuid, boolean expected) throws Exception {
+    @MethodSource("getUUID")
+    void isValidTest(String uuid, boolean expected) throws Exception {
         assertEquals(expected, uuidFormatCheckerConstraint.isValid(uuid, null));
     }
 
-    private static Stream<Arguments> get_UUID() {
+    private static Stream<Arguments> getUUID() {
         return Stream.of(
                 Arguments.of("cd8edecd-0d27-4228-8fe6-911c1cf7fd7c", true),
                 Arguments.of("55035fe9-37e3-466f-ba4a-197f23fc5700", true),

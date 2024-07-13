@@ -1,12 +1,12 @@
-# Web application for food delivery K-Curry Jib
+# Web application for food delivery «K-Curry Jib»
 
-### 1. Clone the repository
+## 1. Clone the repository
 
 ```
 git clone git@github.com:ikar-zindo/kcj-customer-be.git
 ```
 
-### 2. Launch jar archive
+## 2. Launch jar archive
 
 > [!IMPORTANT]
 > The driver for the *MySQL* database must be installed on the computer.
@@ -18,7 +18,7 @@ git clone git@github.com:ikar-zindo/kcj-customer-be.git
 > - DATASOURCE_DATABASE_NAME=kcj-db
 > - DATASOURCE_DATABASE_USERNAME=root
 > - DATASOURCE_DATABASE_PASSWORD=<YOUR_PASSWORD>
-> - REST_API_URL=http://localhost:8890
+> - CUSTOMER_APP_REST_API_URL=http://localhost:8890
 
 *At the root of the project*
 
@@ -28,7 +28,7 @@ java -jar kcj-customer-be.jar
 
 ---
 
-### [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
+## [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
 
 *At the root of the project*
 
@@ -57,7 +57,7 @@ docker-compose -p kcj down
 
 ---
 
-### [4. View](http://localhost:8890)
+## [4. View](http://localhost:8890)
 
 *Copy to browser address bar*
 
@@ -65,9 +65,9 @@ docker-compose -p kcj down
 http://localhost:8890
 ```
 
-## Customer part web application
+## 5. Used technology stack in my web application:
 
-### Used technology stack in my web application:
+## Customer part web application
 
 - Java 17
 - Maven
@@ -79,6 +79,7 @@ http://localhost:8890
 - Liquibase
 - Mapstruct
 - Lombok
+- MVC
 
 ---
 
@@ -92,7 +93,7 @@ http://localhost:8890
 
 - H2 (only for testing)
 
-### 5. Authorization data
+## 6. Authorization data
 
 ```shell
 # username:password

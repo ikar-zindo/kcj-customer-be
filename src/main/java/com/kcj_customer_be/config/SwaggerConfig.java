@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
             title = "K-Curry Jib Customer Backend",
             description = "REST API for server application. " +
                   "This application implements a functional food delivery service.",
-            version = "1.3.0",
+            version = "1.3.1",
             contact = @Contact(
                   name = "Ivan Bukrieiev",
                   url = "https://github.com/ikar-zindo?tab=repositories"
