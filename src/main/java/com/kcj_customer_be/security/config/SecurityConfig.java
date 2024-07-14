@@ -106,6 +106,7 @@ public class SecurityConfig {
                               "/",
                               "/error",
                               "index.html",
+                              "/favicon.ico",
                               "/v2/api-docs/**",
                               "/configuration/ui",
                               "/swagger-resources/",
