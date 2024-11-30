@@ -1,24 +1,24 @@
 # Web application for food delivery K-Curry Jib
 
-## 1. Clone the repository
+### 1. Clone the repository
 
 ```
 git clone git@github.com:ikar-zindo/kcj-customer-be.git
 ```
 
-## 2. Launch jar archive
+### 2. Launch jar archive
 
 > [!IMPORTANT]
 > The driver for the *MySQL* database must be installed on the computer.
 > For example *Workbench*. Availability of a created database `kcj-db`.
 > *Liquibase* will create all the necessary tables for the application to work properly.
-> It is necessary to specify these `environment variables` to connect to the database
-> - DATASOURCE_DATABASE_HOST=localhost
-> - DATASOURCE_DATABASE_PORT=3306
-> - DATASOURCE_DATABASE_NAME=kcj-db
-> - DATASOURCE_DATABASE_USERNAME=root
-> - DATASOURCE_DATABASE_PASSWORD=<YOUR_PASSWORD>
-> - REST_API_URL=http://localhost:8890
+> It is necessary to specify these environment variables to connect to the database
+
+- DATASOURCE_DATABASE_HOST=<YOUR_HOST>
+- DATASOURCE_DATABASE_PORT=<YOUR_PORT>
+- DATASOURCE_DATABASE_NAME=<YOUR_NAME>
+- DATASOURCE_DATABASE_USERNAME=<YOUR_USERNAME>
+- DATASOURCE_DATABASE_PASSWORD=<YOUR_PASSWORD>
 
 *At the root of the project*
 
@@ -28,7 +28,7 @@ java -jar kcj-customer-be.jar
 
 ---
 
-## [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
+### [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/kcj-customer-be/general)
 
 *At the root of the project*
 
@@ -57,7 +57,7 @@ docker-compose -p kcj down
 
 ---
 
-## [4. View](http://localhost:8890)
+### [4. View](http://localhost:8890)
 
 *Copy to browser address bar*
 
@@ -65,35 +65,28 @@ docker-compose -p kcj down
 http://localhost:8890
 ```
 
-## 5. Used technology stack in my web application:
-
 ## Customer part web application
 
+### Used technology stack in my web application:
+
 - Java 17
-- Maven
 - Spring Framework
 - Spring Security
-- Nimbus JOSE + JWT
 - MySQL
-- JPA/JDBC
-- Liquibase
+- JPA
 - Mapstruct
-- Lombok
-- MVC
 
 ---
 
-- Swagger
-- Logback/Logback DB
+- Jupiter - Testing
+- Maven
 - SLF4J
-- Springdoc
-- Jacoco
 
 ---
 
-- H2 (only for testing)
+- WebMVC
 
-## 6. Authorization data
+### 5. Authorization data
 
 ```shell
 # username:password

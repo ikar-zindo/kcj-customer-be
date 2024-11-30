@@ -44,7 +44,8 @@ public class ErrorMessage {
 
    // ORDER EXCEPTION MASSAGES
    public static final String ORDER_NOT_SAVED = "ORDER_WAS_NOT_SAVED_ID_DB";
-   public static final String ORDER_DIFFERENT_RESTAURANT = "Cart contains products from different restaurants.\nPlace an order from 1 restaurant";
+   public static final String ORDER_DIFFERENT_RESTAURANT =
+         "Cart contains products from different restaurants.\nPlace an order from 1 restaurant";
 
    // RESTAURANT EXCEPTION MASSAGES
    public static final String RESTAURANT_NOT_FOUND = "RESTAURANT_WAS_NOT_FOUND";
