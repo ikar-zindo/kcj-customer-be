@@ -28,7 +28,7 @@ java -jar kcj-customer-be.jar
 
 ---
 
-## [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/k-curry-jib-customer-app/general)
+## [3. The docker way](https://hub.docker.com/repository/docker/ikarzindo/kcj-customer-be/general)
 
 *At the root of the project*
 
